@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DbxToPstLibrary
+namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
 	/// <summary>
 	/// Dbx tree class.

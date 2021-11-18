@@ -9,7 +9,7 @@ using System;
 using System.Globalization;
 using System.Text;
 
-namespace DbxToPstLibrary
+namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
 	/// <summary>
 	/// Dbx emails file.

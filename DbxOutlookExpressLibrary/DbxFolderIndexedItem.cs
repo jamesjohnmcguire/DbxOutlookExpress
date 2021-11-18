@@ -6,7 +6,7 @@
 
 using System;
 
-namespace DbxToPstLibrary
+namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
 	/// <summary>
 	/// Represents a dbx folder indexed item.

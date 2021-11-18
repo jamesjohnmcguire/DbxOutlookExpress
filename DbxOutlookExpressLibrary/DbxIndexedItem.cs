@@ -9,7 +9,7 @@ using System;
 using System.Text;
 using UtfUnknown;
 
-namespace DbxToPstLibrary
+namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
 	/// <summary>
 	/// Dbx indexed item class.

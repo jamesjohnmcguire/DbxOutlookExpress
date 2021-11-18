@@ -14,7 +14,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\DbxToPstLibrary\DbxToPstLibrary.csproj" />
+		<ProjectReference Include="..\DbxOutlookExpressLibrary\DbxOutlookExpressLibrary.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -10,7 +10,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-namespace DbxToPstLibrary
+namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
 	/// <summary>
 	/// Dbx message indexed item.
