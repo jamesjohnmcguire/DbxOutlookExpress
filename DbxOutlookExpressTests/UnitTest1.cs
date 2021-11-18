@@ -31,8 +31,8 @@ namespace DbxToPstTests
 				0x30, 0x30, 0x30, 0x31, 0x37, 0x00, 0x00, 0x00
 			};
 
-			DbxIndexedItem item = new ();
-			item.ReadIndex(testBytes, 0);
+			DbxIndexedItem item = new (testBytes);
+			item.ReadIndex(0);
 
 			uint value = item.GetValue(DbxFolderIndexedItem.Id);
 			Assert.AreEqual(value, 0x11);
@@ -44,21 +44,5 @@ namespace DbxToPstTests
 			string expected = "discussion.fastandfurius.com";
 			Assert.That(name, Is.EqualTo(expected));
 		}
-
-
-		[Test]
-		public void TestDbxToPst()
-		{
-			string applicationDataDirectory = @"DigitalZenWorks\DbxToPst";
-			string baseDataDirectory = Environment.GetFolderPath(
-				Environment.SpecialFolder.ApplicationData,
-				Environment.SpecialFolderOption.Create) + @"\" +
-				applicationDataDirectory;
-
-			string path = baseDataDirectory + "\\TestFolder";
-			bool result = Migrate.DbxToPst(path);
-			Assert.IsTrue(result);
-		}
-
 	}
 }
