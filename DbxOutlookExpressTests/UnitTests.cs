@@ -1,8 +1,8 @@
 using NUnit.Framework;
-using DbxToPstLibrary;
+using DigitalZenWorks.Email.DbxOutlookExpress;
 using System;
 
-namespace DbxToPstTests
+namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 {
 	public class Tests
 	{

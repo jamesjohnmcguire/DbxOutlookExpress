@@ -6,7 +6,7 @@
 
 using System;
 
-namespace DbxToPstLibrary
+namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
 	/// <summary>
 	/// Dbx message indx class.

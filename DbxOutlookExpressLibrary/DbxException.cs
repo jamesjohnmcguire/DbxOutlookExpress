@@ -7,7 +7,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace DbxToPstLibrary
+namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
 	/// <summary>
 	/// The dbx exception class.
