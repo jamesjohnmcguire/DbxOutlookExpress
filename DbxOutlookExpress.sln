@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbxToPst", "DbxToPst\DbxToPst.csproj", "{6971D486-5B3F-497F-86E8-47C98BF7FD70}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbxToPstLibrary", "DbxToPstLibrary\DbxToPstLibrary.csproj", "{6D6C30E1-9240-4A2E-A167-3F23E6316656}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbxOutlookExpressLibrary", "DbxOutlookExpressLibrary\DbxOutlookExpressLibrary.csproj", "{6D6C30E1-9240-4A2E-A167-3F23E6316656}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,14 +13,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6971D486-5B3F-497F-86E8-47C98BF7FD70}.Debug|x64.ActiveCfg = Debug|x64
-		{6971D486-5B3F-497F-86E8-47C98BF7FD70}.Debug|x64.Build.0 = Debug|x64
-		{6971D486-5B3F-497F-86E8-47C98BF7FD70}.Debug|x86.ActiveCfg = Debug|x86
-		{6971D486-5B3F-497F-86E8-47C98BF7FD70}.Debug|x86.Build.0 = Debug|x86
-		{6971D486-5B3F-497F-86E8-47C98BF7FD70}.Release|x64.ActiveCfg = Release|x64
-		{6971D486-5B3F-497F-86E8-47C98BF7FD70}.Release|x64.Build.0 = Release|x64
-		{6971D486-5B3F-497F-86E8-47C98BF7FD70}.Release|x86.ActiveCfg = Release|x86
-		{6971D486-5B3F-497F-86E8-47C98BF7FD70}.Release|x86.Build.0 = Release|x86
 		{6D6C30E1-9240-4A2E-A167-3F23E6316656}.Debug|x64.ActiveCfg = Debug|x64
 		{6D6C30E1-9240-4A2E-A167-3F23E6316656}.Debug|x64.Build.0 = Debug|x64
 		{6D6C30E1-9240-4A2E-A167-3F23E6316656}.Debug|x86.ActiveCfg = Debug|x86
