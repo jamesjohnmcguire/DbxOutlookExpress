@@ -43,7 +43,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					DbxMessageIndexedItem item = new (fileBytes);
 					item.ReadIndex(index);
 
-					DbxMessageIndex messageIndex = item.MessageIndex;
+					DbxMessage messageIndex = item.MessageIndex;
 
 					string message = string.Format(
 						CultureInfo.InvariantCulture,
@@ -141,7 +141,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					DbxMessageIndexedItem item = new (fileBytes);
 					item.ReadIndex(index);
 
-					DbxMessageIndex messageIndex = item.MessageIndex;
+					DbxMessage messageIndex = item.MessageIndex;
 
 					string message = string.Format(
 						CultureInfo.InvariantCulture,

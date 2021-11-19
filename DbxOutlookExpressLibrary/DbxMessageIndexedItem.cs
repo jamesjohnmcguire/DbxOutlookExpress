@@ -122,7 +122,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private readonly DbxMessageIndex messageIndex;
+		private readonly DbxMessage messageIndex;
 
 		/// <summary>
 		/// Initializes a new instance of the
@@ -132,14 +132,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public DbxMessageIndexedItem(byte[] fileBytes)
 			: base(fileBytes)
 		{
-			messageIndex = new DbxMessageIndex();
+			messageIndex = new DbxMessage();
 		}
 
 		/// <summary>
 		/// Gets the dbx message index.
 		/// </summary>
 		/// <value>The dbx message index.</value>
-		public DbxMessageIndex MessageIndex { get { return messageIndex; } }
+		public DbxMessage MessageIndex { get { return messageIndex; } }
 
 		/// <summary>
 		/// Gets the message body.

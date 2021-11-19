@@ -1,5 +1,5 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
-// <copyright file="DbxMessageIndex.cs" company="James John McGuire">
+// <copyright file="DbxMessage.cs" company="James John McGuire">
 // Copyright © 2021 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
@@ -11,7 +11,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 	/// <summary>
 	/// Dbx message indx class.
 	/// </summary>
-	public class DbxMessageIndex
+	public class DbxMessage
 	{
 		/// <summary>
 		/// Gets or sets the account associated with the message.

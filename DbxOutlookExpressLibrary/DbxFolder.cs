@@ -1,5 +1,5 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
-// <copyright file="DbxFolderIndex.cs" company="James John McGuire">
+// <copyright file="DbxFolder.cs" company="James John McGuire">
 // Copyright © 2021 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
@@ -11,7 +11,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 	/// <summary>
 	/// Dbx folder index class.
 	/// </summary>
-	public class DbxFolderIndex
+	public class DbxFolder
 	{
 		/// <summary>
 		/// Gets or sets the folder file name.
