@@ -16,8 +16,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 	/// </summary>
 	public class DbxFoldersFile : DbxFile
 	{
-		private const int TreeNodeSize = 0x27c;
-
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -98,7 +96,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				}
 				else
 				{
-					DbxMessagesFile messagesFile = new(filePath);
+					DbxMessagesFile messagesFile = new (filePath);
 
 					DbxFileType check = messagesFile.Header.FileType;
 
