@@ -122,7 +122,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private readonly DbxMessage messageIndex;
+		private readonly DbxMessage message;
 
 		/// <summary>
 		/// Initializes a new instance of the
@@ -132,14 +132,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public DbxMessageIndexedItem(byte[] fileBytes)
 			: base(fileBytes)
 		{
-			messageIndex = new DbxMessage();
+			message = new DbxMessage();
 		}
 
 		/// <summary>
 		/// Gets the dbx message index.
 		/// </summary>
 		/// <value>The dbx message index.</value>
-		public DbxMessage MessageIndex { get { return messageIndex; } }
+		public DbxMessage MessageIndex { get { return message; } }
 
 		/// <summary>
 		/// Gets the message body.
@@ -187,25 +187,25 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		{
 			base.ReadIndex(address);
 
-			messageIndex.SenderName = GetString(SenderName);
-			messageIndex.SenderEmailAddress = GetString(SenderEmailAddress);
+			message.SenderName = GetString(SenderName);
+			message.SenderEmailAddress = GetString(SenderEmailAddress);
 
 			long rawTime = (long)GetValueLong(ReceivedTime);
 			try
 			{
-				messageIndex.ReceivedTime = DateTime.FromFileTime(rawTime);
+				message.ReceivedTime = DateTime.FromFileTime(rawTime);
 			}
 			catch (ArgumentOutOfRangeException exception)
 			{
 				Log.Error(exception.ToString());
 			}
 
-			messageIndex.Subject = GetString(Subject);
-			messageIndex.ReceiptentName = GetString(ReceiptentName);
-			messageIndex.ReceiptentEmailAddress =
+			message.Subject = GetString(Subject);
+			message.ReceiptentName = GetString(ReceiptentName);
+			message.ReceiptentEmailAddress =
 				GetString(ReceiptentEmailAddress);
 
-			messageIndex.Body = GetBody();
+			message.Body = GetBody();
 		}
 	}
 }

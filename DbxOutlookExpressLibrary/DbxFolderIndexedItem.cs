@@ -43,7 +43,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		public const int ParentId = 0x01;
 
-		private readonly DbxFolder folderIndex;
+		private readonly DbxFolder folder;
 
 		/// <summary>
 		/// Initializes a new instance of the
@@ -53,14 +53,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public DbxFolderIndexedItem(byte[] fileBytes)
 			: base(fileBytes)
 		{
-			folderIndex = new DbxFolder();
+			folder = new DbxFolder();
 		}
 
 		/// <summary>
 		/// Gets the dbx folder index.
 		/// </summary>
 		/// <value>The dbx folder index.</value>
-		public DbxFolder FolderIndex { get { return folderIndex; } }
+		public DbxFolder FolderIndex { get { return folder; } }
 
 		/// <summary>
 		/// Reads the indexed item and saves the values.
@@ -71,10 +71,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		{
 			base.ReadIndex(address);
 
-			folderIndex.FolderId = this.GetValue(Id);
-			folderIndex.FolderParentId = this.GetValue(ParentId);
-			folderIndex.FolderName = this.GetString(Name);
-			folderIndex.FolderFileName = this.GetString(FileName);
+			folder.FolderId = this.GetValue(Id);
+			folder.FolderParentId = this.GetValue(ParentId);
+			folder.FolderName = this.GetString(Name);
+			folder.FolderFileName = this.GetString(FileName);
 		}
 	}
 }
