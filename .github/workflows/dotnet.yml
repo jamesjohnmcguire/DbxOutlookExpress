@@ -18,7 +18,9 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: |
+        git submodule update --init --recursive
+        dotnet restore
     - name: Build
       run: dotnet build --no-restore
     - name: Test
