@@ -24,9 +24,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		private readonly uint[] indexes;
+		private readonly byte[] fileBytes;
 
 		private byte[] bodyBytes;
-		private byte[] fileBytes;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DbxIndexedItem"/>
@@ -50,7 +50,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		{
 			string item = null;
 
-			if (address > 0)
+			if (buffer != null && address > 0)
 			{
 				uint end = address;
 				byte check;
@@ -77,8 +77,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				DetectionResult results =
 					CharsetDetector.DetectFromBytes(stringBytes);
 
-				// Fall out case
-				Encoding encoding = Encoding.UTF8;
+				Encoding encoding;
 
 				if (results.Detected != null)
 				{

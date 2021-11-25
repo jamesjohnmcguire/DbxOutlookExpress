@@ -20,7 +20,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private IList<string> folderFiles;
+		private readonly IList<string> folderFiles;
 
 		/// <summary>
 		/// Initializes a new instance of the

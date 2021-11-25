@@ -6,11 +6,10 @@
 
 using Common.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+[assembly: CLSCompliant(false)]
 
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
@@ -82,7 +81,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			foreach (string file in files)
 			{
-				FileInfo fileInfo = new FileInfo(file);
+				FileInfo fileInfo = new (file);
 
 				string fileName = fileInfo.Name.ToUpperInvariant();
 

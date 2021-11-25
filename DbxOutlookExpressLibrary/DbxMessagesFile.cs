@@ -97,6 +97,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			}
 		}
 
+		/// <summary>
+		/// List deleted segments.
+		/// </summary>
 		public void ListDeletedSegments()
 		{
 			byte[] fileBytes = GetFileBytes();
