@@ -6,6 +6,7 @@
 
 using Common.Logging;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
@@ -19,6 +20,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+		private IList<string> folderFiles;
+
 		/// <summary>
 		/// Initializes a new instance of the
 		/// <see cref="DbxFoldersFile"/> class.
@@ -27,7 +30,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public DbxFoldersFile(string filePath)
 			: base(filePath)
 		{
+			folderFiles = new List<string>();
 		}
+
+		/// <summary>
+		/// Gets the list of folder files.
+		/// </summary>
+		/// <value>The list of folder files.</value>
+		public IList<string> FoldersFile { get { return folderFiles; } }
 
 		/// <summary>
 		/// List folders method.
@@ -66,12 +76,25 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 						folderIndex.FolderName);
 					Log.Info(message);
 
+					string folderFileName = string.Empty;
+
+					if (!string.IsNullOrWhiteSpace(folderIndex.FolderFileName))
+					{
+						folderFileName = folderIndex.FolderFileName.Trim();
+					}
+
 					message = string.Format(
 						CultureInfo.InvariantCulture,
 						"item value[{0}] is {1}",
 						DbxFolderIndexedItem.FileName,
-						folderIndex.FolderFileName);
+						folderFileName);
 					Log.Info(message);
+
+					// Eventually these will be compared with the existing
+					// files by List.Compare, so need to mitigate case
+					// sensitivity.
+					folderFileName = folderFileName.ToUpperInvariant();
+					folderFiles.Add(folderFileName);
 				}
 			}
 		}

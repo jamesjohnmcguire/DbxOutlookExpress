@@ -23,6 +23,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		private readonly DbxFoldersFile foldersFile;
+		private readonly string path;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DbxSet"/> class.
@@ -30,6 +31,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <param name="path">The path of the dbx set.</param>
 		public DbxSet(string path)
 		{
+			this.path = path;
+
 			string extension = Path.GetExtension(path);
 
 			if (string.IsNullOrEmpty(extension))
@@ -67,7 +70,28 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		public void List()
 		{
+			string[] ignoreFiles =
+			{
+				"CLEANUP.LOG", "FOLDERS.AVX", "FOLDERS.DBX", "OFFLINE.DBX",
+				"POP3UIDL.DBX"
+			};
+
 			foldersFile.List();
+
+			string[] files = Directory.GetFiles(path);
+
+			foreach (string file in files)
+			{
+				FileInfo fileInfo = new FileInfo(file);
+
+				string fileName = fileInfo.Name.ToUpperInvariant();
+
+				if (!foldersFile.FoldersFile.Contains(fileName) &&
+					!ignoreFiles.Contains(fileName))
+				{
+					Log.Warn("Orphaned file found: " + fileInfo.Name);
+				}
+			}
 		}
 
 		/// <summary>
