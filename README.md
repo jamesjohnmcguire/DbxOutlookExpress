@@ -10,7 +10,7 @@
 
 ### Prerequisites
 
-This project includes the UTF-unknown project as submodule.  So, be sure to include submodules when retreiving the repository contents. 
+This project includes the [UTF-unknown project](https://github.com/CharsetDetector/UTF-unknown) as a submodule.  So, be sure to include submodules when retreiving the repository contents. 
 
 ## Usage
 
@@ -30,6 +30,10 @@ Don't forget to give the project a star! Thanks again!
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+## Acknowledgments
+
+This project is heavily indebted to previous efforts of others to decipher the DBX file format.  Most notably, the original file format work by Arne Schloh and updated by Zvonko Tesic. [Details Here](https://www.infobyte.hr/oedbx/)
 
 ## License
 
