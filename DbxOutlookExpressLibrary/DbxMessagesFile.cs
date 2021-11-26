@@ -30,6 +30,30 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		}
 
 		/// <summary>
+		/// Get the next message.
+		/// </summary>
+		/// <returns>The next message.</returns>
+		public DbxMessage GetNextMessage()
+		{
+			DbxMessage message = null;
+
+			if (CurrentIndex < Tree.FolderInformationIndexes.Count)
+			{
+				byte[] fileBytes = GetFileBytes();
+
+				DbxMessageIndexedItem item = new (fileBytes);
+				item.ReadIndex(CurrentIndex);
+
+				message = item.MessageIndex;
+
+				// Prep for next call.
+				CurrentIndex++;
+			}
+
+			return message;
+		}
+
+		/// <summary>
 		/// List messages method.
 		/// </summary>
 		public void List()
