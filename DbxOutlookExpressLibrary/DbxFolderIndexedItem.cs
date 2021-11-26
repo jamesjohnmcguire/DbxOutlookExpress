@@ -43,8 +43,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		public const int ParentId = 0x01;
 
-		private readonly DbxFolder folder;
-
 		/// <summary>
 		/// Initializes a new instance of the
 		/// <see cref="DbxFolderIndexedItem"/> class.
@@ -55,28 +53,23 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public DbxFolderIndexedItem(byte[] fileBytes, uint address)
 			: base(fileBytes, address)
 		{
-			folder = new DbxFolder();
-
-			SetItemValues(address);
 		}
-
-		/// <summary>
-		/// Gets the dbx folder index.
-		/// </summary>
-		/// <value>The dbx folder index.</value>
-		public DbxFolder FolderIndex { get { return folder; } }
 
 		/// <summary>
 		/// Sets the indexed items and saves the values.
 		/// </summary>
+		/// <param name="folder">The dbx folder to set.</param>
 		/// <param name="address">The address of the item with in
 		/// the file.</param>
-		public void SetItemValues(uint address)
+		public void SetItemValues(DbxFolder folder, uint address)
 		{
-			folder.FolderId = this.GetValue(Id);
-			folder.FolderParentId = this.GetValue(ParentId);
-			folder.FolderName = this.GetString(Name);
-			folder.FolderFileName = this.GetString(FileName);
+			if (folder != null)
+			{
+				folder.FolderId = this.GetValue(Id);
+				folder.FolderParentId = this.GetValue(ParentId);
+				folder.FolderName = this.GetString(Name);
+				folder.FolderFileName = this.GetString(FileName);
+			}
 		}
 	}
 }

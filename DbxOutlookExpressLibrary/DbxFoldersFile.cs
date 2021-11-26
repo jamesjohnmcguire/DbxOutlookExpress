@@ -62,9 +62,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			{
 				byte[] fileBytes = GetFileBytes();
 
-				DbxFolderIndexedItem item = new (fileBytes, CurrentIndex);
-
-				folder = item.FolderIndex;
+				folder = new (fileBytes, CurrentIndex);
 
 				// Prep for next call.
 				CurrentIndex++;
@@ -84,36 +82,34 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxFolderIndexedItem item = new (fileBytes, index);
-
-					DbxFolder folderIndex = item.FolderIndex;
+					DbxFolder folder = new (fileBytes, index);
 
 					string message = string.Format(
 						CultureInfo.InvariantCulture,
 						"item value[{0}] is {1}",
 						DbxFolderIndexedItem.Id,
-						folderIndex.FolderId);
+						folder.FolderId);
 					Log.Info(message);
 
 					message = string.Format(
 						CultureInfo.InvariantCulture,
 						"item value[{0}] is {1}",
 						DbxFolderIndexedItem.ParentId,
-						folderIndex.FolderParentId);
+						folder.FolderParentId);
 					Log.Info(message);
 
 					message = string.Format(
 						CultureInfo.InvariantCulture,
 						"item value[{0}] is {1}",
 						DbxFolderIndexedItem.Name,
-						folderIndex.FolderName);
+						folder.FolderName);
 					Log.Info(message);
 
 					string folderFileName = string.Empty;
 
-					if (!string.IsNullOrWhiteSpace(folderIndex.FolderFileName))
+					if (!string.IsNullOrWhiteSpace(folder.FolderFileName))
 					{
-						folderFileName = folderIndex.FolderFileName.Trim();
+						folderFileName = folder.FolderFileName.Trim();
 					}
 
 					message = string.Format(
@@ -171,17 +167,15 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxFolderIndexedItem item = new (fileBytes, index);
-
-					DbxFolder folderIndex = item.FolderIndex;
+					DbxFolder folder = new (fileBytes, index);
 
 					string message = string.Format(
 						CultureInfo.InvariantCulture,
 						"Migrating folder {0}",
-						folderIndex.FolderName);
+						folder.FolderName);
 					Log.Info(message);
 
-					MigrateFolder(folderIndex.FolderFileName);
+					MigrateFolder(folder.FolderFileName);
 				}
 			}
 		}

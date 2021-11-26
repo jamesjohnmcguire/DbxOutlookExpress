@@ -122,8 +122,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private readonly DbxMessage message;
-
 		/// <summary>
 		/// Initializes a new instance of the
 		/// <see cref="DbxMessageIndexedItem"/> class.
@@ -134,16 +132,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public DbxMessageIndexedItem(byte[] fileBytes, uint address)
 			: base(fileBytes, address)
 		{
-			message = new DbxMessage();
-
-			SetItemValues(address);
 		}
-
-		/// <summary>
-		/// Gets the dbx message index.
-		/// </summary>
-		/// <value>The dbx message index.</value>
-		public DbxMessage MessageIndex { get { return message; } }
 
 		/// <summary>
 		/// Gets the message body.
@@ -185,29 +174,33 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <summary>
 		/// Sets the indexed items and saves the values.
 		/// </summary>
+		/// <param name="message">The dbx message item to set.</param>
 		/// <param name="address">The address of the item with in
 		/// the file.</param>
-		public void SetItemValues(uint address)
+		public void SetItemValues(DbxMessage message, uint address)
 		{
-			message.SenderName = GetString(SenderName);
-			message.SenderEmailAddress = GetString(SenderEmailAddress);
-
-			long rawTime = (long)GetValueLong(ReceivedTime);
-			try
+			if (message != null)
 			{
-				message.ReceivedTime = DateTime.FromFileTime(rawTime);
-			}
-			catch (ArgumentOutOfRangeException exception)
-			{
-				Log.Error(exception.ToString());
-			}
+				message.SenderName = GetString(SenderName);
+				message.SenderEmailAddress = GetString(SenderEmailAddress);
 
-			message.Subject = GetString(Subject);
-			message.ReceiptentName = GetString(ReceiptentName);
-			message.ReceiptentEmailAddress =
-				GetString(ReceiptentEmailAddress);
+				long rawTime = (long)GetValueLong(ReceivedTime);
+				try
+				{
+					message.ReceivedTime = DateTime.FromFileTime(rawTime);
+				}
+				catch (ArgumentOutOfRangeException exception)
+				{
+					Log.Error(exception.ToString());
+				}
 
-			message.Body = GetBody();
+				message.Subject = GetString(Subject);
+				message.ReceiptentName = GetString(ReceiptentName);
+				message.ReceiptentEmailAddress =
+					GetString(ReceiptentEmailAddress);
+
+				message.Body = GetBody();
+			}
 		}
 	}
 }

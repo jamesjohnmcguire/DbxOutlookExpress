@@ -14,6 +14,27 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 	public class DbxFolder
 	{
 		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="DbxFolder"/> class.
+		/// </summary>
+		public DbxFolder()
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="DbxFolder"/> class.
+		/// </summary>
+		/// <param name="fileBytes">The bytes of the file.</param>
+		/// <param name="address">The address of the item with in
+		/// the file.</param>
+		public DbxFolder(byte[] fileBytes, uint address)
+		{
+			DbxFolderIndexedItem index = new (fileBytes, address);
+			index.SetItemValues(this, address);
+		}
+
+		/// <summary>
 		/// Gets or sets the folder file name.
 		/// </summary>
 		/// <value>The folder file name.</value>
