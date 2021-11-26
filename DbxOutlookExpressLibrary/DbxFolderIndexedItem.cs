@@ -50,10 +50,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <see cref="DbxFolderIndexedItem"/> class.
 		/// </summary>
 		/// <param name="fileBytes">The bytes of the file.</param>
-		public DbxFolderIndexedItem(byte[] fileBytes)
-			: base(fileBytes)
+		/// <param name="address">The address of the item with in
+		/// the file.</param>
+		public DbxFolderIndexedItem(byte[] fileBytes, uint address)
+			: base(fileBytes, address)
 		{
 			folder = new DbxFolder();
+
+			SetItemValues(address);
 		}
 
 		/// <summary>
@@ -63,14 +67,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public DbxFolder FolderIndex { get { return folder; } }
 
 		/// <summary>
-		/// Reads the indexed item and saves the values.
+		/// Sets the indexed items and saves the values.
 		/// </summary>
 		/// <param name="address">The address of the item with in
 		/// the file.</param>
-		public override void ReadIndex(uint address)
+		public void SetItemValues(uint address)
 		{
-			base.ReadIndex(address);
-
 			folder.FolderId = this.GetValue(Id);
 			folder.FolderParentId = this.GetValue(ParentId);
 			folder.FolderName = this.GetString(Name);

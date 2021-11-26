@@ -129,10 +129,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <see cref="DbxMessageIndexedItem"/> class.
 		/// </summary>
 		/// <param name="fileBytes">The bytes of the file.</param>
-		public DbxMessageIndexedItem(byte[] fileBytes)
-			: base(fileBytes)
+		/// <param name="address">The address of the item with in
+		/// the file.</param>
+		public DbxMessageIndexedItem(byte[] fileBytes, uint address)
+			: base(fileBytes, address)
 		{
 			message = new DbxMessage();
+
+			SetItemValues(address);
 		}
 
 		/// <summary>
@@ -151,7 +155,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			uint address = GetValue(CorrespoindingMessage);
 
-			StringBuilder builder = new StringBuilder();
+			StringBuilder builder = new ();
 			byte[] fileBytes = GetFileBytes();
 
 			while (address != 0)
@@ -179,14 +183,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		}
 
 		/// <summary>
-		/// Reads the indexed item and saves the values.
+		/// Sets the indexed items and saves the values.
 		/// </summary>
 		/// <param name="address">The address of the item with in
 		/// the file.</param>
-		public override void ReadIndex(uint address)
+		public void SetItemValues(uint address)
 		{
-			base.ReadIndex(address);
-
 			message.SenderName = GetString(SenderName);
 			message.SenderEmailAddress = GetString(SenderEmailAddress);
 

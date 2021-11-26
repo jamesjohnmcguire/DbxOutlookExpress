@@ -33,11 +33,15 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// class.
 		/// </summary>
 		/// <param name="fileBytes">The bytes of the file.</param>
-		public DbxIndexedItem(byte[] fileBytes)
+		/// <param name="address">The address of the item with in
+		/// the file.</param>
+		public DbxIndexedItem(byte[] fileBytes, uint address)
 		{
 			this.fileBytes = fileBytes;
 
 			indexes = new uint[MaximumIndexes];
+
+			SetIndexes(address);
 		}
 
 		/// <summary>
@@ -126,7 +130,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		/// <param name="address">The address of the item with in
 		/// the file.</param>
-		public virtual void ReadIndex(uint address)
+		public void SetIndexes(uint address)
 		{
 			byte[] initialBytes = new byte[12];
 

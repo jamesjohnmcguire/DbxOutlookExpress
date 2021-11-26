@@ -31,8 +31,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 				0x30, 0x30, 0x30, 0x31, 0x37, 0x00, 0x00, 0x00
 			};
 
-			DbxIndexedItem item = new (testBytes);
-			item.ReadIndex(0);
+			DbxIndexedItem item = new (testBytes, 0);
 
 			uint value = item.GetValue(DbxFolderIndexedItem.Id);
 			Assert.AreEqual(value, 0x11);

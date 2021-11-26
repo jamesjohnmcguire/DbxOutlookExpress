@@ -23,8 +23,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private readonly string folderPath;
 		private DbxTree tree;
 
-		private uint currentIndex;
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DbxFile"/> class.
 		/// </summary>

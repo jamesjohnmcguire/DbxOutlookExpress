@@ -36,7 +36,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			}
 			else
 			{
-				FileInfo fileInfo = new FileInfo(filePath);
+				FileInfo fileInfo = new (filePath);
 
 				string folderName = 
 					Path.GetFileNameWithoutExtension(fileInfo.Name);
@@ -58,8 +58,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			{
 				byte[] fileBytes = GetFileBytes();
 
-				DbxMessageIndexedItem item = new (fileBytes);
-				item.ReadIndex(CurrentIndex);
+				DbxMessageIndexedItem item = new (fileBytes, CurrentIndex);
 
 				message = item.MessageIndex;
 
@@ -81,8 +80,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxMessageIndexedItem item = new (fileBytes);
-					item.ReadIndex(index);
+					DbxMessageIndexedItem item = new (fileBytes, index);
 
 					DbxMessage messageIndex = item.MessageIndex;
 
@@ -182,8 +180,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxMessageIndexedItem item = new (fileBytes);
-					item.ReadIndex(index);
+					DbxMessageIndexedItem item = new (fileBytes, index);
 
 					DbxMessage messageIndex = item.MessageIndex;
 

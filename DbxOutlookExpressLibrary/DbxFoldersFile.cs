@@ -62,8 +62,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			{
 				byte[] fileBytes = GetFileBytes();
 
-				DbxFolderIndexedItem item = new (fileBytes);
-				item.ReadIndex(CurrentIndex);
+				DbxFolderIndexedItem item = new (fileBytes, CurrentIndex);
 
 				folder = item.FolderIndex;
 
@@ -85,8 +84,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxFolderIndexedItem item = new (fileBytes);
-					item.ReadIndex(index);
+					DbxFolderIndexedItem item = new (fileBytes, index);
 
 					DbxFolder folderIndex = item.FolderIndex;
 
@@ -173,8 +171,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxFolderIndexedItem item = new (fileBytes);
-					item.ReadIndex(index);
+					DbxFolderIndexedItem item = new (fileBytes, index);
 
 					DbxFolder folderIndex = item.FolderIndex;
 
