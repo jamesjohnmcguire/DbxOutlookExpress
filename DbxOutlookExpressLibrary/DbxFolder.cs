@@ -5,6 +5,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 using System;
+using System.IO;
 
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
@@ -13,12 +14,20 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 	/// </summary>
 	public class DbxFolder
 	{
+		private readonly DbxMessagesFile messageFile;
+
 		/// <summary>
 		/// Initializes a new instance of the
 		/// <see cref="DbxFolder"/> class.
 		/// </summary>
-		public DbxFolder()
+		/// <param name="path">The path of the dbx set.</param>
+		/// <param name="folderFileName">The name of the messages
+		/// file folder.</param>
+		public DbxFolder(string path, string folderFileName)
 		{
+			string filePath = Path.Combine(path, folderFileName);
+
+			messageFile = new DbxMessagesFile(filePath);
 		}
 
 		/// <summary>
@@ -28,10 +37,15 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <param name="fileBytes">The bytes of the file.</param>
 		/// <param name="address">The address of the item with in
 		/// the file.</param>
-		public DbxFolder(byte[] fileBytes, uint address)
+		/// <param name="path">The path of the dbx set.</param>
+		public DbxFolder(byte[] fileBytes, uint address, string path)
 		{
 			DbxFolderIndexedItem index = new (fileBytes, address);
 			index.SetItemValues(this, address);
+
+			string filePath = Path.Combine(path, FolderFileName);
+
+			messageFile = new DbxMessagesFile(filePath);
 		}
 
 		/// <summary>
@@ -57,5 +71,16 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		/// <value>The folder parent id.</value>
 		public uint FolderParentId { get; set; }
+
+		/// <summary>
+		/// Gets the next message in enurmation.
+		/// </summary>
+		/// <returns>The next message.</returns>
+		public DbxMessage GetNextMessage()
+		{
+			DbxMessage message = messageFile.GetNextMessage();
+
+			return message;
+		}
 	}
 }

@@ -75,8 +75,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				if (orphanFiles.Count > orphanFileIndex)
 				{
-					folder = new DbxFolder();
-					folder.FolderFileName = orphanFiles[orphanFileIndex];
+					folder = new DbxFolder(path, orphanFiles[orphanFileIndex]);
 
 					string filePath =
 						Path.Combine(path, folder.FolderFileName);

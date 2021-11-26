@@ -62,7 +62,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			{
 				byte[] fileBytes = GetFileBytes();
 
-				folder = new (fileBytes, CurrentIndex);
+				folder = new (fileBytes, CurrentIndex, FolderPath);
 
 				// Prep for next call.
 				CurrentIndex++;
@@ -82,7 +82,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxFolder folder = new (fileBytes, index);
+					DbxFolder folder = new (fileBytes, index, FolderPath);
 
 					string message = string.Format(
 						CultureInfo.InvariantCulture,
@@ -167,7 +167,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxFolder folder = new (fileBytes, index);
+					DbxFolder folder = new (fileBytes, index, FolderPath);
 
 					string message = string.Format(
 						CultureInfo.InvariantCulture,
