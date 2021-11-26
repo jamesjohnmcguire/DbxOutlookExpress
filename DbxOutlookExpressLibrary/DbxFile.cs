@@ -23,6 +23,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private readonly string folderPath;
 		private DbxTree tree;
 
+		private uint currentIndex;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DbxFile"/> class.
 		/// </summary>
@@ -38,6 +40,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			Header = new (headerBytes);
 		}
+
+		/// <summary>
+		/// Gets or sets the current index of items being enumerated.
+		/// </summary>
+		/// <value>The dbx current index of items being enumerated.</value>
+		public uint CurrentIndex { get; set; }
 
 		/// <summary>
 		/// Gets or sets the dbx file header.

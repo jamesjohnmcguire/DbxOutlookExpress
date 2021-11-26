@@ -40,6 +40,30 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public IList<string> FoldersFile { get { return folderFiles; } }
 
 		/// <summary>
+		/// Get the next folder in the tree list.
+		/// </summary>
+		/// <returns>The next folder in the tree list.</returns>
+		public DbxFolder GetNextFolder()
+		{
+			DbxFolder folder = null;
+
+			if (CurrentIndex < Tree.FolderInformationIndexes.Count)
+			{
+				byte[] fileBytes = GetFileBytes();
+
+				DbxFolderIndexedItem item = new (fileBytes);
+				item.ReadIndex(CurrentIndex);
+
+				folder = item.FolderIndex;
+
+				// Prep for next call.
+				CurrentIndex++;
+			}
+
+			return folder;
+		}
+
+		/// <summary>
 		/// List folders method.
 		/// </summary>
 		public void List()
