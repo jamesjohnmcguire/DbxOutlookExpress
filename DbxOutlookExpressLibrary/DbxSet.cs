@@ -54,17 +54,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			else
 			{
 				foldersFile = new (path);
-
-				if (foldersFile.Header.FileType != DbxFileType.FolderFile)
-				{
-					Log.Error("Folders.dbx not actually folders file");
-
-					// Attempt to process the individual files.
-				}
-				else
-				{
-					foldersFile.ReadTree();
-				}
 			}
 		}
 

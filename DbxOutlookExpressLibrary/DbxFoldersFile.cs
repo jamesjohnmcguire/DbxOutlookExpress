@@ -31,6 +31,17 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			: base(filePath)
 		{
 			folderFiles = new List<string>();
+
+			if (Header.FileType != DbxFileType.FolderFile)
+			{
+				Log.Error("Folders.dbx not actually folders file");
+
+				// Attempt to process the individual files.
+			}
+			else
+			{
+				ReadTree();
+			}
 		}
 
 		/// <summary>
@@ -145,22 +156,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				{
 					DbxMessagesFile messagesFile = new (filePath);
 
-					DbxFileType check = messagesFile.Header.FileType;
-
-					if (check != DbxFileType.MessageFile)
-					{
-						Log.Error(filePath + " not actually a messagess file");
-
-						// Attempt to process the individual files.
-					}
-					else
-					{
-						Log.Info("Checking folder: " + folderName);
-						messagesFile.ReadTree();
-
-						// messagesFile.MigrateMessages();
-						messagesFile.List();
-					}
+					// messagesFile.MigrateMessages();
+					messagesFile.List();
 				}
 			}
 		}

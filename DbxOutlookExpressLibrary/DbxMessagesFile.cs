@@ -7,6 +7,7 @@
 using Common.Logging;
 using System;
 using System.Globalization;
+using System.IO;
 using System.Text;
 
 namespace DigitalZenWorks.Email.DbxOutlookExpress
@@ -27,6 +28,22 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public DbxMessagesFile(string filePath)
 			: base(filePath)
 		{
+			DbxFileType check = Header.FileType;
+
+			if (check != DbxFileType.MessageFile)
+			{
+				Log.Error(filePath + " not actually a messagess file");
+			}
+			else
+			{
+				FileInfo fileInfo = new FileInfo(filePath);
+
+				string folderName = 
+					Path.GetFileNameWithoutExtension(fileInfo.Name);
+				Log.Info("Checking folder: " + folderName);
+
+				ReadTree();
+			}
 		}
 
 		/// <summary>
