@@ -6,6 +6,7 @@
 
 using Common.Logging;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -23,6 +24,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 		private readonly DbxFoldersFile foldersFile;
 		private readonly string path;
+
+		private int orphanFileIndex = -1;
+		private IList<string> orphanFiles;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DbxSet"/> class.
@@ -65,17 +69,67 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		}
 
 		/// <summary>
+		/// Get the next folder in the tree list.
+		/// </summary>
+		/// <returns>The next folder in the tree list.</returns>
+		public DbxFolder GetNextFolder()
+		{
+			DbxFolder folder = foldersFile.GetNextFolder();
+
+			if (folder == null)
+			{
+				if (orphanFileIndex == -1)
+				{
+					orphanFiles = AppendOrphanedFiles();
+					orphanFileIndex = 0;
+				}
+
+				if (orphanFiles.Count > orphanFileIndex)
+				{
+					folder = new DbxFolder();
+					folder.FolderFileName = orphanFiles[orphanFileIndex];
+
+					string filePath =
+						Path.Combine(path, folder.FolderFileName);
+					FileInfo fileInfo = new (filePath);
+
+					folder.FolderName =
+						Path.GetFileNameWithoutExtension(fileInfo.Name);
+
+					orphanFileIndex++;
+				}
+			}
+
+			return folder;
+		}
+
+		/// <summary>
 		/// List method.
 		/// </summary>
 		public void List()
 		{
+			foldersFile.List();
+
+			IList<string> folderFiles = AppendOrphanedFiles();
+		}
+
+		/// <summary>
+		/// Migrate method.
+		/// </summary>
+		public void Migrate()
+		{
+			foldersFile.MigrateFolders();
+		}
+
+		private IList<string> AppendOrphanedFiles()
+		{
 			string[] ignoreFiles =
 			{
-				"CLEANUP.LOG", "FOLDERS.AVX", "FOLDERS.DBX", "OFFLINE.DBX",
-				"POP3UIDL.DBX"
+			"CLEANUP.LOG", "FOLDERS.AVX", "FOLDERS.DBX", "OFFLINE.DBX",
+			"POP3UIDL.DBX"
 			};
 
-			foldersFile.List();
+			IList<string> folderFiles = foldersFile.FoldersFile;
 
 			string[] files = Directory.GetFiles(path);
 
@@ -89,16 +143,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					!ignoreFiles.Contains(fileName))
 				{
 					Log.Warn("Orphaned file found: " + fileInfo.Name);
+
+					folderFiles.Add(fileInfo.Name);
 				}
 			}
-		}
 
-		/// <summary>
-		/// Migrate method.
-		/// </summary>
-		public void Migrate()
-		{
-			foldersFile.MigrateFolders();
+			return folderFiles;
 		}
 	}
 }
