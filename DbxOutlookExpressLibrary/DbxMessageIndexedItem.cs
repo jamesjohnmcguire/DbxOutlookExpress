@@ -142,7 +142,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		{
 			string body = null;
 
-			uint address = GetValue(CorrespoindingMessage);
+			int size = GetSize(CorrespoindingMessage);
+			uint address = GetValue(CorrespoindingMessage, size);
 
 			StringBuilder builder = new ();
 			byte[] fileBytes = GetFileBytes();
@@ -152,10 +153,26 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				byte[] headerBytes = new byte[0x10];
 				Array.Copy(fileBytes, address, headerBytes, 0, 0x10);
 
+				uint objectMarker = Bytes.ToInteger(headerBytes, 0);
+
+				if (objectMarker != address)
+				{
+					throw new DbxException("Wrong object marker!");
+				}
+
 				uint length = Bytes.ToInteger(headerBytes, 8);
 
 				// skip over header
 				address += 0x10;
+
+				if (length == 0)
+				{
+					Log.Warn("section length is 0");
+				}
+				else if (length > 2000)
+				{
+					Log.Warn("section length is greater than 2000");
+				}
 
 				string section = Encoding.ASCII.GetString(
 					fileBytes, (int)address, (int)length);
