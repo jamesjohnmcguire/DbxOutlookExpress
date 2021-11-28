@@ -58,7 +58,15 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			{
 				byte[] fileBytes = GetFileBytes();
 
-				message = new (fileBytes, CurrentIndex);
+				uint address = Tree.FolderInformationIndexes[CurrentIndex];
+				message = new (fileBytes, address);
+
+				string logMessage = string.Format(
+					CultureInfo.InvariantCulture,
+					"Geting message From: {0} Subject: {1}",
+					CurrentIndex,
+					message.Subject);
+				Log.Info(logMessage);
 
 				// Prep for next call.
 				CurrentIndex++;

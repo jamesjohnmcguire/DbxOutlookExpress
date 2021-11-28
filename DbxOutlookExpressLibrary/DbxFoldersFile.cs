@@ -62,7 +62,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			{
 				byte[] fileBytes = GetFileBytes();
 
-				folder = new (fileBytes, CurrentIndex, FolderPath);
+				uint address = Tree.FolderInformationIndexes[CurrentIndex];
+
+				folder = new (fileBytes, address, FolderPath);
 
 				// Prep for next call.
 				CurrentIndex++;
