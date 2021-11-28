@@ -19,6 +19,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 	/// </summary>
 	public class DbxFile
 	{
+		private static readonly ILog Log = LogManager.GetLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		private readonly byte[] fileBytes;
 		private readonly string folderPath;
 		private DbxTree tree;
@@ -31,19 +34,30 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		{
 			folderPath = filePath;
 
-			fileBytes = File.ReadAllBytes(filePath);
+			if (File.Exists(filePath))
+			{
+				fileBytes = File.ReadAllBytes(filePath);
 
-			byte[] headerBytes = new byte[0x24bc];
-			Array.Copy(fileBytes, headerBytes, 0x24bc);
+				byte[] headerBytes = new byte[0x24bc];
+				Array.Copy(fileBytes, headerBytes, 0x24bc);
 
-			Header = new (headerBytes);
+				Header = new (headerBytes);
+			}
+			else
+			{
+				FileInfo fileInfo = new (filePath);
+				string name = fileInfo.Name;
+				Log.Error("File does not exist!: " + name);
+
+				throw new FileNotFoundException();
+			}
 		}
 
 		/// <summary>
 		/// Gets or sets the current index of items being enumerated.
 		/// </summary>
 		/// <value>The dbx current index of items being enumerated.</value>
-		public uint CurrentIndex { get; set; }
+		public int CurrentIndex { get; set; }
 
 		/// <summary>
 		/// Gets or sets the dbx file header.
