@@ -4,6 +4,7 @@
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
+using Common.Logging;
 using System;
 using System.IO;
 
@@ -14,6 +15,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 	/// </summary>
 	public class DbxFolder
 	{
+		private static readonly ILog Log = LogManager.GetLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		private readonly DbxMessagesFile messageFile;
 
 		/// <summary>
@@ -43,9 +47,24 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			DbxFolderIndexedItem index = new (fileBytes, address);
 			index.SetItemValues(this, address);
 
-			string filePath = Path.Combine(path, FolderFileName);
+			if (!string.IsNullOrWhiteSpace(FolderFileName))
+			{
+				path = Path.GetDirectoryName(path);
 
-			messageFile = new DbxMessagesFile(filePath);
+				string filePath = Path.Combine(path, FolderFileName);
+
+				bool exists = File.Exists(filePath);
+
+				if (exists == false)
+				{
+					Log.Warn(
+						FolderFileName + " specified in Folders.dbx not present");
+				}
+				else
+				{
+					messageFile = new DbxMessagesFile(filePath);
+				}
+			}
 		}
 
 		/// <summary>
@@ -78,7 +97,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <returns>The next message.</returns>
 		public DbxMessage GetNextMessage()
 		{
-			DbxMessage message = messageFile.GetNextMessage();
+			DbxMessage message = null;
+
+			if (messageFile != null)
+			{
+				message = messageFile.GetNextMessage();
+			}
 
 			return message;
 		}
