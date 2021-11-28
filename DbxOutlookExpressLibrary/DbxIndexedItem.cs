@@ -23,8 +23,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private readonly uint[] indexes;
 		private readonly byte[] fileBytes;
+		private readonly uint[] indexes;
+		private readonly int[] indexSizes;
 
 		private byte[] bodyBytes;
 
@@ -40,6 +41,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			this.fileBytes = fileBytes;
 
 			indexes = new uint[MaximumIndexes];
+			indexSizes = new int[MaximumIndexes];
 
 			SetIndexes(address);
 		}
@@ -101,6 +103,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					encoding = Encoding.GetEncoding("Shift-JIS");
 				}
 
+				if (encoding == null)
+				{
+					encoding = Encoding.UTF8;
+
+				}
+
 				item = encoding.GetString(buffer, (int)address, length);
 			}
 
@@ -154,6 +162,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			uint itemsCountBytes = (uint)itemsCount * 4;
 
+			bool isIndirect = false;
+			uint lastIndirect = 0;
+
 			for (uint index = 0; index < itemsCountBytes; index += 4)
 			{
 				byte rawValue = bodyBytes[index];
@@ -172,6 +183,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					offset = itemsCountBytes;
 					value = offset + value;
 					SetIndex(indexOffset, value);
+
+					if (isIndirect == true)
+					{
+						SetIndexSize(lastIndirect, value);
+					}
+
+					isIndirect = true;
+					lastIndirect = indexOffset;
 				}
 			}
 		}
@@ -190,6 +209,11 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			return item;
 		}
 
+		public int GetSize(uint index)
+		{
+			return indexSizes[index];
+		}
+
 		/// <summary>
 		/// Get the values from the indexed item.
 		/// </summary>
@@ -197,12 +221,25 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <returns>The value of the itemed item.</returns>
 		public uint GetValue(uint index)
 		{
+			uint item = GetValue(index, 3);
+
+			return item;
+		}
+
+		/// <summary>
+		/// Get the values from the indexed item.
+		/// </summary>
+		/// <param name="index">The index item to retrieve.</param>
+		/// <param name="amount">The amount of bytes to retrieve.</param>
+		/// <returns>The value of the itemed item.</returns>
+		public uint GetValue(uint index, int amount)
+		{
 			uint item = 0;
 			uint subIndex = indexes[index];
 
 			if (subIndex > 0)
 			{
-				item = Bytes.ToIntegerLimit(bodyBytes, subIndex, 3);
+				item = Bytes.ToIntegerLimit(bodyBytes, subIndex, amount);
 			}
 
 			return item;
@@ -229,6 +266,16 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private void SetIndex(uint index, uint value)
 		{
 			indexes[index] = value;
+			indexSizes[index] = 3;
+		}
+
+		private void SetIndexSize(uint index, uint offset)
+		{
+			if (index < indexSizes.Length)
+			{
+				int size = (int)(offset - indexes[index]);
+				indexSizes[index] = size;
+			}
 		}
 	}
 }
