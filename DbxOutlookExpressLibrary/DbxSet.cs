@@ -75,14 +75,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				if (orphanFiles.Count > orphanFileIndex)
 				{
-					folder = new DbxFolder(path, orphanFiles[orphanFileIndex]);
-
-					string filePath =
-						Path.Combine(path, folder.FolderFileName);
-					FileInfo fileInfo = new (filePath);
-
-					folder.FolderName =
-						Path.GetFileNameWithoutExtension(fileInfo.Name);
+					string fileName = orphanFiles[orphanFileIndex];
+					folder = new DbxFolder(path, fileName);
 
 					orphanFileIndex++;
 				}
@@ -117,7 +111,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			"POP3UIDL.DBX"
 			};
 
-			IList<string> folderFiles = foldersFile.FoldersFile;
+			IList<string> orphanFolderFiles = new List<string> ();
 
 			string[] files = Directory.GetFiles(path);
 
@@ -132,11 +126,11 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				{
 					Log.Warn("Orphaned file found: " + fileInfo.Name);
 
-					folderFiles.Add(fileInfo.Name);
+					orphanFolderFiles.Add(fileInfo.Name);
 				}
 			}
 
-			return folderFiles;
+			return orphanFolderFiles;
 		}
 	}
 }
