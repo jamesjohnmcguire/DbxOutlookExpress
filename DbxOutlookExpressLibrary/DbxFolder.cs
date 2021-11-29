@@ -29,7 +29,13 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// file folder.</param>
 		public DbxFolder(string path, string folderFileName)
 		{
+			FolderFileName = folderFileName;
+
 			string filePath = Path.Combine(path, folderFileName);
+
+			FileInfo fileInfo = new (filePath);
+			FolderName =
+				Path.GetFileNameWithoutExtension(fileInfo.Name);
 
 			messageFile = new DbxMessagesFile(filePath);
 		}
