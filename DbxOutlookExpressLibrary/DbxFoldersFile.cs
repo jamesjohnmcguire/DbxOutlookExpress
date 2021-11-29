@@ -66,6 +66,19 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				folder = new (fileBytes, address, FolderPath);
 
+				string folderFileName = string.Empty;
+
+				if (!string.IsNullOrWhiteSpace(folder.FolderFileName))
+				{
+					folderFileName = folder.FolderFileName.Trim();
+
+					// Eventually these will be compared with the existing
+					// files by List.Compare, so need to mitigate case
+					// sensitivity.
+					folderFileName = folderFileName.ToUpperInvariant();
+					folderFiles.Add(folderFileName);
+				}
+
 				// Prep for next call.
 				CurrentIndex++;
 			}
