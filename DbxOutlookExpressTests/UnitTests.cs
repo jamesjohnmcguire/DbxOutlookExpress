@@ -2,21 +2,35 @@ using NUnit.Framework;
 using DigitalZenWorks.Email.DbxOutlookExpress;
 using System;
 
+[assembly: CLSCompliant(true)]
+
 namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 {
-	public class Tests
+	/// <summary>
+	/// Test class.
+	/// </summary>
+	public class DbxOutlookExpressTests
 	{
+		/// <summary>
+		/// Set up method.
+		/// </summary>
 		[SetUp]
 		public void Setup()
 		{
 		}
 
+		/// <summary>
+		/// Test for sanity check.
+		/// </summary>
 		[Test]
 		public void TestSanityCheck()
 		{
 			Assert.Pass();
 		}
 
+		/// <summary>
+		/// Test indexed info.
+		/// </summary>
 		[Test]
 		public void TestIndexedInfo()
 		{
