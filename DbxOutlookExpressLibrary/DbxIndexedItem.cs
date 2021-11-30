@@ -88,8 +88,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				if (results.Detected != null)
 				{
 					DetectionDetail resultDetected = results.Detected;
-					string encodingName = resultDetected.EncodingName;
-
 					encoding = resultDetected.Encoding;
 				}
 				else
@@ -106,7 +104,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				if (encoding == null)
 				{
 					encoding = Encoding.UTF8;
-
 				}
 
 				item = encoding.GetString(buffer, (int)address, length);
@@ -209,6 +206,11 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			return item;
 		}
 
+		/// <summary>
+		/// Gets the size of the index.
+		/// </summary>
+		/// <param name="index">The index to check.</param>
+		/// <returns>The size of the index.</returns>
 		public int GetSize(uint index)
 		{
 			return indexSizes[index];

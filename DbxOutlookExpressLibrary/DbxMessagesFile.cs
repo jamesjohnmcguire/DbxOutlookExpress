@@ -38,7 +38,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			{
 				FileInfo fileInfo = new (filePath);
 
-				string folderName = 
+				string folderName =
 					Path.GetFileNameWithoutExtension(fileInfo.Name);
 				Log.Info("Checking folder: " + folderName);
 

@@ -92,7 +92,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		{
 			foldersFile.List();
 
-			IList<string> folderFiles = AppendOrphanedFiles();
+			AppendOrphanedFiles();
 		}
 
 		/// <summary>
@@ -111,7 +111,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			"POP3UIDL.DBX"
 			};
 
-			IList<string> orphanFolderFiles = new List<string> ();
+			IList<string> orphanFolderFiles = new List<string>();
 
 			string[] files = Directory.GetFiles(path);
 

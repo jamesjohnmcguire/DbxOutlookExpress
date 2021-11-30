@@ -30,9 +30,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// the file.</param>
 		public DbxMessage(byte[] fileBytes, uint address)
 		{
-			DbxMessageIndexedItem index = new(fileBytes, address);
+			DbxMessageIndexedItem index = new (fileBytes, address);
 			index.SetItemValues(this, address);
 		}
+
 		/// <summary>
 		/// Gets or sets the account associated with the message.
 		/// </summary>
