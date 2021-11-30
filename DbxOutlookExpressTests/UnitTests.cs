@@ -11,6 +11,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 	/// </summary>
 	public class DbxOutlookExpressTests
 	{
+		private const string applicationDataDirectory =
+			@"DigitalZenWorks\DbxToPst";
+		private static readonly string baseDataDirectory =
+			Environment.GetFolderPath(
+				Environment.SpecialFolder.ApplicationData,
+				Environment.SpecialFolderOption.Create) + @"\" +
+				applicationDataDirectory;
+
 		/// <summary>
 		/// Set up method.
 		/// </summary>
@@ -26,6 +34,20 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		public void TestSanityCheck()
 		{
 			Assert.Pass();
+		}
+
+		/// <summary>
+		/// Test for get next folder.
+		/// </summary>
+		[Test]
+		public void TestGetNextFolder()
+		{
+			string path = baseDataDirectory + "\\TestFolder";
+
+			DbxSet dbxSet = new (path);
+
+			DbxFolder folder = dbxSet.GetNextFolder();
+			Assert.NotNull(folder);
 		}
 
 		/// <summary>
