@@ -28,6 +28,26 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		}
 
 		/// <summary>
+		/// Test for get bit.
+		/// </summary>
+		[Test]
+		public void TestGetBit()
+		{
+			// 0 based
+			byte sevenOn = 64;
+			bool bit = Bytes.GetBit(sevenOn, 6);
+			Assert.IsTrue(bit);
+
+			byte sevenOff = 63;
+			bit = Bytes.GetBit(sevenOff, 6);
+			Assert.IsFalse(bit);
+
+			sevenOff = 128;
+			bit = Bytes.GetBit(sevenOff, 6);
+			Assert.IsFalse(bit);
+		}
+
+		/// <summary>
 		/// Test for get next folder.
 		/// </summary>
 		[Test]
