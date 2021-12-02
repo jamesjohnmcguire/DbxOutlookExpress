@@ -28,15 +28,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		}
 
 		/// <summary>
-		/// Test for sanity check.
-		/// </summary>
-		[Test]
-		public void TestSanityCheck()
-		{
-			Assert.Pass();
-		}
-
-		/// <summary>
 		/// Test for get next folder.
 		/// </summary>
 		[Test]
@@ -78,6 +69,15 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			string name = item.GetString(DbxFolderIndexedItem.Name);
 			string expected = "discussion.fastandfurius.com";
 			Assert.That(name, Is.EqualTo(expected));
+		}
+
+		/// <summary>
+		/// Test for sanity check.
+		/// </summary>
+		[Test]
+		public void TestSanityCheck()
+		{
+			Assert.Pass();
 		}
 	}
 }
