@@ -174,8 +174,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					Log.Warn("section length is greater than 2000");
 				}
 
-				string section = Encoding.ASCII.GetString(
-					fileBytes, (int)address, (int)length);
+				string section = GetStringDirect(fileBytes, address, (int)length);
 
 				builder.Append(section);
 
