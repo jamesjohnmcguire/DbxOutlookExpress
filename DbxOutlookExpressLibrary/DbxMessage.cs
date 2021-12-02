@@ -5,6 +5,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 using System;
+using System.IO;
 using System.Text;
 
 namespace DigitalZenWorks.Email.DbxOutlookExpress
@@ -173,5 +174,25 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		/// <value>The subject of the message.</value>
 		public string Subject { get; set; }
+
+		/// <summary>
+		/// Gets the message as a stream.
+		/// </summary>
+		/// <returns>The message as a stream.</returns>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage(
+			"Reliability",
+			"CA2000:Dispose objects before losing scope",
+			Justification = "The caller will dispose")]
+		public Stream GetMessageStream()
+		{
+			MemoryStream stream = new ();
+			StreamWriter writer = new (stream);
+
+			writer.Write(Body);
+			writer.Flush();
+			stream.Position = 0;
+
+			return stream;
+		}
 	}
 }
