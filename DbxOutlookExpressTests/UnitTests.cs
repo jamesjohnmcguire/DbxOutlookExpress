@@ -28,6 +28,36 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		}
 
 		/// <summary>
+		/// Test bytes to integer.
+		/// </summary>
+		[Test]
+		public void TestBytesToInteger()
+		{
+			byte[] testBytes =
+			{
+				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x00, 0x04, 0x64, 0x69
+			};
+
+			uint test = Bytes.ToInteger(testBytes, 4);
+			Assert.AreEqual(test, 0x4002986);
+		}
+
+		/// <summary>
+		/// Test bytes to integer.
+		/// </summary>
+		[Test]
+		public void TestBytesToIntegerLimit()
+		{
+			byte[] testBytes =
+			{
+				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x01, 0x04, 0x64, 0x69
+			};
+
+			uint test = Bytes.ToIntegerLimit(testBytes, 4, 3);
+			Assert.AreEqual(test, 0x12986);
+		}
+
+		/// <summary>
 		/// Test for get bit.
 		/// </summary>
 		[Test]
