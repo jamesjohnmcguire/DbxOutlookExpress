@@ -122,8 +122,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private Encoding encoding;
-
 		/// <summary>
 		/// Initializes a new instance of the
 		/// <see cref="DbxMessageIndexedItem"/> class.
@@ -142,7 +140,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <returns>The message body.</returns>
 		public string GetBody()
 		{
-			string body = null;
+			string body;
 
 			int size = GetSize(CorrespoindingMessage);
 			uint address = GetValue(CorrespoindingMessage, size);
@@ -194,9 +192,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// Sets the indexed items and saves the values.
 		/// </summary>
 		/// <param name="message">The dbx message item to set.</param>
-		/// <param name="address">The address of the item with in
-		/// the file.</param>
-		public void SetItemValues(DbxMessage message, uint address)
+		public void SetItemValues(DbxMessage message)
 		{
 			if (message != null)
 			{

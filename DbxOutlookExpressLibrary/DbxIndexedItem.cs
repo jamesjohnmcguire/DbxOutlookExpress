@@ -93,6 +93,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		/// <param name="buffer">The byte buffer to check within.</param>
 		/// <param name="address">The address of the item to retrieve.</param>
+		/// <param name="length">The length of the string to get.</param>
 		/// <returns>The value of the itemed item.</returns>
 		public string GetStringDirect(byte[] buffer, uint address, int length)
 		{

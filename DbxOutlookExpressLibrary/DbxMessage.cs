@@ -33,7 +33,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public DbxMessage(byte[] fileBytes, uint address)
 		{
 			DbxMessageIndexedItem index = new (fileBytes, address);
-			index.SetItemValues(this, address);
+			index.SetItemValues(this);
 		}
 
 		/// <summary>
