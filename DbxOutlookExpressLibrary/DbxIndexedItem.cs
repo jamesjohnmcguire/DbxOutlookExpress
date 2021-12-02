@@ -47,6 +47,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		}
 
 		/// <summary>
+		/// Gets or sets the last encoding used.
+		/// </summary>
+		/// <value>The last encoding used.</value>
+		public Encoding LastEncoding { get; set; }
+
+		/// <summary>
 		/// Get a string value directly from the file buffer.
 		/// </summary>
 		/// <param name="buffer">The byte buffer to check within.</param>
@@ -123,6 +129,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				{
 					encoding = Encoding.UTF8;
 				}
+
+				// save encoding for future use
+				LastEncoding = encoding;
 
 				item = encoding.GetString(buffer, (int)address, length);
 			}

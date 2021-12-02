@@ -5,6 +5,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 using System;
+using System.Text;
 
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
@@ -57,6 +58,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		/// <value>The pointer to the corresponding message.</value>
 		public string CorrespoindingMessage { get; set; }
+
+		/// <summary>
+		/// Gets or sets the encoding of the message.
+		/// </summary>
+		/// <value>The encoding of the message.</value>
+		public Encoding Encoding { get; set; }
 
 		/// <summary>
 		/// Gets or sets the flags of the message.

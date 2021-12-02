@@ -122,6 +122,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+		private Encoding encoding;
+
 		/// <summary>
 		/// Initializes a new instance of the
 		/// <see cref="DbxMessageIndexedItem"/> class.
@@ -174,7 +176,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					Log.Warn("section length is greater than 2000");
 				}
 
-				string section = GetStringDirect(fileBytes, address, (int)length);
+				string section =
+					GetStringDirect(fileBytes, address, (int)length);
 
 				builder.Append(section);
 
@@ -216,6 +219,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					GetString(ReceiptentEmailAddress);
 
 				message.Body = GetBody();
+
+				message.Encoding = LastEncoding;
 			}
 		}
 	}
