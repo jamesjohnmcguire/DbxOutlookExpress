@@ -52,7 +52,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <param name="buffer">The byte buffer to check within.</param>
 		/// <param name="address">The address of the item to retrieve.</param>
 		/// <returns>The value of the itemed item.</returns>
-		public static string GetStringDirect(byte[] buffer, uint address)
+		public string GetStringDirect(byte[] buffer, uint address)
 		{
 			string item = null;
 
@@ -76,6 +76,24 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				int length = (int)(end - address);
 
+				item = GetStringDirect(buffer, address, length);
+			}
+
+			return item;
+		}
+
+		/// <summary>
+		/// Get a string value directly from the file buffer.
+		/// </summary>
+		/// <param name="buffer">The byte buffer to check within.</param>
+		/// <param name="address">The address of the item to retrieve.</param>
+		/// <returns>The value of the itemed item.</returns>
+		public string GetStringDirect(byte[] buffer, uint address, int length)
+		{
+			string item = null;
+
+			if (buffer != null && address > 0)
+			{
 				byte[] stringBytes = new byte[length];
 
 				Array.Copy(buffer, address, stringBytes, 0, length);
