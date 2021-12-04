@@ -173,28 +173,5 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				address = Bytes.ToInteger(headerBytes, 12);
 			}
 		}
-
-		/// <summary>
-		/// Migrate messages method.
-		/// </summary>
-		public void MigrateMessages()
-		{
-			if (Tree != null)
-			{
-				byte[] fileBytes = GetFileBytes();
-
-				foreach (uint index in Tree.FolderInformationIndexes)
-				{
-					DbxMessage message = new (fileBytes, index);
-
-					string logMessage = string.Format(
-						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						"some",
-						message.Id);
-					Log.Info(logMessage);
-				}
-			}
-		}
 	}
 }
