@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Text;
 
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
@@ -27,10 +28,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <see cref="DbxFoldersFile"/> class.
 		/// </summary>
 		/// <param name="filePath">The path of the dbx file.</param>
-		public DbxFoldersFile(string filePath)
+		/// <param name="preferredEncoding">The preferred encoding to use as
+		/// a fall back when the encoding can not be detected.</param>
+		public DbxFoldersFile(string filePath, Encoding preferredEncoding)
 			: base(filePath)
 		{
 			folderFiles = new List<string>();
+
+			PreferredEncoding = preferredEncoding;
 
 			if (Header.FileType != DbxFileType.FolderFile)
 			{
@@ -64,7 +69,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				uint address = Tree.FolderInformationIndexes[CurrentIndex];
 
-				folder = new (fileBytes, address, FolderPath);
+				folder =
+					new (fileBytes, address, FolderPath, PreferredEncoding);
 
 				if (!string.IsNullOrWhiteSpace(folder.FolderFileName))
 				{
@@ -95,7 +101,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxFolder folder = new (fileBytes, index, FolderPath);
+					DbxFolder folder =
+						new (fileBytes, index, FolderPath, PreferredEncoding);
 
 					string message = string.Format(
 						CultureInfo.InvariantCulture,
@@ -161,7 +168,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				}
 				else
 				{
-					DbxMessagesFile messagesFile = new (filePath);
+					DbxMessagesFile messagesFile =
+						new (filePath, PreferredEncoding);
 
 					// messagesFile.MigrateMessages();
 					messagesFile.List();
@@ -180,7 +188,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxFolder folder = new (fileBytes, index, FolderPath);
+					DbxFolder folder =
+						new (fileBytes, index, FolderPath, PreferredEncoding);
 
 					string message = string.Format(
 						CultureInfo.InvariantCulture,

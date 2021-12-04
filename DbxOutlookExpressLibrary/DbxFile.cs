@@ -72,6 +72,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public string FolderPath { get { return folderPath; } }
 
 		/// <summary>
+		/// Gets or sets the preferred encoding.
+		/// </summary>
+		/// <value>The preferred encoding.</value>
+		public Encoding PreferredEncoding { get; set; }
+
+		/// <summary>
 		/// Gets the dbx tree.
 		/// </summary>
 		/// <value>The dbx tree.</value>

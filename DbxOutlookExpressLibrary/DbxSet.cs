@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 [assembly: CLSCompliant(false)]
 
@@ -24,6 +25,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 		private readonly DbxFoldersFile foldersFile;
 		private readonly string path;
+		private readonly Encoding preferredEncoding;
 
 		private int orphanFileIndex = -1;
 		private IList<string> orphanFiles;
@@ -32,9 +34,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// Initializes a new instance of the <see cref="DbxSet"/> class.
 		/// </summary>
 		/// <param name="path">The path of the dbx set.</param>
-		public DbxSet(string path)
+		/// <param name="preferredEncoding">The preferred encoding to use as
+		/// a fall back when the encoding can not be detected.</param>
+		public DbxSet(string path, Encoding preferredEncoding)
 		{
 			this.path = path;
+			this.preferredEncoding = preferredEncoding;
 
 			string extension = Path.GetExtension(path);
 
@@ -53,7 +58,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			}
 			else
 			{
-				foldersFile = new (path);
+				foldersFile = new (path, preferredEncoding);
 			}
 		}
 
@@ -76,7 +81,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				if (orphanFiles.Count > orphanFileIndex)
 				{
 					string fileName = orphanFiles[orphanFileIndex];
-					folder = new DbxFolder(path, fileName);
+					folder = new DbxFolder(path, fileName, preferredEncoding);
 
 					orphanFileIndex++;
 				}

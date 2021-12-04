@@ -53,6 +53,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public Encoding LastEncoding { get; set; }
 
 		/// <summary>
+		/// Gets or sets the preferred encoding.
+		/// </summary>
+		/// <remarks>In cases where the encoding can not be detected,
+		/// use this encoding.</remarks>
+		/// <value>The preferred encoding.</value>
+		public Encoding PreferredEncoding { get; set; }
+
+		/// <summary>
 		/// Get a string value directly from the file buffer.
 		/// </summary>
 		/// <param name="buffer">The byte buffer to check within.</param>
@@ -108,7 +116,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				DetectionResult results =
 					CharsetDetector.DetectFromBytes(stringBytes);
 
-				Encoding encoding;
+				Encoding encoding = Encoding.UTF8;
 
 				if (results.Detected != null)
 				{
@@ -119,16 +127,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				{
 					Log.Warn("Failed detecting encoding, trying Shift JIS");
 
-					// Personal preference... For me, most of these types wil
-					// likely be Japansese.
-					Encoding.RegisterProvider(
-						CodePagesEncodingProvider.Instance);
-					encoding = Encoding.GetEncoding("Shift-JIS");
-				}
-
-				if (encoding == null)
-				{
-					encoding = Encoding.UTF8;
+					if (PreferredEncoding != null)
+					{
+						encoding = PreferredEncoding;
+					}
 				}
 
 				// save encoding for future use

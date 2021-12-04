@@ -7,6 +7,7 @@
 using Common.Logging;
 using System;
 using System.IO;
+using System.Text;
 
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
@@ -27,7 +28,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <param name="path">The path of the dbx set.</param>
 		/// <param name="folderFileName">The name of the messages
 		/// file folder.</param>
-		public DbxFolder(string path, string folderFileName)
+		/// <param name="preferredEncoding">The preferred encoding to use as
+		/// a fall back when the encoding can not be detected.</param>
+		public DbxFolder(
+			string path, string folderFileName, Encoding preferredEncoding)
 		{
 			FolderFileName = folderFileName;
 
@@ -37,7 +41,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			FolderName =
 				Path.GetFileNameWithoutExtension(fileInfo.Name);
 
-			messageFile = new DbxMessagesFile(filePath);
+			messageFile = new DbxMessagesFile(filePath, preferredEncoding);
 		}
 
 		/// <summary>
@@ -48,7 +52,13 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <param name="address">The address of the item with in
 		/// the file.</param>
 		/// <param name="path">The path of the dbx set.</param>
-		public DbxFolder(byte[] fileBytes, uint address, string path)
+		/// <param name="preferredEncoding">The preferred encoding to use as
+		/// a fall back when the encoding can not be detected.</param>
+		public DbxFolder(
+			byte[] fileBytes,
+			uint address,
+			string path,
+			Encoding preferredEncoding)
 		{
 			DbxFolderIndexedItem index = new (fileBytes, address);
 			index.SetItemValues(this, address);
@@ -63,12 +73,13 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				if (exists == false)
 				{
-					Log.Warn(
-						FolderFileName + " specified in Folders.dbx not present");
+					Log.Warn(FolderFileName +
+						" specified in Folders.dbx not present");
 				}
 				else
 				{
-					messageFile = new DbxMessagesFile(filePath);
+					messageFile =
+						new DbxMessagesFile(filePath, preferredEncoding);
 				}
 			}
 		}

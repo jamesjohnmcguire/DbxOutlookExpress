@@ -30,9 +30,13 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <param name="fileBytes">The bytes of the file.</param>
 		/// <param name="address">The address of the item with in
 		/// the file.</param>
-		public DbxMessage(byte[] fileBytes, uint address)
+		/// <param name="preferredEncoding">The preferred encoding to use as
+		/// a fall back when the encoding can not be detected.</param>
+		public DbxMessage(
+			byte[] fileBytes, uint address, Encoding preferredEncoding)
 		{
 			DbxMessageIndexedItem index = new (fileBytes, address);
+			index.PreferredEncoding = preferredEncoding;
 			index.SetItemValues(this);
 		}
 

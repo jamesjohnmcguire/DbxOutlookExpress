@@ -25,9 +25,13 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <see cref="DbxMessagesFile"/> class.
 		/// </summary>
 		/// <param name="filePath">The path of the dbx file.</param>
-		public DbxMessagesFile(string filePath)
+		/// <param name="preferredEncoding">The preferred encoding to use as
+		/// a fall back when the encoding can not be detected.</param>
+		public DbxMessagesFile(string filePath, Encoding preferredEncoding)
 			: base(filePath)
 		{
+			PreferredEncoding = preferredEncoding;
+
 			DbxFileType check = Header.FileType;
 
 			if (check != DbxFileType.MessageFile)
@@ -59,7 +63,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				byte[] fileBytes = GetFileBytes();
 
 				uint address = Tree.FolderInformationIndexes[CurrentIndex];
-				message = new (fileBytes, address);
+				message = new (fileBytes, address, PreferredEncoding);
 
 				string logMessage = string.Format(
 					CultureInfo.InvariantCulture,
@@ -87,7 +91,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxMessage message = new (fileBytes, index);
+					DbxMessage message =
+						new (fileBytes, index, PreferredEncoding);
 
 					string logMessage = string.Format(
 						CultureInfo.InvariantCulture,

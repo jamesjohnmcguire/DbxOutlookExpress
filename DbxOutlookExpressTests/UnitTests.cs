@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using DigitalZenWorks.Email.DbxOutlookExpress;
 using System;
+using System.Text;
 
 [assembly: CLSCompliant(true)]
 
@@ -140,7 +141,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		{
 			string path = baseDataDirectory + "\\TestFolder";
 
-			DbxSet dbxSet = new (path);
+			Encoding encoding = Encoding.UTF8;
+
+			DbxSet dbxSet = new (path, encoding);
 
 			DbxFolder folder = dbxSet.GetNextFolder();
 			Assert.NotNull(folder);
