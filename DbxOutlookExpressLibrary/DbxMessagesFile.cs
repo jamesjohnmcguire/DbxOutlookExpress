@@ -63,8 +63,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				string logMessage = string.Format(
 					CultureInfo.InvariantCulture,
-					"Geting message From: {0} Subject: {1}",
+					"message {0} From: {1} Subject: {2}",
 					CurrentIndex,
+					message.SenderEmailAddress,
 					message.Subject);
 				Log.Info(logMessage);
 
