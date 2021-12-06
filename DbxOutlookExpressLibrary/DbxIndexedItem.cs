@@ -118,9 +118,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				Encoding encoding = Encoding.UTF8;
 
-				if (results.Detected != null)
+				DetectionDetail resultDetected = results.Detected;
+
+				if (resultDetected != null && resultDetected.Encoding != null)
 				{
-					DetectionDetail resultDetected = results.Detected;
 					encoding = resultDetected.Encoding;
 				}
 				else
