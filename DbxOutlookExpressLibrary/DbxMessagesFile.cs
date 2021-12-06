@@ -60,18 +60,21 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			if (CurrentIndex < Tree.FolderInformationIndexes.Count)
 			{
-				byte[] fileBytes = GetFileBytes();
+				try
+				{
+					message = GetNextMessageInner();
+				}
+				catch (DbxException exception)
+				{
+					do
+					{
+						CurrentIndex++;
 
-				uint address = Tree.FolderInformationIndexes[CurrentIndex];
-				message = new (fileBytes, address, PreferredEncoding);
-
-				string logMessage = string.Format(
-					CultureInfo.InvariantCulture,
-					"message {0} From: {1} Subject: {2}",
-					CurrentIndex,
-					message.SenderEmailAddress,
-					message.Subject);
-				Log.Info(logMessage);
+						message = GetNextMessageInner();
+					}
+					while (message == null &&
+						CurrentIndex < Tree.FolderInformationIndexes.Count);
+				}
 
 				// Prep for next call.
 				CurrentIndex++;
@@ -177,6 +180,25 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				// prep next section
 				address = Bytes.ToInteger(headerBytes, 12);
 			}
+		}
+
+		private DbxMessage GetNextMessageInner()
+		{
+			byte[] fileBytes = GetFileBytes();
+
+			uint address = Tree.FolderInformationIndexes[CurrentIndex];
+
+			DbxMessage message = new (fileBytes, address, PreferredEncoding);
+
+			string logMessage = string.Format(
+				CultureInfo.InvariantCulture,
+				"message {0} From: {1} Subject: {2}",
+				CurrentIndex,
+				message.SenderEmailAddress,
+				message.Subject);
+			Log.Info(logMessage);
+
+			return message;
 		}
 	}
 }
