@@ -199,6 +199,11 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				message.SenderName = GetString(SenderName);
 				message.SenderEmailAddress = GetString(SenderEmailAddress);
 
+				if (string.IsNullOrWhiteSpace(message.SenderEmailAddress))
+				{
+					Log.Warn("No sender address");
+				}
+
 				long rawTime = (long)GetValueLong(ReceivedTime);
 				try
 				{
@@ -213,6 +218,13 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				message.ReceiptentName = GetString(ReceiptentName);
 				message.ReceiptentEmailAddress =
 					GetString(ReceiptentEmailAddress);
+
+				if (string.IsNullOrWhiteSpace(message.ReceiptentEmailAddress))
+				{
+					Log.Warn("No receipient address(es)");
+
+					message.ReceiptentEmailAddress = GetString(Account);
+				}
 
 				message.Body = GetBody();
 
