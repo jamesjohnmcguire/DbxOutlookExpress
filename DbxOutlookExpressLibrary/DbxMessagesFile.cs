@@ -92,6 +92,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			{
 				byte[] fileBytes = GetFileBytes();
 
+				uint itemIndex = 0;
+
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
 					DbxMessage message =
@@ -99,52 +101,38 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 					string logMessage = string.Format(
 						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxMessageIndexedItem.SenderName,
-						message.SenderName);
-					Log.Info(logMessage);
-
-					logMessage = string.Format(
-						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxMessageIndexedItem.SenderEmailAddress,
+						"{0} From: {1}: {2}",
+						itemIndex,
+						message.SenderName,
 						message.SenderEmailAddress);
 					Log.Info(logMessage);
 
 					logMessage = string.Format(
 						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxMessageIndexedItem.ReceivedTime,
-						message.ReceivedTime);
-					Log.Info(logMessage);
-
-					logMessage = string.Format(
-						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxMessageIndexedItem.Subject,
-						message.Subject);
-					Log.Info(logMessage);
-
-					logMessage = string.Format(
-						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxMessageIndexedItem.ReceiptentName,
-						message.ReceiptentName);
-					Log.Info(logMessage);
-
-					logMessage = string.Format(
-						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxMessageIndexedItem.ReceiptentEmailAddress,
+						"To: {0}: {1}",
+						message.ReceiptentName,
 						message.ReceiptentEmailAddress);
 					Log.Info(logMessage);
 
 					logMessage = string.Format(
 						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxMessageIndexedItem.CorrespoindingMessage,
-						message.Body);
+						"Received at: {0} Subject: {1}",
+						message.ReceivedTime,
+						message.Subject);
 					Log.Info(logMessage);
+
+					bool showBody = false;
+					if (showBody == true)
+					{
+						logMessage = string.Format(
+							CultureInfo.InvariantCulture,
+							"item value[{0}] is {1}",
+							DbxMessageIndexedItem.CorrespoindingMessage,
+							message.Body);
+						Log.Info(logMessage);
+					}
+
+					itemIndex++;
 				}
 			}
 		}
