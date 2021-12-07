@@ -126,8 +126,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					{
 						logMessage = string.Format(
 							CultureInfo.InvariantCulture,
-							"item value[{0}] is {1}",
-							DbxMessageIndexedItem.CorrespoindingMessage,
+							"Message:\r\n{0}",
 							message.Body);
 						Log.Info(logMessage);
 					}
