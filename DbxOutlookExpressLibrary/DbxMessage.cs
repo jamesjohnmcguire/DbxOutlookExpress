@@ -189,12 +189,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			Justification = "The caller will dispose")]
 		public Stream GetMessageStream()
 		{
-			MemoryStream stream = new ();
-			StreamWriter writer = new (stream);
-
-			writer.Write(Message);
-			writer.Flush();
-			stream.Position = 0;
+			MemoryStream stream = new (Message);
 
 			return stream;
 		}
