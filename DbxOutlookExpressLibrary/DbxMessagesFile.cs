@@ -51,6 +51,34 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		}
 
 		/// <summary>
+		/// Get the message at the index given.
+		/// </summary>
+		/// <param name="index">The index of the message.</param>
+		/// <returns>The message at the index given.</returns>
+		public DbxMessage GetMessage(int index)
+		{
+			DbxMessage message = null;
+
+			if (index < Tree.FolderInformationIndexes.Count)
+			{
+				byte[] fileBytes = GetFileBytes();
+				uint address = Tree.FolderInformationIndexes[index];
+
+				message = new (fileBytes, address, PreferredEncoding);
+
+				string logMessage = string.Format(
+					CultureInfo.InvariantCulture,
+					"message {0} From: {1} Subject: {2}",
+					CurrentIndex,
+					message.SenderEmailAddress,
+					message.Subject);
+				Log.Info(logMessage);
+			}
+
+			return message;
+		}
+
+		/// <summary>
 		/// Get the next message.
 		/// </summary>
 		/// <returns>The next message.</returns>
