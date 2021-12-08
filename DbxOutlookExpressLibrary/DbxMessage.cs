@@ -53,10 +53,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public int AnswerId { get; set; }
 
 		/// <summary>
-		/// Gets or sets the body of the message.
+		/// Gets or sets the entire message.
 		/// </summary>
-		/// <value>The body of the message.</value>
-		public string Body { get; set; }
+		/// <value>The entire message.</value>
+		public string Message { get; set; }
 
 		/// <summary>
 		/// Gets or sets the pointer to the corresponding message.
@@ -192,7 +192,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			MemoryStream stream = new ();
 			StreamWriter writer = new (stream);
 
-			writer.Write(Body);
+			writer.Write(Message);
 			writer.Flush();
 			stream.Position = 0;
 

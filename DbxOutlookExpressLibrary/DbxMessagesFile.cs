@@ -127,7 +127,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 						logMessage = string.Format(
 							CultureInfo.InvariantCulture,
 							"Message:\r\n{0}",
-							message.Body);
+							message.Message);
 						Log.Info(logMessage);
 					}
 
