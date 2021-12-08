@@ -189,6 +189,60 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		}
 
 		/// <summary>
+		/// Gets the entire message as bytes.
+		/// </summary>
+		/// <returns>The entire message as bytes.</returns>
+		public byte[] GetMessageBytes()
+		{
+			byte[] message = Array.Empty<byte>();
+
+			int size = GetSize(CorrespoindingMessage);
+			uint address = GetValue(CorrespoindingMessage, size);
+
+			byte[] fileBytes = GetFileBytes();
+
+			while (address != 0)
+			{
+				byte[] headerBytes = new byte[0x10];
+				Array.Copy(fileBytes, address, headerBytes, 0, 0x10);
+
+				uint objectMarker = Bytes.ToInteger(headerBytes, 0);
+
+				if (objectMarker != address)
+				{
+					throw new DbxException("Wrong object marker!");
+				}
+
+				uint length = Bytes.ToInteger(headerBytes, 8);
+
+				// skip over header
+				address += 0x10;
+
+				if (length == 0)
+				{
+					Log.Warn("section length is 0");
+				}
+				else if (length > 2000)
+				{
+					Log.Warn("section length is greater than 2000");
+				}
+
+				uint currentSize = (uint)message.Length;
+				uint newSize = currentSize + length;
+				byte[] newMessage = new byte[newSize];
+
+				Array.Copy(
+					fileBytes, address, newMessage, currentSize, length);
+				message = newMessage;
+
+				// prep next section
+				address = Bytes.ToInteger(headerBytes, 12);
+			}
+
+			return message;
+		}
+
+		/// <summary>
 		/// Sets the indexed items and saves the values.
 		/// </summary>
 		/// <param name="message">The dbx message item to set.</param>
