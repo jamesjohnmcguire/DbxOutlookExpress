@@ -104,7 +104,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// Gets or sets the entire message.
 		/// </summary>
 		/// <value>The entire message.</value>
-		public string Message { get; set; }
+		public byte[] Message { get; set; }
 
 		/// <summary>
 		/// Gets or sets the created or send time of the message.

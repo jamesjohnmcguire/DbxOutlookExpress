@@ -280,7 +280,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					message.ReceiptentEmailAddress = GetString(Account);
 				}
 
-				message.Message = GetBody();
+				message.Message = GetMessageBytes();
 
 				message.Encoding = LastEncoding;
 			}
