@@ -92,7 +92,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				{
 					message = GetNextMessageInner();
 				}
-				catch (DbxException exception)
+				catch (DbxException)
 				{
 					do
 					{

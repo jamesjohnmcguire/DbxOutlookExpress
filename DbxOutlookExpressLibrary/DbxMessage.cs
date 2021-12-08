@@ -104,7 +104,22 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// Gets or sets the entire message.
 		/// </summary>
 		/// <value>The entire message.</value>
+#pragma warning disable CA1819 // Properties should not return arrays
 		public byte[] Message { get; set; }
+#pragma warning restore CA1819 // Properties should not return arrays
+
+		/// <summary>
+		/// Gets the message as a stream.
+		/// </summary>
+		/// <value>The message as a stream.</value>
+		public Stream MessageStream
+		{
+			get
+			{
+				MemoryStream stream = new (Message);
+				return stream;
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the created or send time of the message.
@@ -178,20 +193,5 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		/// <value>The subject of the message.</value>
 		public string Subject { get; set; }
-
-		/// <summary>
-		/// Gets the message as a stream.
-		/// </summary>
-		/// <returns>The message as a stream.</returns>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage(
-			"Reliability",
-			"CA2000:Dispose objects before losing scope",
-			Justification = "The caller will dispose")]
-		public Stream GetMessageStream()
-		{
-			MemoryStream stream = new (Message);
-
-			return stream;
-		}
 	}
 }
