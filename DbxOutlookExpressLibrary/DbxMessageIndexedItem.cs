@@ -231,6 +231,11 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				uint newSize = currentSize + length;
 				byte[] newMessage = new byte[newSize];
 
+				// copy the existing parts
+				Array.Copy(
+					message, 0, newMessage, 0, currentSize);
+
+				// add the new part
 				Array.Copy(
 					fileBytes, address, newMessage, currentSize, length);
 				message = newMessage;
