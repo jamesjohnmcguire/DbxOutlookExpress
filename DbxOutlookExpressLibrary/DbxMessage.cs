@@ -53,12 +53,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public int AnswerId { get; set; }
 
 		/// <summary>
-		/// Gets or sets the entire message.
-		/// </summary>
-		/// <value>The entire message.</value>
-		public string Message { get; set; }
-
-		/// <summary>
 		/// Gets or sets the pointer to the corresponding message.
 		/// </summary>
 		/// <value>The pointer to the corresponding message.</value>
@@ -105,6 +99,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		/// <value>The number of lines in the body.</value>
 		public int LineCount { get; set; }
+
+		/// <summary>
+		/// Gets or sets the entire message.
+		/// </summary>
+		/// <value>The entire message.</value>
+		public string Message { get; set; }
 
 		/// <summary>
 		/// Gets or sets the created or send time of the message.
