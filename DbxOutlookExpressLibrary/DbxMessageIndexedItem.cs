@@ -122,24 +122,17 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private readonly DbxMessageIndex messageIndex;
-
 		/// <summary>
 		/// Initializes a new instance of the
 		/// <see cref="DbxMessageIndexedItem"/> class.
 		/// </summary>
 		/// <param name="fileBytes">The bytes of the file.</param>
-		public DbxMessageIndexedItem(byte[] fileBytes)
-			: base(fileBytes)
+		/// <param name="address">The address of the item with in
+		/// the file.</param>
+		public DbxMessageIndexedItem(byte[] fileBytes, uint address)
+			: base(fileBytes, address)
 		{
-			messageIndex = new DbxMessageIndex();
 		}
-
-		/// <summary>
-		/// Gets the dbx message index.
-		/// </summary>
-		/// <value>The dbx message index.</value>
-		public DbxMessageIndex MessageIndex { get { return messageIndex; } }
 
 		/// <summary>
 		/// Gets the message body.
@@ -147,11 +140,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <returns>The message body.</returns>
 		public string GetBody()
 		{
-			string body = null;
+			string body;
 
-			uint address = GetValue(CorrespoindingMessage);
+			int size = GetSize(CorrespoindingMessage);
+			uint address = GetValue(CorrespoindingMessage, size);
 
-			StringBuilder builder = new StringBuilder();
+			StringBuilder builder = new ();
 			byte[] fileBytes = GetFileBytes();
 
 			while (address != 0)
@@ -159,13 +153,29 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				byte[] headerBytes = new byte[0x10];
 				Array.Copy(fileBytes, address, headerBytes, 0, 0x10);
 
+				uint objectMarker = Bytes.ToInteger(headerBytes, 0);
+
+				if (objectMarker != address)
+				{
+					throw new DbxException("Wrong object marker!");
+				}
+
 				uint length = Bytes.ToInteger(headerBytes, 8);
 
 				// skip over header
 				address += 0x10;
 
-				string section = Encoding.ASCII.GetString(
-					fileBytes, (int)address, (int)length);
+				if (length == 0)
+				{
+					Log.Warn("section length is 0");
+				}
+				else if (length > 2000)
+				{
+					Log.Warn("section length is greater than 2000");
+				}
+
+				string section =
+					GetStringDirect(fileBytes, address, (int)length);
 
 				builder.Append(section);
 
@@ -179,33 +189,106 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		}
 
 		/// <summary>
-		/// Reads the indexed item and saves the values.
+		/// Gets the entire message as bytes.
 		/// </summary>
-		/// <param name="address">The address of the item with in
-		/// the file.</param>
-		public override void ReadIndex(uint address)
+		/// <returns>The entire message as bytes.</returns>
+		public byte[] GetMessageBytes()
 		{
-			base.ReadIndex(address);
+			byte[] message = Array.Empty<byte>();
 
-			messageIndex.SenderName = GetString(SenderName);
-			messageIndex.SenderEmailAddress = GetString(SenderEmailAddress);
+			int size = GetSize(CorrespoindingMessage);
+			uint address = GetValue(CorrespoindingMessage, size);
 
-			long rawTime = (long)GetValueLong(ReceivedTime);
-			try
+			byte[] fileBytes = GetFileBytes();
+
+			while (address != 0)
 			{
-				messageIndex.ReceivedTime = DateTime.FromFileTime(rawTime);
+				byte[] headerBytes = new byte[0x10];
+				Array.Copy(fileBytes, address, headerBytes, 0, 0x10);
+
+				uint objectMarker = Bytes.ToInteger(headerBytes, 0);
+
+				if (objectMarker != address)
+				{
+					throw new DbxException("Wrong object marker!");
+				}
+
+				uint length = Bytes.ToInteger(headerBytes, 8);
+
+				// skip over header
+				address += 0x10;
+
+				if (length == 0)
+				{
+					Log.Warn("section length is 0");
+				}
+				else if (length > 2000)
+				{
+					Log.Warn("section length is greater than 2000");
+				}
+
+				uint currentSize = (uint)message.Length;
+				uint newSize = currentSize + length;
+				byte[] newMessage = new byte[newSize];
+
+				// copy the existing parts
+				Array.Copy(
+					message, 0, newMessage, 0, currentSize);
+
+				// add the new part
+				Array.Copy(
+					fileBytes, address, newMessage, currentSize, length);
+				message = newMessage;
+
+				// prep next section
+				address = Bytes.ToInteger(headerBytes, 12);
 			}
-			catch (ArgumentOutOfRangeException exception)
+
+			return message;
+		}
+
+		/// <summary>
+		/// Sets the indexed items and saves the values.
+		/// </summary>
+		/// <param name="message">The dbx message item to set.</param>
+		public void SetItemValues(DbxMessage message)
+		{
+			if (message != null)
 			{
-				Log.Error(exception.ToString());
+				message.SenderName = GetString(SenderName);
+				message.SenderEmailAddress = GetString(SenderEmailAddress);
+
+				if (string.IsNullOrWhiteSpace(message.SenderEmailAddress))
+				{
+					Log.Warn("No sender address");
+				}
+
+				long rawTime = (long)GetValueLong(ReceivedTime);
+				try
+				{
+					message.ReceivedTime = DateTime.FromFileTime(rawTime);
+				}
+				catch (ArgumentOutOfRangeException exception)
+				{
+					Log.Error(exception.ToString());
+				}
+
+				message.Subject = GetString(Subject);
+				message.ReceiptentName = GetString(ReceiptentName);
+				message.ReceiptentEmailAddress =
+					GetString(ReceiptentEmailAddress);
+
+				if (string.IsNullOrWhiteSpace(message.ReceiptentEmailAddress))
+				{
+					Log.Warn("No receipient address(es)");
+
+					message.ReceiptentEmailAddress = GetString(Account);
+				}
+
+				message.Message = GetMessageBytes();
+
+				message.Encoding = LastEncoding;
 			}
-
-			messageIndex.Subject = GetString(Subject);
-			messageIndex.ReceiptentName = GetString(ReceiptentName);
-			messageIndex.ReceiptentEmailAddress =
-				GetString(ReceiptentEmailAddress);
-
-			messageIndex.Body = GetBody();
 		}
 	}
 }

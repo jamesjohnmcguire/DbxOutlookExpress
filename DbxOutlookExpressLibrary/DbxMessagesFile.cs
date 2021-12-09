@@ -7,6 +7,7 @@
 using Common.Logging;
 using System;
 using System.Globalization;
+using System.IO;
 using System.Text;
 
 namespace DigitalZenWorks.Email.DbxOutlookExpress
@@ -24,9 +25,90 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <see cref="DbxMessagesFile"/> class.
 		/// </summary>
 		/// <param name="filePath">The path of the dbx file.</param>
-		public DbxMessagesFile(string filePath)
+		/// <param name="preferredEncoding">The preferred encoding to use as
+		/// a fall back when the encoding can not be detected.</param>
+		public DbxMessagesFile(string filePath, Encoding preferredEncoding)
 			: base(filePath)
 		{
+			PreferredEncoding = preferredEncoding;
+
+			DbxFileType check = Header.FileType;
+
+			if (check != DbxFileType.MessageFile)
+			{
+				Log.Error(filePath + " not actually a messagess file");
+			}
+			else
+			{
+				FileInfo fileInfo = new (filePath);
+
+				string folderName =
+					Path.GetFileNameWithoutExtension(fileInfo.Name);
+				Log.Info("Checking folder: " + folderName);
+
+				ReadTree();
+			}
+		}
+
+		/// <summary>
+		/// Get the message at the index given.
+		/// </summary>
+		/// <param name="index">The index of the message.</param>
+		/// <returns>The message at the index given.</returns>
+		public DbxMessage GetMessage(int index)
+		{
+			DbxMessage message = null;
+
+			if (index < Tree.FolderInformationIndexes.Count)
+			{
+				byte[] fileBytes = GetFileBytes();
+				uint address = Tree.FolderInformationIndexes[index];
+
+				message = new (fileBytes, address, PreferredEncoding);
+
+				string logMessage = string.Format(
+					CultureInfo.InvariantCulture,
+					"message {0} From: {1} Subject: {2}",
+					CurrentIndex,
+					message.SenderEmailAddress,
+					message.Subject);
+				Log.Info(logMessage);
+			}
+
+			return message;
+		}
+
+		/// <summary>
+		/// Get the next message.
+		/// </summary>
+		/// <returns>The next message.</returns>
+		public DbxMessage GetNextMessage()
+		{
+			DbxMessage message = null;
+
+			if (CurrentIndex < Tree.FolderInformationIndexes.Count)
+			{
+				try
+				{
+					message = GetNextMessageInner();
+				}
+				catch (DbxException)
+				{
+					do
+					{
+						CurrentIndex++;
+
+						message = GetNextMessageInner();
+					}
+					while (message == null &&
+						CurrentIndex < Tree.FolderInformationIndexes.Count);
+				}
+
+				// Prep for next call.
+				CurrentIndex++;
+			}
+
+			return message;
 		}
 
 		/// <summary>
@@ -38,65 +120,53 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			{
 				byte[] fileBytes = GetFileBytes();
 
+				uint itemIndex = 0;
+
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxMessageIndexedItem item = new (fileBytes);
-					item.ReadIndex(index);
+					DbxMessage message =
+						new (fileBytes, index, PreferredEncoding);
 
-					DbxMessageIndex messageIndex = item.MessageIndex;
-
-					string message = string.Format(
+					string logMessage = string.Format(
 						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxMessageIndexedItem.SenderName,
-						messageIndex.SenderName);
-					Log.Info(message);
+						"{0} From: {1}: {2}",
+						itemIndex,
+						message.SenderName,
+						message.SenderEmailAddress);
+					Log.Info(logMessage);
 
-					message = string.Format(
+					logMessage = string.Format(
 						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxMessageIndexedItem.SenderEmailAddress,
-						messageIndex.SenderEmailAddress);
-					Log.Info(message);
+						"To: {0}: {1}",
+						message.ReceiptentName,
+						message.ReceiptentEmailAddress);
+					Log.Info(logMessage);
 
-					message = string.Format(
+					logMessage = string.Format(
 						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxMessageIndexedItem.ReceivedTime,
-						messageIndex.ReceivedTime);
-					Log.Info(message);
+						"Received at: {0} Subject: {1}",
+						message.ReceivedTime,
+						message.Subject);
+					Log.Info(logMessage);
 
-					message = string.Format(
-						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxMessageIndexedItem.Subject,
-						messageIndex.Subject);
-					Log.Info(message);
+					bool showBody = false;
+					if (showBody == true)
+					{
+						logMessage = string.Format(
+							CultureInfo.InvariantCulture,
+							"Message:\r\n{0}",
+							message.Message);
+						Log.Info(logMessage);
+					}
 
-					message = string.Format(
-						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxMessageIndexedItem.ReceiptentName,
-						messageIndex.ReceiptentName);
-					Log.Info(message);
-
-					message = string.Format(
-						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxMessageIndexedItem.ReceiptentEmailAddress,
-						messageIndex.ReceiptentEmailAddress);
-					Log.Info(message);
-
-					message = string.Format(
-						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxMessageIndexedItem.CorrespoindingMessage,
-						messageIndex.Body);
-					Log.Info(message);
+					itemIndex++;
 				}
 			}
 		}
 
+		/// <summary>
+		/// List deleted segments.
+		/// </summary>
 		public void ListDeletedSegments()
 		{
 			byte[] fileBytes = GetFileBytes();
@@ -116,41 +186,34 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				string section = Encoding.ASCII.GetString(
 					fileBytes, (int)address, (int)length);
 
-				string message = string.Format(
+				string logMessage = string.Format(
 					CultureInfo.InvariantCulture,
 					"deleted item value is {0}",
 					section);
-				Log.Info(message);
+				Log.Info(logMessage);
 
 				// prep next section
 				address = Bytes.ToInteger(headerBytes, 12);
 			}
 		}
 
-		/// <summary>
-		/// Migrate messages method.
-		/// </summary>
-		public void MigrateMessages()
+		private DbxMessage GetNextMessageInner()
 		{
-			if (Tree != null)
-			{
-				byte[] fileBytes = GetFileBytes();
+			byte[] fileBytes = GetFileBytes();
 
-				foreach (uint index in Tree.FolderInformationIndexes)
-				{
-					DbxMessageIndexedItem item = new (fileBytes);
-					item.ReadIndex(index);
+			uint address = Tree.FolderInformationIndexes[CurrentIndex];
 
-					DbxMessageIndex messageIndex = item.MessageIndex;
+			DbxMessage message = new (fileBytes, address, PreferredEncoding);
 
-					string message = string.Format(
-						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						"some",
-						messageIndex.Id);
-					Log.Info(message);
-				}
-			}
+			string logMessage = string.Format(
+				CultureInfo.InvariantCulture,
+				"message {0} From: {1} Subject: {2}",
+				CurrentIndex,
+				message.SenderEmailAddress,
+				message.Subject);
+			Log.Info(logMessage);
+
+			return message;
 		}
 	}
 }

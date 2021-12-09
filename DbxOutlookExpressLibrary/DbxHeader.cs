@@ -20,7 +20,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 	public class DbxHeader
 	{
 		private const int FileInfoLengthIndex = 7;
-		private const int LastVariableSegmentIndex = 9;
 		private const int FolderCountIndex = 0x31;
 		private const int MainTreeRootNodeIndex = 0x3B;
 		private const int MessageTreeRootNodeIndex = 0x39;
@@ -32,7 +31,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private readonly uint folderCount;
 		private readonly DbxFileType fileType;
 		private readonly uint[] headerArray;
-		private readonly uint lastSegmentAddress;
 		private readonly uint mainTreeAddress;
 
 		/// <summary>
@@ -55,7 +53,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					headerBytes, 0, headerArray, 0, headerBytes.Length);
 
 				fileInfoLength = headerArray[FileInfoLengthIndex];
-				lastSegmentAddress = headerArray[LastVariableSegmentIndex];
 
 				DeletedItems = headerArray[0x12];
 
@@ -72,6 +69,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the file type.
+		/// </summary>
+		/// <value>The file type.</value>
 		public uint DeletedItems { get; set; }
 
 		/// <summary>

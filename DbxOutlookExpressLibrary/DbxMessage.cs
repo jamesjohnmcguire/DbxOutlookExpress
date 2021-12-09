@@ -1,18 +1,45 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
-// <copyright file="DbxMessageIndex.cs" company="James John McGuire">
+// <copyright file="DbxMessage.cs" company="James John McGuire">
 // Copyright © 2021 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
 using System;
+using System.IO;
+using System.Text;
 
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
 	/// <summary>
 	/// Dbx message indx class.
 	/// </summary>
-	public class DbxMessageIndex
+	public class DbxMessage
 	{
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="DbxMessage"/> class.
+		/// </summary>
+		public DbxMessage()
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="DbxMessage"/> class.
+		/// </summary>
+		/// <param name="fileBytes">The bytes of the file.</param>
+		/// <param name="address">The address of the item with in
+		/// the file.</param>
+		/// <param name="preferredEncoding">The preferred encoding to use as
+		/// a fall back when the encoding can not be detected.</param>
+		public DbxMessage(
+			byte[] fileBytes, uint address, Encoding preferredEncoding)
+		{
+			DbxMessageIndexedItem index = new (fileBytes, address);
+			index.PreferredEncoding = preferredEncoding;
+			index.SetItemValues(this);
+		}
+
 		/// <summary>
 		/// Gets or sets the account associated with the message.
 		/// </summary>
@@ -26,16 +53,16 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public int AnswerId { get; set; }
 
 		/// <summary>
-		/// Gets or sets the body of the message.
-		/// </summary>
-		/// <value>The body of the message.</value>
-		public string Body { get; set; }
-
-		/// <summary>
 		/// Gets or sets the pointer to the corresponding message.
 		/// </summary>
 		/// <value>The pointer to the corresponding message.</value>
 		public string CorrespoindingMessage { get; set; }
+
+		/// <summary>
+		/// Gets or sets the encoding of the message.
+		/// </summary>
+		/// <value>The encoding of the message.</value>
+		public Encoding Encoding { get; set; }
 
 		/// <summary>
 		/// Gets or sets the flags of the message.
@@ -72,6 +99,27 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		/// <value>The number of lines in the body.</value>
 		public int LineCount { get; set; }
+
+		/// <summary>
+		/// Gets or sets the entire message.
+		/// </summary>
+		/// <value>The entire message.</value>
+#pragma warning disable CA1819 // Properties should not return arrays
+		public byte[] Message { get; set; }
+#pragma warning restore CA1819 // Properties should not return arrays
+
+		/// <summary>
+		/// Gets the message as a stream.
+		/// </summary>
+		/// <value>The message as a stream.</value>
+		public Stream MessageStream
+		{
+			get
+			{
+				MemoryStream stream = new (Message);
+				return stream;
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the created or send time of the message.

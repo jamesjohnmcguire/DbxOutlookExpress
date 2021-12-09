@@ -23,22 +23,42 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+		private readonly byte[] fileBytes;
 		private readonly uint[] indexes;
+		private readonly int[] indexSizes;
 
 		private byte[] bodyBytes;
-		private byte[] fileBytes;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DbxIndexedItem"/>
 		/// class.
 		/// </summary>
 		/// <param name="fileBytes">The bytes of the file.</param>
-		public DbxIndexedItem(byte[] fileBytes)
+		/// <param name="address">The address of the item with in
+		/// the file.</param>
+		public DbxIndexedItem(byte[] fileBytes, uint address)
 		{
 			this.fileBytes = fileBytes;
 
 			indexes = new uint[MaximumIndexes];
+			indexSizes = new int[MaximumIndexes];
+
+			SetIndexes(address);
 		}
+
+		/// <summary>
+		/// Gets or sets the last encoding used.
+		/// </summary>
+		/// <value>The last encoding used.</value>
+		public Encoding LastEncoding { get; set; }
+
+		/// <summary>
+		/// Gets or sets the preferred encoding.
+		/// </summary>
+		/// <remarks>In cases where the encoding can not be detected,
+		/// use this encoding.</remarks>
+		/// <value>The preferred encoding.</value>
+		public Encoding PreferredEncoding { get; set; }
 
 		/// <summary>
 		/// Get a string value directly from the file buffer.
@@ -46,11 +66,11 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <param name="buffer">The byte buffer to check within.</param>
 		/// <param name="address">The address of the item to retrieve.</param>
 		/// <returns>The value of the itemed item.</returns>
-		public static string GetStringDirect(byte[] buffer, uint address)
+		public string GetStringDirect(byte[] buffer, uint address)
 		{
 			string item = null;
 
-			if (address > 0)
+			if (buffer != null && address > 0)
 			{
 				uint end = address;
 				byte check;
@@ -70,6 +90,25 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				int length = (int)(end - address);
 
+				item = GetStringDirect(buffer, address, length);
+			}
+
+			return item;
+		}
+
+		/// <summary>
+		/// Get a string value directly from the file buffer.
+		/// </summary>
+		/// <param name="buffer">The byte buffer to check within.</param>
+		/// <param name="address">The address of the item to retrieve.</param>
+		/// <param name="length">The length of the string to get.</param>
+		/// <returns>The value of the itemed item.</returns>
+		public string GetStringDirect(byte[] buffer, uint address, int length)
+		{
+			string item = null;
+
+			if (buffer != null && address > 0)
+			{
 				byte[] stringBytes = new byte[length];
 
 				Array.Copy(buffer, address, stringBytes, 0, length);
@@ -77,26 +116,26 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				DetectionResult results =
 					CharsetDetector.DetectFromBytes(stringBytes);
 
-				// Fall out case
 				Encoding encoding = Encoding.UTF8;
 
-				if (results.Detected != null)
-				{
-					DetectionDetail resultDetected = results.Detected;
-					string encodingName = resultDetected.EncodingName;
+				DetectionDetail resultDetected = results.Detected;
 
+				if (resultDetected != null && resultDetected.Encoding != null)
+				{
 					encoding = resultDetected.Encoding;
 				}
 				else
 				{
 					Log.Warn("Failed detecting encoding, trying Shift JIS");
 
-					// Personal preference... For me, most of these types wil
-					// likely be Japansese.
-					Encoding.RegisterProvider(
-						CodePagesEncodingProvider.Instance);
-					encoding = Encoding.GetEncoding("Shift-JIS");
+					if (PreferredEncoding != null)
+					{
+						encoding = PreferredEncoding;
+					}
 				}
+
+				// save encoding for future use
+				LastEncoding = encoding;
 
 				item = encoding.GetString(buffer, (int)address, length);
 			}
@@ -127,7 +166,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		/// <param name="address">The address of the item with in
 		/// the file.</param>
-		public virtual void ReadIndex(uint address)
+		public void SetIndexes(uint address)
 		{
 			byte[] initialBytes = new byte[12];
 
@@ -151,6 +190,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			uint itemsCountBytes = (uint)itemsCount * 4;
 
+			bool isIndirect = false;
+			uint lastIndirect = 0;
+
 			for (uint index = 0; index < itemsCountBytes; index += 4)
 			{
 				byte rawValue = bodyBytes[index];
@@ -169,6 +211,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					offset = itemsCountBytes;
 					value = offset + value;
 					SetIndex(indexOffset, value);
+
+					if (isIndirect == true)
+					{
+						SetIndexSize(lastIndirect, value);
+					}
+
+					isIndirect = true;
+					lastIndirect = indexOffset;
 				}
 			}
 		}
@@ -188,18 +238,41 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		}
 
 		/// <summary>
+		/// Gets the size of the index.
+		/// </summary>
+		/// <param name="index">The index to check.</param>
+		/// <returns>The size of the index.</returns>
+		public int GetSize(uint index)
+		{
+			return indexSizes[index];
+		}
+
+		/// <summary>
 		/// Get the values from the indexed item.
 		/// </summary>
 		/// <param name="index">The index item to retrieve.</param>
 		/// <returns>The value of the itemed item.</returns>
 		public uint GetValue(uint index)
 		{
+			uint item = GetValue(index, 3);
+
+			return item;
+		}
+
+		/// <summary>
+		/// Get the values from the indexed item.
+		/// </summary>
+		/// <param name="index">The index item to retrieve.</param>
+		/// <param name="amount">The amount of bytes to retrieve.</param>
+		/// <returns>The value of the itemed item.</returns>
+		public uint GetValue(uint index, int amount)
+		{
 			uint item = 0;
 			uint subIndex = indexes[index];
 
 			if (subIndex > 0)
 			{
-				item = Bytes.ToIntegerLimit(bodyBytes, subIndex, 3);
+				item = Bytes.ToIntegerLimit(bodyBytes, subIndex, amount);
 			}
 
 			return item;
@@ -226,6 +299,16 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private void SetIndex(uint index, uint value)
 		{
 			indexes[index] = value;
+			indexSizes[index] = 3;
+		}
+
+		private void SetIndexSize(uint index, uint offset)
+		{
+			if (index < indexSizes.Length)
+			{
+				int size = (int)(offset - indexes[index]);
+				indexSizes[index] = size;
+			}
 		}
 	}
 }

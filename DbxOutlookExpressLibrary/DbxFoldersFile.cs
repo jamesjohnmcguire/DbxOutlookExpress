@@ -6,8 +6,10 @@
 
 using Common.Logging;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Text;
 
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
@@ -16,19 +18,76 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 	/// </summary>
 	public class DbxFoldersFile : DbxFile
 	{
-		private const int TreeNodeSize = 0x27c;
-
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+		private readonly IList<string> folderFiles;
 
 		/// <summary>
 		/// Initializes a new instance of the
 		/// <see cref="DbxFoldersFile"/> class.
 		/// </summary>
 		/// <param name="filePath">The path of the dbx file.</param>
-		public DbxFoldersFile(string filePath)
+		/// <param name="preferredEncoding">The preferred encoding to use as
+		/// a fall back when the encoding can not be detected.</param>
+		public DbxFoldersFile(string filePath, Encoding preferredEncoding)
 			: base(filePath)
 		{
+			folderFiles = new List<string>();
+
+			PreferredEncoding = preferredEncoding;
+
+			if (Header.FileType != DbxFileType.FolderFile)
+			{
+				Log.Error("Folders.dbx not actually folders file");
+
+				// Attempt to process the individual files.
+			}
+			else
+			{
+				ReadTree();
+			}
+		}
+
+		/// <summary>
+		/// Gets the list of folder files.
+		/// </summary>
+		/// <value>The list of folder files.</value>
+		public IList<string> FoldersFile { get { return folderFiles; } }
+
+		/// <summary>
+		/// Get the next folder in the tree list.
+		/// </summary>
+		/// <returns>The next folder in the tree list.</returns>
+		public DbxFolder GetNextFolder()
+		{
+			DbxFolder folder = null;
+
+			if (CurrentIndex < Tree.FolderInformationIndexes.Count)
+			{
+				byte[] fileBytes = GetFileBytes();
+
+				uint address = Tree.FolderInformationIndexes[CurrentIndex];
+
+				folder =
+					new (fileBytes, address, FolderPath, PreferredEncoding);
+
+				if (!string.IsNullOrWhiteSpace(folder.FolderFileName))
+				{
+					string folderFileName = folder.FolderFileName.Trim();
+
+					// Eventually these will be compared with the existing
+					// files by List.Compare, so need to mitigate case
+					// sensitivity.
+					folderFileName = folderFileName.ToUpperInvariant();
+					folderFiles.Add(folderFileName);
+				}
+
+				// Prep for next call.
+				CurrentIndex++;
+			}
+
+			return folder;
 		}
 
 		/// <summary>
@@ -42,38 +101,49 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxFolderIndexedItem item = new (fileBytes);
-					item.ReadIndex(index);
-
-					DbxFolderIndex folderIndex = item.FolderIndex;
+					DbxFolder folder =
+						new (fileBytes, index, FolderPath, PreferredEncoding);
 
 					string message = string.Format(
 						CultureInfo.InvariantCulture,
 						"item value[{0}] is {1}",
 						DbxFolderIndexedItem.Id,
-						folderIndex.FolderId);
+						folder.FolderId);
 					Log.Info(message);
 
 					message = string.Format(
 						CultureInfo.InvariantCulture,
 						"item value[{0}] is {1}",
 						DbxFolderIndexedItem.ParentId,
-						folderIndex.FolderParentId);
+						folder.FolderParentId);
 					Log.Info(message);
 
 					message = string.Format(
 						CultureInfo.InvariantCulture,
 						"item value[{0}] is {1}",
 						DbxFolderIndexedItem.Name,
-						folderIndex.FolderName);
+						folder.FolderName);
 					Log.Info(message);
+
+					string folderFileName = string.Empty;
+
+					if (!string.IsNullOrWhiteSpace(folder.FolderFileName))
+					{
+						folderFileName = folder.FolderFileName.Trim();
+					}
 
 					message = string.Format(
 						CultureInfo.InvariantCulture,
 						"item value[{0}] is {1}",
 						DbxFolderIndexedItem.FileName,
-						folderIndex.FolderFileName);
+						folderFileName);
 					Log.Info(message);
+
+					// Eventually these will be compared with the existing
+					// files by List.Compare, so need to mitigate case
+					// sensitivity.
+					folderFileName = folderFileName.ToUpperInvariant();
+					folderFiles.Add(folderFileName);
 				}
 			}
 		}
@@ -98,24 +168,11 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				}
 				else
 				{
-					DbxMessagesFile messagesFile = new(filePath);
+					DbxMessagesFile messagesFile =
+						new (filePath, PreferredEncoding);
 
-					DbxFileType check = messagesFile.Header.FileType;
-
-					if (check != DbxFileType.MessageFile)
-					{
-						Log.Error(filePath + " not actually a messagess file");
-
-						// Attempt to process the individual files.
-					}
-					else
-					{
-						Log.Info("Checking folder: " + folderName);
-						messagesFile.ReadTree();
-
-						// messagesFile.MigrateMessages();
-						messagesFile.List();
-					}
+					// messagesFile.MigrateMessages();
+					messagesFile.List();
 				}
 			}
 		}
@@ -131,18 +188,16 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxFolderIndexedItem item = new (fileBytes);
-					item.ReadIndex(index);
-
-					DbxFolderIndex folderIndex = item.FolderIndex;
+					DbxFolder folder =
+						new (fileBytes, index, FolderPath, PreferredEncoding);
 
 					string message = string.Format(
 						CultureInfo.InvariantCulture,
 						"Migrating folder {0}",
-						folderIndex.FolderName);
+						folder.FolderName);
 					Log.Info(message);
 
-					MigrateFolder(folderIndex.FolderFileName);
+					MigrateFolder(folder.FolderFileName);
 				}
 			}
 		}

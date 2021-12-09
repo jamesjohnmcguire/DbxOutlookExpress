@@ -10,7 +10,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
+[assembly: CLSCompliant(false)]
 
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
@@ -23,13 +24,23 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		private readonly DbxFoldersFile foldersFile;
+		private readonly string path;
+		private readonly Encoding preferredEncoding;
+
+		private int orphanFileIndex = -1;
+		private IList<string> orphanFiles;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DbxSet"/> class.
 		/// </summary>
 		/// <param name="path">The path of the dbx set.</param>
-		public DbxSet(string path)
+		/// <param name="preferredEncoding">The preferred encoding to use as
+		/// a fall back when the encoding can not be detected.</param>
+		public DbxSet(string path, Encoding preferredEncoding)
 		{
+			this.path = path;
+			this.preferredEncoding = preferredEncoding;
+
 			string extension = Path.GetExtension(path);
 
 			if (string.IsNullOrEmpty(extension))
@@ -47,19 +58,36 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			}
 			else
 			{
-				foldersFile = new (path);
+				foldersFile = new (path, preferredEncoding);
+			}
+		}
 
-				if (foldersFile.Header.FileType != DbxFileType.FolderFile)
+		/// <summary>
+		/// Get the next folder in the tree list.
+		/// </summary>
+		/// <returns>The next folder in the tree list.</returns>
+		public DbxFolder GetNextFolder()
+		{
+			DbxFolder folder = foldersFile.GetNextFolder();
+
+			if (folder == null)
+			{
+				if (orphanFileIndex == -1)
 				{
-					Log.Error("Folders.dbx not actually folders file");
-
-					// Attempt to process the individual files.
+					orphanFiles = AppendOrphanedFiles();
+					orphanFileIndex = 0;
 				}
-				else
+
+				if (orphanFiles.Count > orphanFileIndex)
 				{
-					foldersFile.ReadTree();
+					string fileName = orphanFiles[orphanFileIndex];
+					folder = new DbxFolder(path, fileName, preferredEncoding);
+
+					orphanFileIndex++;
 				}
 			}
+
+			return folder;
 		}
 
 		/// <summary>
@@ -68,6 +96,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public void List()
 		{
 			foldersFile.List();
+
+			AppendOrphanedFiles();
 		}
 
 		/// <summary>
@@ -76,6 +106,36 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public void Migrate()
 		{
 			foldersFile.MigrateFolders();
+		}
+
+		private IList<string> AppendOrphanedFiles()
+		{
+			string[] ignoreFiles =
+			{
+			"CLEANUP.LOG", "FOLDERS.AVX", "FOLDERS.DBX", "OFFLINE.DBX",
+			"POP3UIDL.DBX"
+			};
+
+			IList<string> orphanFolderFiles = new List<string>();
+
+			string[] files = Directory.GetFiles(path);
+
+			foreach (string file in files)
+			{
+				FileInfo fileInfo = new (file);
+
+				string fileName = fileInfo.Name.ToUpperInvariant();
+
+				if (!foldersFile.FoldersFile.Contains(fileName) &&
+					!ignoreFiles.Contains(fileName))
+				{
+					Log.Warn("Orphaned file found: " + fileInfo.Name);
+
+					orphanFolderFiles.Add(fileInfo.Name);
+				}
+			}
+
+			return orphanFolderFiles;
 		}
 	}
 }
