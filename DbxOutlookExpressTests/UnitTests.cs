@@ -37,15 +37,15 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			// 0 based
 			byte sevenOn = 64;
 			bool bit = Bytes.GetBit(sevenOn, 6);
-			Assert.IsTrue(bit);
+			Assert.True(bit);
 
 			byte sevenOff = 63;
 			bit = Bytes.GetBit(sevenOff, 6);
-			Assert.IsFalse(bit);
+			Assert.False(bit);
 
 			sevenOff = 128;
 			bit = Bytes.GetBit(sevenOff, 6);
-			Assert.IsFalse(bit);
+			Assert.False(bit);
 		}
 
 		/// <summary>
@@ -192,7 +192,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			string name = item.GetString(DbxFolderIndexedItem.Name);
 			string expected = "discussion.fastandfurius.com";
-			Assert.That(name, Is.EqualTo(expected));
+			Assert.AreEqual(name, expected);
 		}
 
 		/// <summary>
@@ -205,7 +205,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			DbxFile dbxFile = new(nonExistantFilePath);
 
-			Assert.IsNull(dbxFile.Header);
+			Assert.Null(dbxFile.Header);
 		}
 
 		/// <summary>
