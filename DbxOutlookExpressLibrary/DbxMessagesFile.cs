@@ -114,7 +114,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <summary>
 		/// List messages method.
 		/// </summary>
-		public void List()
+		/// <param name="showBody">To show the body or not.</param>
+		public void List(bool showBody = false)
 		{
 			if (Tree != null)
 			{
@@ -149,7 +150,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 						message.Subject);
 					Log.Info(logMessage);
 
-					bool showBody = false;
 					if (showBody == true)
 					{
 						logMessage = string.Format(
