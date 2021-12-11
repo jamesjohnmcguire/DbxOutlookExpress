@@ -29,6 +29,26 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		}
 
 		/// <summary>
+		/// Test for get bit.
+		/// </summary>
+		[Test]
+		public void TestBytesGetBit()
+		{
+			// 0 based
+			byte sevenOn = 64;
+			bool bit = Bytes.GetBit(sevenOn, 6);
+			Assert.IsTrue(bit);
+
+			byte sevenOff = 63;
+			bit = Bytes.GetBit(sevenOff, 6);
+			Assert.IsFalse(bit);
+
+			sevenOff = 128;
+			bit = Bytes.GetBit(sevenOff, 6);
+			Assert.IsFalse(bit);
+		}
+
+		/// <summary>
 		/// Test bytes to integer.
 		/// </summary>
 		[Test]
@@ -114,26 +134,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		}
 
 		/// <summary>
-		/// Test for get bit.
-		/// </summary>
-		[Test]
-		public void TestGetBit()
-		{
-			// 0 based
-			byte sevenOn = 64;
-			bool bit = Bytes.GetBit(sevenOn, 6);
-			Assert.IsTrue(bit);
-
-			byte sevenOff = 63;
-			bit = Bytes.GetBit(sevenOff, 6);
-			Assert.IsFalse(bit);
-
-			sevenOff = 128;
-			bit = Bytes.GetBit(sevenOff, 6);
-			Assert.IsFalse(bit);
-		}
-
-		/// <summary>
 		/// Test for get next folder.
 		/// </summary>
 		[Test]
@@ -147,6 +147,22 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			DbxFolder folder = dbxSet.GetNextFolder();
 			Assert.NotNull(folder);
+		}
+
+		/// <summary>
+		/// Test for get next folder.
+		/// </summary>
+		[Test]
+		public void TestGetNextFolderFail()
+		{
+			string path = baseDataDirectory + "\\Nothing";
+
+			Encoding encoding = Encoding.UTF8;
+
+			DbxSet dbxSet = new(path, encoding);
+
+			DbxFolder folder = dbxSet.GetNextFolder();
+			Assert.Null(folder);
 		}
 
 		/// <summary>
