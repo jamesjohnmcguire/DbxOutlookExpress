@@ -48,8 +48,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				FileInfo fileInfo = new (filePath);
 				string name = fileInfo.Name;
 				Log.Error("File does not exist!: " + name);
-
-				throw new FileNotFoundException();
 			}
 		}
 
