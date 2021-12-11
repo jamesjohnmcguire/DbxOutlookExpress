@@ -180,6 +180,19 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		}
 
 		/// <summary>
+		/// Test for non existant file.
+		/// </summary>
+		[Test]
+		public void TestNonExistantFile()
+		{
+			string nonExistantFilePath = @"c:\nothing.txt";
+
+			DbxFile dbxFile = new(nonExistantFilePath);
+
+			Assert.IsNull(dbxFile.Header);
+		}
+
+		/// <summary>
 		/// Test for sanity check.
 		/// </summary>
 		[Test]
