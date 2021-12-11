@@ -58,7 +58,17 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			}
 			else
 			{
-				foldersFile = new (path, preferredEncoding);
+				FileInfo fileInfo = new (path);
+
+				if (fileInfo.Name.Equals(
+					"Folders.dbx", StringComparison.Ordinal))
+				{
+					foldersFile = new (path, preferredEncoding);
+				}
+				else
+				{
+					Log.Warn("DbxSet File is not Folders.dbx");
+				}
 			}
 		}
 
