@@ -58,7 +58,17 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			}
 			else
 			{
-				foldersFile = new (path, preferredEncoding);
+				FileInfo fileInfo = new (path);
+
+				if (fileInfo.Name.Equals(
+					"Folders.dbx", StringComparison.Ordinal))
+				{
+					foldersFile = new (path, preferredEncoding);
+				}
+				else
+				{
+					Log.Warn("DbxSet File is not Folders.dbx");
+				}
 			}
 		}
 
@@ -68,22 +78,27 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <returns>The next folder in the tree list.</returns>
 		public DbxFolder GetNextFolder()
 		{
-			DbxFolder folder = foldersFile.GetNextFolder();
+			DbxFolder folder = null;
 
-			if (folder == null)
+			if (foldersFile != null)
 			{
-				if (orphanFileIndex == -1)
-				{
-					orphanFiles = AppendOrphanedFiles();
-					orphanFileIndex = 0;
-				}
+				folder = foldersFile.GetNextFolder();
 
-				if (orphanFiles.Count > orphanFileIndex)
+				if (folder == null)
 				{
-					string fileName = orphanFiles[orphanFileIndex];
-					folder = new DbxFolder(path, fileName, preferredEncoding);
+					if (orphanFileIndex == -1)
+					{
+						orphanFiles = AppendOrphanedFiles();
+						orphanFileIndex = 0;
+					}
 
-					orphanFileIndex++;
+					if (orphanFiles.Count > orphanFileIndex)
+					{
+						string fileName = orphanFiles[orphanFileIndex];
+						folder = new (path, fileName, preferredEncoding);
+
+						orphanFileIndex++;
+					}
 				}
 			}
 

@@ -29,6 +29,26 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		}
 
 		/// <summary>
+		/// Test for get bit.
+		/// </summary>
+		[Test]
+		public void TestBytesGetBit()
+		{
+			// 0 based
+			byte sevenOn = 64;
+			bool bit = Bytes.GetBit(sevenOn, 6);
+			Assert.True(bit);
+
+			byte sevenOff = 63;
+			bit = Bytes.GetBit(sevenOff, 6);
+			Assert.False(bit);
+
+			sevenOff = 128;
+			bit = Bytes.GetBit(sevenOff, 6);
+			Assert.False(bit);
+		}
+
+		/// <summary>
 		/// Test bytes to integer.
 		/// </summary>
 		[Test]
@@ -114,39 +134,19 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		}
 
 		/// <summary>
-		/// Test for get bit.
-		/// </summary>
-		[Test]
-		public void TestGetBit()
-		{
-			// 0 based
-			byte sevenOn = 64;
-			bool bit = Bytes.GetBit(sevenOn, 6);
-			Assert.IsTrue(bit);
-
-			byte sevenOff = 63;
-			bit = Bytes.GetBit(sevenOff, 6);
-			Assert.IsFalse(bit);
-
-			sevenOff = 128;
-			bit = Bytes.GetBit(sevenOff, 6);
-			Assert.IsFalse(bit);
-		}
-
-		/// <summary>
 		/// Test for get next folder.
 		/// </summary>
 		[Test]
-		public void TestGetNextFolder()
+		public void TestGetNextFolderFail()
 		{
-			string path = baseDataDirectory + "\\TestFolder";
+			string path = baseDataDirectory + "\\Nothing";
 
 			Encoding encoding = Encoding.UTF8;
 
-			DbxSet dbxSet = new (path, encoding);
+			DbxSet dbxSet = new(path, encoding);
 
 			DbxFolder folder = dbxSet.GetNextFolder();
-			Assert.NotNull(folder);
+			Assert.Null(folder);
 		}
 
 		/// <summary>
@@ -176,7 +176,20 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			string name = item.GetString(DbxFolderIndexedItem.Name);
 			string expected = "discussion.fastandfurius.com";
-			Assert.That(name, Is.EqualTo(expected));
+			Assert.AreEqual(name, expected);
+		}
+
+		/// <summary>
+		/// Test for non existant file.
+		/// </summary>
+		[Test]
+		public void TestNonExistantFile()
+		{
+			string nonExistantFilePath = @"c:\nothing.txt";
+
+			DbxFile dbxFile = new(nonExistantFilePath);
+
+			Assert.Null(dbxFile.Header);
 		}
 
 		/// <summary>
