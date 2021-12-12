@@ -101,6 +101,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					}
 				}
 			}
+
 			return folder;
 		}
 
