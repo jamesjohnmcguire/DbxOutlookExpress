@@ -137,22 +137,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		/// Test for get next folder.
 		/// </summary>
 		[Test]
-		public void TestGetNextFolder()
-		{
-			string path = baseDataDirectory + "\\TestFolder";
-
-			Encoding encoding = Encoding.UTF8;
-
-			DbxSet dbxSet = new (path, encoding);
-
-			DbxFolder folder = dbxSet.GetNextFolder();
-			Assert.NotNull(folder);
-		}
-
-		/// <summary>
-		/// Test for get next folder.
-		/// </summary>
-		[Test]
 		public void TestGetNextFolderFail()
 		{
 			string path = baseDataDirectory + "\\Nothing";
