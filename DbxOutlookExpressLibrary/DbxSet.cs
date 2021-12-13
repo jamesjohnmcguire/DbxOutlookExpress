@@ -45,6 +45,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			if (string.IsNullOrEmpty(extension))
 			{
+				// Assuming just a directory given.  Try getting Folders file.
 				path = Path.Combine(path, "Folders.dbx");
 			}
 
