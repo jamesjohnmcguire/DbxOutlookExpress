@@ -134,20 +134,25 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			IList<string> orphanFolderFiles = new List<string>();
 
-			string[] files = Directory.GetFiles(path);
+			bool exists = Directory.Exists(path);
 
-			foreach (string file in files)
+			if (exists == true)
 			{
-				FileInfo fileInfo = new (file);
+				string[] files = Directory.GetFiles(path);
 
-				string fileName = fileInfo.Name.ToUpperInvariant();
-
-				if (!foldersFile.FoldersFile.Contains(fileName) &&
-					!ignoreFiles.Contains(fileName))
+				foreach (string file in files)
 				{
-					Log.Warn("Orphaned file found: " + fileInfo.Name);
+					FileInfo fileInfo = new (file);
 
-					orphanFolderFiles.Add(fileInfo.Name);
+					string fileName = fileInfo.Name.ToUpperInvariant();
+
+					if (!foldersFile.FoldersFile.Contains(fileName) &&
+						!ignoreFiles.Contains(fileName))
+					{
+						Log.Warn("Orphaned file found: " + fileInfo.Name);
+
+						orphanFolderFiles.Add(fileInfo.Name);
+					}
 				}
 			}
 
