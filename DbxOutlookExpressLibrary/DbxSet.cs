@@ -84,22 +84,22 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			if (foldersFile != null)
 			{
 				folder = foldersFile.GetNextFolder();
+			}
 
-				if (folder == null)
+			if (folder == null)
+			{
+				if (orphanFileIndex == -1)
 				{
-					if (orphanFileIndex == -1)
-					{
-						orphanFiles = AppendOrphanedFiles();
-						orphanFileIndex = 0;
-					}
+					orphanFiles = AppendOrphanedFiles();
+					orphanFileIndex = 0;
+				}
 
-					if (orphanFiles.Count > orphanFileIndex)
-					{
-						string fileName = orphanFiles[orphanFileIndex];
-						folder = new (path, fileName, preferredEncoding);
+				if (orphanFiles.Count > orphanFileIndex)
+				{
+					string fileName = orphanFiles[orphanFileIndex];
+					folder = new (path, fileName, preferredEncoding);
 
-						orphanFileIndex++;
-					}
+					orphanFileIndex++;
 				}
 			}
 
