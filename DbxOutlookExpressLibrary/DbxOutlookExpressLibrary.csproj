@@ -10,9 +10,12 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<FileVersion>1.0.0.5</FileVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<OutputPath>$(SolutionDir)\Bin\$(Configuration)\$(Platform)</OutputPath>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Platforms>x86;x64</Platforms>
+		<RepositoryUrl>https://github.com/jamesjohnmcguire/DbxOutlookExpress</RepositoryUrl>
 		<TargetFramework>net5.0</TargetFramework>
 		<Version>1.0.0.5</Version>
 	</PropertyGroup>
@@ -25,16 +28,17 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\UTF-unknown\src\UTF-unknown.csproj" />
+		<PackageReference Include="UTF.Unknown" Version="2.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<AdditionalFiles Include="../stylecop.json" />
 		<CodeAnalysisDictionary Include="../CodeAnalysis.ruleset" />
 		<None Include="../.editorconfig" Link="../.editorconfig" />
+		<None Include="..\README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 </Project>

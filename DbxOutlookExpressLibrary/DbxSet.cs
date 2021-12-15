@@ -45,6 +45,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			if (string.IsNullOrEmpty(extension))
 			{
+				// Assuming just a directory given.  Try getting Folders file.
 				path = Path.Combine(path, "Folders.dbx");
 			}
 
@@ -83,22 +84,22 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			if (foldersFile != null)
 			{
 				folder = foldersFile.GetNextFolder();
+			}
 
-				if (folder == null)
+			if (folder == null)
+			{
+				if (orphanFileIndex == -1)
 				{
-					if (orphanFileIndex == -1)
-					{
-						orphanFiles = AppendOrphanedFiles();
-						orphanFileIndex = 0;
-					}
+					orphanFiles = AppendOrphanedFiles();
+					orphanFileIndex = 0;
+				}
 
-					if (orphanFiles.Count > orphanFileIndex)
-					{
-						string fileName = orphanFiles[orphanFileIndex];
-						folder = new (path, fileName, preferredEncoding);
+				if (orphanFiles.Count > orphanFileIndex)
+				{
+					string fileName = orphanFiles[orphanFileIndex];
+					folder = new (path, fileName, preferredEncoding);
 
-						orphanFileIndex++;
-					}
+					orphanFileIndex++;
 				}
 			}
 
@@ -133,20 +134,25 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			IList<string> orphanFolderFiles = new List<string>();
 
-			string[] files = Directory.GetFiles(path);
+			bool exists = Directory.Exists(path);
 
-			foreach (string file in files)
+			if (exists == true)
 			{
-				FileInfo fileInfo = new (file);
+				string[] files = Directory.GetFiles(path);
 
-				string fileName = fileInfo.Name.ToUpperInvariant();
-
-				if (!foldersFile.FoldersFile.Contains(fileName) &&
-					!ignoreFiles.Contains(fileName))
+				foreach (string file in files)
 				{
-					Log.Warn("Orphaned file found: " + fileInfo.Name);
+					FileInfo fileInfo = new (file);
 
-					orphanFolderFiles.Add(fileInfo.Name);
+					string fileName = fileInfo.Name.ToUpperInvariant();
+
+					if (!foldersFile.FoldersFile.Contains(fileName) &&
+						!ignoreFiles.Contains(fileName))
+					{
+						Log.Warn("Orphaned file found: " + fileInfo.Name);
+
+						orphanFolderFiles.Add(fileInfo.Name);
+					}
 				}
 			}
 
