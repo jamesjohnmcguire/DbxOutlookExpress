@@ -2,6 +2,7 @@ using NUnit.Framework;
 using DigitalZenWorks.Email.DbxOutlookExpress;
 using System;
 using System.Text;
+using System.IO;
 
 [assembly: CLSCompliant(true)]
 
@@ -12,14 +13,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 	/// </summary>
 	public class DbxOutlookExpressTests
 	{
-		private const string applicationDataDirectory =
-			@"DigitalZenWorks\DbxToPst";
-		private static readonly string baseDataDirectory =
-			Environment.GetFolderPath(
-				Environment.SpecialFolder.ApplicationData,
-				Environment.SpecialFolderOption.Create) + @"\" +
-				applicationDataDirectory;
-
 		/// <summary>
 		/// Set up method.
 		/// </summary>
@@ -139,7 +132,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		[Test]
 		public void TestGetNextFolderFail()
 		{
-			string path = baseDataDirectory + "\\Nothing";
+			string basePath = Path.GetTempPath();
+			string path = basePath + "Nothing";
 
 			Encoding encoding = Encoding.UTF8;
 
@@ -185,7 +179,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		[Test]
 		public void TestNonExistantFile()
 		{
-			string nonExistantFilePath = @"c:\nothing.txt";
+			string basePath = Path.GetTempPath();
+
+			string nonExistantFilePath = basePath + "nothing.dbx";
 
 			DbxFile dbxFile = new(nonExistantFilePath);
 
