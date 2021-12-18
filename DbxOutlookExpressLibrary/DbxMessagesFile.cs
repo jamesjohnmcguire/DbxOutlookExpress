@@ -32,21 +32,24 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		{
 			PreferredEncoding = preferredEncoding;
 
-			DbxFileType check = Header.FileType;
-
-			if (check != DbxFileType.MessageFile)
+			if (Header != null)
 			{
-				Log.Error(filePath + " not actually a messagess file");
-			}
-			else
-			{
-				FileInfo fileInfo = new (filePath);
+				DbxFileType check = Header.FileType;
 
-				string folderName =
-					Path.GetFileNameWithoutExtension(fileInfo.Name);
-				Log.Info("Checking folder: " + folderName);
+				if (check != DbxFileType.MessageFile)
+				{
+					Log.Error(filePath + " not actually a messagess file");
+				}
+				else
+				{
+					FileInfo fileInfo = new (filePath);
 
-				ReadTree();
+					string folderName =
+						Path.GetFileNameWithoutExtension(fileInfo.Name);
+					Log.Info("Checking folder: " + folderName);
+
+					ReadTree();
+				}
 			}
 		}
 
