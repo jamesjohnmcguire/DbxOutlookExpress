@@ -9,7 +9,7 @@
 		<projectUrl>https://github.com/jamesjohnmcguire/DbxOutlookExpress</projectUrl>
 		<readme>README.md</readme>
 		<repository url="https://github.com/jamesjohnmcguire/DbxOutlookExpress" />
-		<version>1.0.0.5</version>
+		<version>1.0.0.7</version>
 		<dependencies>
 			<group targetFramework="net5.0">
 				<dependency id="Common.Logging" version="3.4.1" exclude="Build,Analyzers" />
