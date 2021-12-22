@@ -35,13 +35,24 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		{
 			FolderFileName = folderFileName;
 
-			string filePath = Path.Combine(path, folderFileName);
+			string extension = Path.GetExtension(path);
 
-			FileInfo fileInfo = new (filePath);
-			FolderName =
-				Path.GetFileNameWithoutExtension(fileInfo.Name);
+			if (string.IsNullOrEmpty(extension))
+			{
+				// Assuming just a directory given.  Try getting Folders file.
+				path = Path.Combine(path, folderFileName);
+			}
 
-			messageFile = new DbxMessagesFile(filePath, preferredEncoding);
+			bool exists = File.Exists(path);
+
+			if (exists == true)
+			{
+				FileInfo fileInfo = new(path);
+				FolderName =
+					Path.GetFileNameWithoutExtension(fileInfo.Name);
+
+				messageFile = new DbxMessagesFile(path, preferredEncoding);
+			}
 		}
 
 		/// <summary>
