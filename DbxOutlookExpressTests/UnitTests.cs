@@ -13,12 +13,29 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 	/// </summary>
 	public class DbxOutlookExpressTests
 	{
+		private DirectoryInfo testFolder;
+
 		/// <summary>
 		/// Set up method.
 		/// </summary>
 		[SetUp]
 		public void Setup()
 		{
+			testFolder = Directory.CreateDirectory("TestFolder");
+		}
+
+		/// <summary>
+		/// function that is called just after each test method is called.
+		/// </summary>
+		[TearDown]
+		public void Teardown()
+		{
+			bool result = Directory.Exists(testFolder.FullName);
+
+			if (true == result)
+			{
+				Directory.Delete(testFolder.FullName, true);
+			}
 		}
 
 		/// <summary>
