@@ -1,10 +1,6 @@
-<h1 align="center">DbxOutlookExpress</h1>
+# DbxOutlookExpress
 
-<div>
-  <p align="center">
-    This is a C# library for interacting with Outlook Express dbx files.  The dbx files are where Outlook Express stores the folders and email messages data.
-  </p>
-</div>
+This is a C# library for interacting with Outlook Express dbx files.  The dbx files are where Outlook Express stores the folders and email messages data.
 
 ## Getting Started
 
