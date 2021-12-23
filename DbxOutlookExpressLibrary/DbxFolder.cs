@@ -47,7 +47,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			if (exists == true)
 			{
-				FileInfo fileInfo = new(path);
+				FileInfo fileInfo = new (path);
 				FolderName =
 					Path.GetFileNameWithoutExtension(fileInfo.Name);
 

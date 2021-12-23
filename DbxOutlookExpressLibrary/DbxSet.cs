@@ -129,7 +129,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			string[] ignoreFiles =
 			{
 			"CLEANUP.LOG", "FOLDERS.AVX", "FOLDERS.DBX", "OFFLINE.DBX",
-			"POP3UIDL.DBX"
+			"POP3UIDL.DBX", "SEARCH FOLDER.DBX"
 			};
 
 			IList<string> orphanFolderFiles = new List<string>();

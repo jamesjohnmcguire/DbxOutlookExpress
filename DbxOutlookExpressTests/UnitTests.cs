@@ -3,6 +3,7 @@ using DigitalZenWorks.Email.DbxOutlookExpress;
 using System;
 using System.Text;
 using System.IO;
+using DigitalZenWorks.Common.Utilities;
 
 [assembly: CLSCompliant(true)]
 
@@ -13,12 +14,29 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 	/// </summary>
 	public class DbxOutlookExpressTests
 	{
+		private DirectoryInfo testFolder;
+
 		/// <summary>
 		/// Set up method.
 		/// </summary>
 		[SetUp]
 		public void Setup()
 		{
+			testFolder = Directory.CreateDirectory("TestFolder");
+		}
+
+		/// <summary>
+		/// function that is called just after each test method is called.
+		/// </summary>
+		[TearDown]
+		public void Teardown()
+		{
+			bool result = Directory.Exists(testFolder.FullName);
+
+			if (true == result)
+			{
+				Directory.Delete(testFolder.FullName, true);
+			}
 		}
 
 		/// <summary>
@@ -124,6 +142,40 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			ushort test = Bytes.ToShort(testBytes, 4);
 			Assert.AreEqual(test, 0x2986);
+		}
+
+		/// <summary>
+		/// Test for get next folder.
+		/// </summary>
+		[Test]
+		public void TestGetNextFolder()
+		{
+			Encoding encoding = Encoding.UTF8;
+
+			string path = Path.Combine(testFolder.FullName, "Folders.dbx");
+			bool result = FileUtils.CreateFileFromEmbeddedResource(
+				"DbxOutlookExpressTests.Folders.dbx", path);
+			Assert.True(result);
+
+			path = Path.Combine(testFolder.FullName, "Inbox.dbx");
+			result = FileUtils.CreateFileFromEmbeddedResource(
+				"DbxOutlookExpressTests.Inbox.dbx", path);
+			Assert.True(result);
+
+			path = Path.Combine(testFolder.FullName, "Offline.dbx");
+			result = FileUtils.CreateFileFromEmbeddedResource(
+				"DbxOutlookExpressTests.Offline.dbx", path);
+			Assert.True(result);
+
+			path = Path.Combine(testFolder.FullName, "Outbox.dbx");
+			result = FileUtils.CreateFileFromEmbeddedResource(
+				"DbxOutlookExpressTests.Outbox.dbx", path);
+			Assert.True(result);
+
+			DbxSet dbxSet = new (testFolder.FullName, encoding);
+
+			DbxFolder folder = dbxSet.GetNextFolder();
+			Assert.NotNull(folder);
 		}
 
 		/// <summary>

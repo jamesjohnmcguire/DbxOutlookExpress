@@ -24,12 +24,17 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\DbxOutlookExpressLibrary\DbxOutlookExpressLibrary.csproj" />
+		<ProjectReference Include="..\UtilitiesNet\UtilitiesNET.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<AdditionalFiles Include="../stylecop.json" />
 		<CodeAnalysisDictionary Include="../CodeAnalysis.ruleset" />
 		<None Include="../.editorconfig" Link="../.editorconfig" />
+		<EmbeddedResource Include="Folders.dbx" />
+		<EmbeddedResource Include="Inbox.dbx" />
+		<EmbeddedResource Include="Offline.dbx" />
+		<EmbeddedResource Include="Outbox.dbx" />
 	</ItemGroup>
 
 </Project>

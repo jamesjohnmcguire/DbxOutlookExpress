@@ -1,3 +1,6 @@
 [submodule "UTF-unknown"]
 	path = UTF-unknown
 	url = https://github.com/jamesjohnmcguire/UTF-unknown
+[submodule "UtilitiesNet"]
+	path = UtilitiesNet
+	url = https://github.com/jamesjohnmcguire/UtilitiesNet.git

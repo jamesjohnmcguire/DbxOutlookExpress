@@ -1,10 +1,6 @@
-<h1 align="center">DbxOutlookExpress</h1>
+# DbxOutlookExpress
 
-<div>
-  <p align="center">
-    This is a C# library for interacting with Outlook Express dbx files.  The dbx files are where Outlook Express stores the folders and email messages data.
-  </p>
-</div>
+This is a C# library for interacting with Outlook Express dbx files.  The dbx files are where Outlook Express stores the folders and email messages data.
 
 ## Getting Started
 
@@ -12,7 +8,14 @@
 
 This project includes the [UTF-unknown project](https://github.com/CharsetDetector/UTF-unknown) as a submodule.  So, be sure to include submodules when retreiving the repository contents. 
 
-## Usage
+### Installation
+#### Git
+git clone --recurse-submodules https://github.com/jamesjohnmcguire/DbxOutlookExpress
+
+#### Nuget
+PM> Install-Package DigitalZenWorks.Email.DbxOutlookExpress
+
+### Usage
 
 For an example of a project using this library, please refer to the [DbxToPst Project](https://github.com/jamesjohnmcguire/DbxToPst)
 
@@ -38,6 +41,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Your Name - [@jamesmc](https://twitter.com/jamesmc) - jamesjohnmcguire@gmail.com
+James John McGuire - [@jamesmc](https://twitter.com/jamesmc) - jamesjohnmcguire@gmail.com
 
 Project Link: [https://github.com/jamesjohnmcguire/DbxOutlookExpress](https://github.com/jamesjohnmcguire/DbxOutlookExpress)

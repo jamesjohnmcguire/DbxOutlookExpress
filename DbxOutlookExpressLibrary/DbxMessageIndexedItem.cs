@@ -287,6 +287,11 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				message.Message = GetMessageBytes();
 
+				if (message.Message.Length == 0)
+				{
+					Log.Warn("No message content!");
+				}
+
 				message.Encoding = LastEncoding;
 			}
 		}
