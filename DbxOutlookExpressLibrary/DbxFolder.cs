@@ -51,7 +51,15 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				FolderName =
 					Path.GetFileNameWithoutExtension(fileInfo.Name);
 
-				messageFile = new DbxMessagesFile(path, preferredEncoding);
+				try
+				{
+					messageFile = new DbxMessagesFile(path, preferredEncoding);
+				}
+				catch (DbxException)
+				{
+					Log.Warn("Could not create object: " + FolderFileName);
+					Log.Warn("Perhaps it is corrupted?");
+				}
 			}
 		}
 
@@ -89,8 +97,16 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				}
 				else
 				{
-					messageFile =
-						new DbxMessagesFile(filePath, preferredEncoding);
+					try
+					{
+						messageFile =
+							new DbxMessagesFile(filePath, preferredEncoding);
+					}
+					catch (DbxException)
+					{
+						Log.Warn("Could not create object: " + FolderFileName);
+						Log.Warn("Perhaps it is corrupted?");
+					}
 				}
 			}
 		}

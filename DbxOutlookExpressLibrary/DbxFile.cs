@@ -36,18 +36,32 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			if (File.Exists(filePath))
 			{
-				fileBytes = File.ReadAllBytes(filePath);
+				string extension = Path.GetExtension(filePath);
 
-				byte[] headerBytes = new byte[0x24bc];
-				Array.Copy(fileBytes, headerBytes, 0x24bc);
+				if (extension.Equals(".dbx", StringComparison.Ordinal))
+				{
+					fileBytes = File.ReadAllBytes(filePath);
 
-				Header = new (headerBytes);
+					byte[] headerBytes = new byte[0x24bc];
+					Array.Copy(fileBytes, headerBytes, 0x24bc);
+
+					Header = new (headerBytes);
+				}
+				else
+				{
+					Log.Error("File does not have dbx extension: " + filePath);
+
+					throw new DbxException(
+						"File does not have dbx extension: " + filePath);
+				}
 			}
 			else
 			{
 				FileInfo fileInfo = new (filePath);
 				string name = fileInfo.Name;
 				Log.Error("File does not exist!: " + name);
+
+				throw new DbxException("File does not exist!: " + name);
 			}
 		}
 

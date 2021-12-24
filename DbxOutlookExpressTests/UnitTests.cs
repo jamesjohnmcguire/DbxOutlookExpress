@@ -235,9 +235,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			string nonExistantFilePath = basePath + "nothing.dbx";
 
-			DbxFile dbxFile = new(nonExistantFilePath);
+			DbxException exception = Assert.Throws<DbxException>(() =>
+				new DbxFile(nonExistantFilePath));
 
-			Assert.Null(dbxFile.Header);
+			Assert.That(exception, Is.Not.Null);
 		}
 
 		/// <summary>
