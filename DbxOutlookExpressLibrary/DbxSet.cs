@@ -59,16 +59,24 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			}
 			else
 			{
-				FileInfo fileInfo = new (path);
+				try
+				{
+					FileInfo fileInfo = new (path);
 
-				if (fileInfo.Name.Equals(
-					"Folders.dbx", StringComparison.Ordinal))
-				{
-					foldersFile = new (path, preferredEncoding);
+					if (fileInfo.Name.Equals(
+						"Folders.dbx", StringComparison.Ordinal))
+					{
+						foldersFile = new (path, preferredEncoding);
+					}
+					else
+					{
+						Log.Warn("DbxSet File is not Folders.dbx");
+					}
 				}
-				else
+				catch (DbxException)
 				{
-					Log.Warn("DbxSet File is not Folders.dbx");
+					Log.Warn("Could not create Folders.dbx object.");
+					Log.Warn("Perhaps it is corrupted?");
 				}
 			}
 		}

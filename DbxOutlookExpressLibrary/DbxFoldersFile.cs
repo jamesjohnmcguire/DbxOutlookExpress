@@ -168,11 +168,19 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				}
 				else
 				{
-					DbxMessagesFile messagesFile =
-						new (filePath, PreferredEncoding);
+					try
+					{
+						DbxMessagesFile messagesFile =
+							new (filePath, PreferredEncoding);
 
-					// messagesFile.MigrateMessages();
-					messagesFile.List();
+						// messagesFile.MigrateMessages();
+						messagesFile.List();
+					}
+					catch (DbxException)
+					{
+						Log.Warn("Could not create object: " + folderName);
+						Log.Warn("Perhaps it is corrupted?");
+					}
 				}
 			}
 		}
