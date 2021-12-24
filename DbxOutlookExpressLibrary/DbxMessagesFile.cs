@@ -38,7 +38,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				if (check != DbxFileType.MessageFile)
 				{
-					Log.Error(filePath + " not actually a messagess file");
+					Log.Error(filePath + " not actually a messages file");
 
 					throw new DbxException(
 						filePath + " not actually a messages file");
