@@ -138,7 +138,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			if (exists == true)
 			{
-				string[] files = Directory.GetFiles(path);
+				string[] files = Directory.GetFiles(path, "*.dbx");
 
 				foreach (string file in files)
 				{
