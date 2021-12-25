@@ -3,11 +3,11 @@
 	<PropertyGroup>
 		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
 		<AssemblyName>DigitalZenWorks.Email.DbxOutlookExpressLibrary</AssemblyName>
-		<AssemblyVersion>1.0.0.9</AssemblyVersion>
+		<AssemblyVersion>1.1.0.10</AssemblyVersion>
 		<CodeAnalysisRuleSet>../CodeAnalysis.ruleset</CodeAnalysisRuleSet>
 		<Copyright>Copyright © 2021</Copyright>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
-		<FileVersion>1.0.0.9</FileVersion>
+		<FileVersion>1.1.0.10</FileVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<LangVersion>latest</LangVersion>
@@ -17,7 +17,7 @@
 		<Platforms>x86;x64</Platforms>
 		<RepositoryUrl>https://github.com/jamesjohnmcguire/DbxOutlookExpress</RepositoryUrl>
 		<TargetFrameworks>netstandard2.0;net461;net5.0;net6.0</TargetFrameworks>
-		<Version>1.0.0.9</Version>
+		<Version>1.1.0.10</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
