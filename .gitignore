@@ -4,11 +4,6 @@
 # User-specific files
 *.suo
 *.user
-*.userosscache
-*.sln.docstates
-
-# User-specific files (MonoDevelop/Xamarin Studio)
-*.userprefs
 
 # Build results
 [Dd]ebug/
@@ -17,7 +12,6 @@
 [Rr]eleases/
 x64/
 x86/
-bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
@@ -29,7 +23,4 @@ bld/
 *.VisualState.xml
 TestResult.xml
 
-/SourceCode/DevelopmentTools/GoogleDriveCli/LogFiles
-/SourceCode/DevelopmentTools/GoogleDriveCli/vendor
-
-/SourceCode/DevelopmentTools/GoogleDriveCli/GoogleDriveServiceAccount.json
+*.nupkg
