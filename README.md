@@ -17,10 +17,11 @@ PM> Install-Package DigitalZenWorks.Email.DbxOutlookExpress
 
 ### Usage
 
-A good starting point...
-DbxSet dbxSet = new (@"\path\to\your\dbx\files", Encoding.UTF8);
-DbxFolder dbxFolder = dbxSet.GetNextFolder();
-DbxMessage dbxMessage = dbxFolder.GetNextMessage();
+A good starting point...  
+
+DbxSet dbxSet = new (@"\path\to\your\dbx\files", Encoding.UTF8);  
+DbxFolder dbxFolder = dbxSet.GetNextFolder();  
+DbxMessage dbxMessage = dbxFolder.GetNextMessage();  
 
 For a more in-depth example of a project using this library, please refer to the [DbxToPst Project](https://github.com/jamesjohnmcguire/DbxToPst)
 
