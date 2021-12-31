@@ -14,7 +14,6 @@
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<OutputPath>$(SolutionDir)\Bin\$(Configuration)\$(Platform)</OutputPath>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Platforms>x86;x64</Platforms>
 		<RepositoryUrl>https://github.com/jamesjohnmcguire/DbxOutlookExpress</RepositoryUrl>
 		<TargetFrameworks>netstandard2.0;net461;net5.0;net6.0</TargetFrameworks>
 		<Version>1.1.0.10</Version>
