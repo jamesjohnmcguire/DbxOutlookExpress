@@ -96,14 +96,18 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			if (folder == null)
 			{
+				Log.Info("Folders.dbx exhausted");
+
 				if (orphanFileIndex == -1)
 				{
+					Log.Info("Checking for orphans");
 					orphanFiles = AppendOrphanedFiles();
 					orphanFileIndex = 0;
 				}
 
 				if (orphanFiles.Count > orphanFileIndex)
 				{
+					Log.Info("Getting next orphan file");
 					string fileName = orphanFiles[orphanFileIndex];
 					folder = new (path, fileName, preferredEncoding);
 
