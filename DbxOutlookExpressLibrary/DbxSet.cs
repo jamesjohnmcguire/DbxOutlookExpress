@@ -53,9 +53,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			if (exists == false)
 			{
-				Log.Error(path + " not present");
-
-				// Attempt to process the individual files.
+				Log.Warn(path + " not present");
 			}
 			else
 			{
@@ -158,11 +156,20 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 					string fileName = fileInfo.Name.ToUpperInvariant();
 
-					if (!foldersFile.FoldersFile.Contains(fileName) &&
-						!ignoreFiles.Contains(fileName))
+					if (foldersFile != null)
 					{
-						Log.Warn("Orphaned file found: " + fileInfo.Name);
+						if (!foldersFile.FoldersFile.Contains(fileName) &&
+							!ignoreFiles.Contains(fileName))
+						{
+							Log.Warn("Orphaned file found - " +
+								"Not in Folders.dbx: " + fileInfo.Name);
 
+							orphanFolderFiles.Add(fileInfo.Name);
+						}
+					}
+					else
+					{
+						// If no Folders.dbx, then all the files are orhans.
 						orphanFolderFiles.Add(fileInfo.Name);
 					}
 				}
