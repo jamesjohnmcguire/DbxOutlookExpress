@@ -280,7 +280,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				if (string.IsNullOrWhiteSpace(message.ReceiptentEmailAddress))
 				{
-					Log.Warn("No receipient address(es)");
+					Log.Info("No receipient address(es)");
 
 					message.ReceiptentEmailAddress = GetString(Account);
 				}

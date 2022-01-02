@@ -126,7 +126,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				}
 				else
 				{
-					Log.Warn("Failed detecting encoding, trying Shift JIS");
+					Log.Info("Failed detecting encoding, trying Shift JIS");
 
 					if (PreferredEncoding != null)
 					{
