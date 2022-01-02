@@ -67,6 +67,26 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// Initializes a new instance of the
 		/// <see cref="DbxFolder"/> class.
 		/// </summary>
+		/// <param name="path">The path of the dbx set.</param>
+		/// <param name="folderId">The Id of the folder.</param>
+		/// <param name="folderFileName">The name of the messages
+		/// file folder.</param>
+		/// <param name="preferredEncoding">The preferred encoding to use as
+		/// a fall back when the encoding can not be detected.</param>
+		public DbxFolder(
+			string path,
+			uint folderId,
+			string folderFileName,
+			Encoding preferredEncoding)
+			: this(path, folderFileName, preferredEncoding)
+		{
+			FolderId = folderId;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="DbxFolder"/> class.
+		/// </summary>
 		/// <param name="fileBytes">The bytes of the file.</param>
 		/// <param name="address">The address of the item with in
 		/// the file.</param>

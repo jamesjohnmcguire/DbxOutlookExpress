@@ -27,6 +27,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private readonly string path;
 		private readonly Encoding preferredEncoding;
 
+		private uint maximumFolderId;
 		private int orphanFileIndex = -1;
 		private IList<string> orphanFiles;
 
@@ -107,9 +108,22 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				{
 					Log.Info("Getting next orphan file");
 					string fileName = orphanFiles[orphanFileIndex];
-					folder = new (path, fileName, preferredEncoding);
+
+					// Best if each folder has it's own unique id, even if it
+					// is artifically constructed.
+					maximumFolderId++;
+					folder = new (
+						path, maximumFolderId, fileName, preferredEncoding);
 
 					orphanFileIndex++;
+				}
+			}
+
+			if (folder != null)
+			{
+				if (folder.FolderId > maximumFolderId)
+				{
+					maximumFolderId = folder.FolderId;
 				}
 			}
 
