@@ -113,7 +113,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 					string message = string.Format(
 						CultureInfo.InvariantCulture,
-						"{0}\t\t{1}\t{2} '{3}'",
+						"{0}\t{1}\t\t{2} '{3}'",
 						folder.FolderId,
 						folder.FolderParentId,
 						folder.FolderName,
