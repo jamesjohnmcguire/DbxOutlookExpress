@@ -1,6 +1,6 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="DbxMessageIndexedItem.cs" company="James John McGuire">
-// Copyright © 2021 James John McGuire. All Rights Reserved.
+// Copyright © 2021 - 2022 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
@@ -280,7 +280,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				if (string.IsNullOrWhiteSpace(message.ReceiptentEmailAddress))
 				{
-					Log.Warn("No receipient address(es)");
+					Log.Info("No receipient address(es)");
 
 					message.ReceiptentEmailAddress = GetString(Account);
 				}

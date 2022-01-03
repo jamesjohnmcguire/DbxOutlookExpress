@@ -1,6 +1,6 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="DbxFolder.cs" company="James John McGuire">
-// Copyright © 2021 James John McGuire. All Rights Reserved.
+// Copyright © 2021 - 2022 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
@@ -61,6 +61,26 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					Log.Warn("Perhaps it is corrupted?");
 				}
 			}
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="DbxFolder"/> class.
+		/// </summary>
+		/// <param name="path">The path of the dbx set.</param>
+		/// <param name="folderId">The Id of the folder.</param>
+		/// <param name="folderFileName">The name of the messages
+		/// file folder.</param>
+		/// <param name="preferredEncoding">The preferred encoding to use as
+		/// a fall back when the encoding can not be detected.</param>
+		public DbxFolder(
+			string path,
+			uint folderId,
+			string folderFileName,
+			Encoding preferredEncoding)
+			: this(path, folderFileName, preferredEncoding)
+		{
+			FolderId = folderId;
 		}
 
 		/// <summary>

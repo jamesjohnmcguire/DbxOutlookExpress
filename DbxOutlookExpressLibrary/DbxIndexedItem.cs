@@ -1,6 +1,6 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="DbxIndexedItem.cs" company="James John McGuire">
-// Copyright © 2021 James John McGuire. All Rights Reserved.
+// Copyright © 2021 - 2022 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
@@ -126,7 +126,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				}
 				else
 				{
-					Log.Warn("Failed detecting encoding, trying Shift JIS");
+					Log.Info("Failed detecting encoding, trying Shift JIS");
 
 					if (PreferredEncoding != null)
 					{

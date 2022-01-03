@@ -1,6 +1,6 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="DbxFoldersFile.cs" company="James John McGuire">
-// Copyright © 2021 James John McGuire. All Rights Reserved.
+// Copyright © 2021 - 2022 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
@@ -104,27 +104,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					DbxFolder folder =
 						new (fileBytes, index, FolderPath, PreferredEncoding);
 
-					string message = string.Format(
-						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxFolderIndexedItem.Id,
-						folder.FolderId);
-					Log.Info(message);
-
-					message = string.Format(
-						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxFolderIndexedItem.ParentId,
-						folder.FolderParentId);
-					Log.Info(message);
-
-					message = string.Format(
-						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxFolderIndexedItem.Name,
-						folder.FolderName);
-					Log.Info(message);
-
 					string folderFileName = string.Empty;
 
 					if (!string.IsNullOrWhiteSpace(folder.FolderFileName))
@@ -132,10 +111,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 						folderFileName = folder.FolderFileName.Trim();
 					}
 
-					message = string.Format(
+					string message = string.Format(
 						CultureInfo.InvariantCulture,
-						"item value[{0}] is {1}",
-						DbxFolderIndexedItem.FileName,
+						"{0}\t{1}\t\t{2} '{3}'",
+						folder.FolderId,
+						folder.FolderParentId,
+						folder.FolderName,
 						folderFileName);
 					Log.Info(message);
 

@@ -1,6 +1,6 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="DbxSet.cs" company="James John McGuire">
-// Copyright © 2021 James John McGuire. All Rights Reserved.
+// Copyright © 2021 - 2022 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
@@ -27,6 +27,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private readonly string path;
 		private readonly Encoding preferredEncoding;
 
+		private uint maximumFolderId;
 		private int orphanFileIndex = -1;
 		private IList<string> orphanFiles;
 
@@ -53,9 +54,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			if (exists == false)
 			{
-				Log.Error(path + " not present");
-
-				// Attempt to process the individual files.
+				Log.Warn(path + " not present");
 			}
 			else
 			{
@@ -109,9 +108,22 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				{
 					Log.Info("Getting next orphan file");
 					string fileName = orphanFiles[orphanFileIndex];
-					folder = new (path, fileName, preferredEncoding);
+
+					// Best if each folder has it's own unique id, even if it
+					// is artifically constructed.
+					maximumFolderId++;
+					folder = new (
+						path, maximumFolderId, fileName, preferredEncoding);
 
 					orphanFileIndex++;
+				}
+			}
+
+			if (folder != null)
+			{
+				if (folder.FolderId > maximumFolderId)
+				{
+					maximumFolderId = folder.FolderId;
 				}
 			}
 
@@ -123,6 +135,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		public void List()
 		{
+			Log.Info("Id\tParentId\tName\t\tFile Name");
+
 			foldersFile.List();
 
 			AppendOrphanedFiles();
@@ -158,11 +172,20 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 					string fileName = fileInfo.Name.ToUpperInvariant();
 
-					if (!foldersFile.FoldersFile.Contains(fileName) &&
-						!ignoreFiles.Contains(fileName))
+					if (foldersFile != null)
 					{
-						Log.Warn("Orphaned file found: " + fileInfo.Name);
+						if (!foldersFile.FoldersFile.Contains(fileName) &&
+							!ignoreFiles.Contains(fileName))
+						{
+							Log.Warn("Orphaned file found - " +
+								"Not in Folders.dbx: " + fileInfo.Name);
 
+							orphanFolderFiles.Add(fileInfo.Name);
+						}
+					}
+					else
+					{
+						// If no Folders.dbx, then all the files are orhans.
 						orphanFolderFiles.Add(fileInfo.Name);
 					}
 				}
