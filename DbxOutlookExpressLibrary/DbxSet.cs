@@ -135,6 +135,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		public void List()
 		{
+			Log.Info("Id\tParentId\tName\t\tFile Name");
+
 			foldersFile.List();
 
 			AppendOrphanedFiles();
