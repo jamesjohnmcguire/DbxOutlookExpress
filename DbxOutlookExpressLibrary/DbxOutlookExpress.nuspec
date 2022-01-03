@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
 	<metadata>
 		<authors>James John McGuire</authors>
-		<copyright>Copyright © 2021</copyright>
+		<copyright>Copyright © 2021 - 2022</copyright>
 		<description>Library for interacting with dbx files.</description>
 		<id>DigitalZenWorks.Email.DbxOutlookExpress</id>
 		<license type="expression">MIT</license>
