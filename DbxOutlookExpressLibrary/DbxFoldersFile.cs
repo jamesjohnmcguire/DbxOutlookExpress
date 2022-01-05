@@ -190,5 +190,16 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				}
 			}
 		}
+
+		public void SetTreeInOrder()
+		{
+			byte[] fileBytes = GetFileBytes();
+
+			// Set root folder
+			DbxFolder folder =
+				new (fileBytes, FolderPath, PreferredEncoding);
+
+			folder.GetChildren(Tree.FolderInformationIndexes);
+		}
 	}
 }
