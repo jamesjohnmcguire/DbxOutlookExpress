@@ -21,6 +21,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+		private readonly uint fileAddress;
 		private readonly byte[] fileBytes;
 		private readonly string foldersPath;
 		private readonly DbxMessagesFile messageFile;
@@ -56,7 +57,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			if (exists == true)
 			{
-				FileInfo fileInfo = new(path);
+				FileInfo fileInfo = new (path);
 				FolderName =
 					Path.GetFileNameWithoutExtension(fileInfo.Name);
 
@@ -155,7 +156,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			Encoding preferredEncoding)
 			: this(fileBytes, path, preferredEncoding)
 		{
-			DbxFolderIndexedItem index = new(fileBytes, address);
+			fileAddress = address;
+
+			DbxFolderIndexedItem index = new (fileBytes, address);
 			index.SetItemValues(this, address);
 		}
 
