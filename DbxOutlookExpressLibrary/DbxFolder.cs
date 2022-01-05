@@ -19,6 +19,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+		private readonly byte[] fileBytes;
 		private readonly string foldersPath;
 		private readonly DbxMessagesFile messageFile;
 		private readonly Encoding preferredEncoding;
@@ -104,6 +105,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			string path,
 			Encoding preferredEncoding)
 		{
+			this.fileBytes = fileBytes;
 			foldersPath = path;
 			this.preferredEncoding = preferredEncoding;
 
