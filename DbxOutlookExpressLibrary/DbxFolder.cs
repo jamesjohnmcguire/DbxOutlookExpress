@@ -20,6 +20,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		private readonly DbxMessagesFile messageFile;
+		private readonly Encoding preferredEncoding;
 
 		/// <summary>
 		/// Initializes a new instance of the
@@ -34,6 +35,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			string path, string folderFileName, Encoding preferredEncoding)
 		{
 			FolderFileName = folderFileName;
+			this.preferredEncoding = preferredEncoding;
 
 			string extension = Path.GetExtension(path);
 
