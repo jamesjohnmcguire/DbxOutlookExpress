@@ -94,23 +94,17 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <see cref="DbxFolder"/> class.
 		/// </summary>
 		/// <param name="fileBytes">The bytes of the file.</param>
-		/// <param name="address">The address of the item with in
-		/// the file.</param>
 		/// <param name="path">The path of the dbx set.</param>
 		/// <param name="preferredEncoding">The preferred encoding to use as
 		/// a fall back when the encoding can not be detected.</param>
 		public DbxFolder(
 			byte[] fileBytes,
-			uint address,
 			string path,
 			Encoding preferredEncoding)
 		{
 			this.fileBytes = fileBytes;
 			foldersPath = path;
 			this.preferredEncoding = preferredEncoding;
-
-			DbxFolderIndexedItem index = new (fileBytes, address);
-			index.SetItemValues(this, address);
 
 			if (!string.IsNullOrWhiteSpace(FolderFileName))
 			{
@@ -139,6 +133,27 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="DbxFolder"/> class.
+		/// </summary>
+		/// <param name="fileBytes">The bytes of the file.</param>
+		/// <param name="address">The address of the item with in
+		/// the file.</param>
+		/// <param name="path">The path of the dbx set.</param>
+		/// <param name="preferredEncoding">The preferred encoding to use as
+		/// a fall back when the encoding can not be detected.</param>
+		public DbxFolder(
+			byte[] fileBytes,
+			uint address,
+			string path,
+			Encoding preferredEncoding)
+			: this(fileBytes, path, preferredEncoding)
+		{
+			DbxFolderIndexedItem index = new (fileBytes, address);
+			index.SetItemValues(this, address);
 		}
 
 		/// <summary>
