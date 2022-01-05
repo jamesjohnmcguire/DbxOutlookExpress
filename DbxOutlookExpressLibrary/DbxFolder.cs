@@ -6,7 +6,9 @@
 
 using Common.Logging;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace DigitalZenWorks.Email.DbxOutlookExpress
@@ -23,6 +25,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private readonly string foldersPath;
 		private readonly DbxMessagesFile messageFile;
 		private readonly Encoding preferredEncoding;
+		private IList<DbxFolder> childrenFolders = new List<DbxFolder>();
 
 		/// <summary>
 		/// Initializes a new instance of the
@@ -53,7 +56,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			if (exists == true)
 			{
-				FileInfo fileInfo = new (path);
+				FileInfo fileInfo = new(path);
 				FolderName =
 					Path.GetFileNameWithoutExtension(fileInfo.Name);
 
@@ -152,7 +155,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			Encoding preferredEncoding)
 			: this(fileBytes, path, preferredEncoding)
 		{
-			DbxFolderIndexedItem index = new (fileBytes, address);
+			DbxFolderIndexedItem index = new(fileBytes, address);
 			index.SetItemValues(this, address);
 		}
 
@@ -179,6 +182,56 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		/// <value>The folder parent id.</value>
 		public uint FolderParentId { get; set; }
+
+		/// <summary>
+		/// Get the children list of this folder.
+		/// </summary>
+		/// <param name="folderIndexes">The list of folder indexes into the
+		/// Folder.dbx file.</param>
+		/// <returns>The count of the indexes to still be processed.</returns>
+		public int GetChildren(IList<uint> folderIndexes)
+		{
+			int index = 0;
+
+			if (folderIndexes != null)
+			{
+				for (index = folderIndexes.Count - 1; index >= 0; index--)
+				{
+					try
+					{
+						while (index >= folderIndexes.Count)
+						{
+							Log.Warn("Getting Children: Current index " +
+								"greater then count - index: " + index);
+							index--;
+						}
+
+						uint folderIndex = folderIndexes[index];
+
+						DbxFolder folder = new (
+							fileBytes,
+							folderIndex,
+							foldersPath,
+							preferredEncoding);
+
+						if (folder.FolderParentId == FolderId)
+						{
+							childrenFolders.Add(folder);
+
+							folderIndexes.Remove(folderIndex);
+
+							index = folder.GetChildren(folderIndexes);
+						}
+					}
+					catch (DbxException exception)
+					{
+						Log.Error(exception);
+					}
+				}
+			}
+
+			return index;
+		}
 
 		/// <summary>
 		/// Gets the next message in enurmation.
