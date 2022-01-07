@@ -201,11 +201,11 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				{
 					try
 					{
-						while (index >= folderIndexes.Count)
+						if (index >= folderIndexes.Count)
 						{
 							Log.Warn("Getting Children: Current index " +
 								"greater then count - index: " + index);
-							index--;
+							index = folderIndexes.Count - 1;
 						}
 
 						uint folderIndex = folderIndexes[index];
