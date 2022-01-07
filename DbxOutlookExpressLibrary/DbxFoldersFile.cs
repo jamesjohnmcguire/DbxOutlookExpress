@@ -212,7 +212,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <summary>
 		/// Set tree in order.
 		/// </summary>
-		public void SetTreeInOrder()
+		/// <returns>A list of child folders.</returns>
+		public IList<DbxFolder> SetTreeInOrder()
 		{
 			byte[] fileBytes = GetFileBytes();
 
@@ -220,10 +221,13 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			DbxFolder folder =
 				new (fileBytes, FolderPath, PreferredEncoding);
 
-			folder.GetChildren(Tree.FolderInformationIndexes);
+			IList<DbxFolder> childrenFolders =
+				folder.GetChildren(Tree.FolderInformationIndexes);
 
 			orderedIndexes.Clear();
 			orderedIndexes = folder.SetOrderedIndexes(orderedIndexes);
+
+			return childrenFolders;
 		}
 	}
 }

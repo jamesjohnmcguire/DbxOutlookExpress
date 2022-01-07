@@ -27,7 +27,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private readonly DbxMessagesFile messageFile;
 		private readonly Encoding preferredEncoding;
 		private IList<DbxFolder> childrenFolders = new List<DbxFolder>();
-		private IList<uint> orderedIndexes = new List<uint>();
 
 		/// <summary>
 		/// Initializes a new instance of the
@@ -192,7 +191,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		/// <param name="folderIndexes">The list of folder indexes into the
 		/// Folder.dbx file.</param>
-		public void GetChildren(IList<uint> folderIndexes)
+		/// <returns>A list of child folders.</returns>
+		public IList<DbxFolder> GetChildren(IList<uint> folderIndexes)
 		{
 			if (folderIndexes != null)
 			{
@@ -231,6 +231,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					}
 				}
 			}
+
+			return childrenFolders;
 		}
 
 		/// <summary>
