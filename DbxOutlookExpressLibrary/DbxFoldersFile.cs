@@ -22,6 +22,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		private readonly IList<string> folderFiles;
+		private IList<uint> orderedIndexes = new List<uint>();
 
 		/// <summary>
 		/// Initializes a new instance of the
@@ -99,8 +100,25 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			{
 				byte[] fileBytes = GetFileBytes();
 
-				foreach (uint index in Tree.FolderInformationIndexes)
+				IList<uint> folderIndexes;
+
+				if (orderedIndexes.Count > 0)
 				{
+					folderIndexes = orderedIndexes;
+				}
+				else
+				{
+					folderIndexes = Tree.FolderInformationIndexes;
+				}
+
+				foreach (uint index in folderIndexes)
+				{
+					if (index == 0)
+					{
+						Log.Warn("List: index is 0");
+						continue;
+					}
+
 					DbxFolder folder =
 						new (fileBytes, index, FolderPath, PreferredEncoding);
 
@@ -191,6 +209,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			}
 		}
 
+		/// <summary>
+		/// Set tree in order.
+		/// </summary>
 		public void SetTreeInOrder()
 		{
 			byte[] fileBytes = GetFileBytes();
@@ -200,6 +221,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				new (fileBytes, FolderPath, PreferredEncoding);
 
 			folder.GetChildren(Tree.FolderInformationIndexes);
+
+			orderedIndexes.Clear();
+			orderedIndexes = folder.SetOrderedIndexes(orderedIndexes);
 		}
 	}
 }
