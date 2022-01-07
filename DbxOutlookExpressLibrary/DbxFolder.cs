@@ -192,14 +192,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		/// <param name="folderIndexes">The list of folder indexes into the
 		/// Folder.dbx file.</param>
-		/// <returns>The count of the indexes to still be processed.</returns>
-		public int GetChildren(IList<uint> folderIndexes)
+		public void GetChildren(IList<uint> folderIndexes)
 		{
-			int index = 0;
-
 			if (folderIndexes != null)
 			{
-				for (index = folderIndexes.Count - 1; index >= 0; index--)
+				// Go backwards, since we removing items along the way.
+				for (int index = folderIndexes.Count - 1; index >= 0; index--)
 				{
 					try
 					{
@@ -224,7 +222,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 							folderIndexes.Remove(folderIndex);
 
-							index = folder.GetChildren(folderIndexes);
+							folder.GetChildren(folderIndexes);
 						}
 					}
 					catch (DbxException exception)
@@ -233,8 +231,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					}
 				}
 			}
-
-			return index;
 		}
 
 		/// <summary>
