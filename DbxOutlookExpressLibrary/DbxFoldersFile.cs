@@ -64,11 +64,13 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		{
 			DbxFolder folder = null;
 
-			if (CurrentIndex < Tree.FolderInformationIndexes.Count)
+			IList<uint> folderIndexes = GetActiveIndexes();
+
+			if (CurrentIndex < folderIndexes.Count)
 			{
 				byte[] fileBytes = GetFileBytes();
 
-				uint address = Tree.FolderInformationIndexes[CurrentIndex];
+				uint address = folderIndexes[CurrentIndex];
 
 				folder =
 					new (fileBytes, address, FolderPath, PreferredEncoding);
@@ -100,16 +102,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			{
 				byte[] fileBytes = GetFileBytes();
 
-				IList<uint> folderIndexes;
-
-				if (orderedIndexes.Count > 0)
-				{
-					folderIndexes = orderedIndexes;
-				}
-				else
-				{
-					folderIndexes = Tree.FolderInformationIndexes;
-				}
+				IList<uint> folderIndexes = GetActiveIndexes();
 
 				foreach (uint index in folderIndexes)
 				{
@@ -228,6 +221,22 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			orderedIndexes = folder.SetOrderedIndexes(orderedIndexes);
 
 			return childrenFolders;
+		}
+
+		private IList<uint> GetActiveIndexes()
+		{
+			IList<uint> folderIndexes;
+
+			if (orderedIndexes.Count > 0)
+			{
+				folderIndexes = orderedIndexes;
+			}
+			else
+			{
+				folderIndexes = Tree.FolderInformationIndexes;
+			}
+
+			return folderIndexes;
 		}
 	}
 }
