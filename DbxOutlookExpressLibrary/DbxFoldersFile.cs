@@ -210,10 +210,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		}
 
 		/// <summary>
-		/// Set tree in order.
+		/// Set tree in an ordered list.
 		/// </summary>
 		/// <returns>A list of child folders.</returns>
-		public IList<DbxFolder> SetTreeInOrder()
+		public IList<DbxFolder> SetTreeOrdered()
 		{
 			byte[] fileBytes = GetFileBytes();
 

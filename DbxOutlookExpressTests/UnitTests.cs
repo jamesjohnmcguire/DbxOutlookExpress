@@ -159,7 +159,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			DbxFoldersFile foldersFile = new(path, encoding);
 
-			IList<DbxFolder> childrenFolders = foldersFile.SetTreeInOrder();
+			IList<DbxFolder> childrenFolders = foldersFile.SetTreeOrdered();
 
 			Assert.Greater(childrenFolders.Count, 0);
 		}
