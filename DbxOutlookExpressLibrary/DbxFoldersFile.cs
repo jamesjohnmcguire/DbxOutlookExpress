@@ -72,6 +72,13 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				uint address = folderIndexes[CurrentIndex];
 
+				// Special case for root folder
+				if (address == 0 && CurrentIndex == 0)
+				{
+					CurrentIndex++;
+					address = folderIndexes[CurrentIndex];
+				}
+
 				folder =
 					new (fileBytes, address, FolderPath, PreferredEncoding);
 
