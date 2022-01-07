@@ -109,34 +109,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			this.fileBytes = fileBytes;
 			foldersPath = path;
 			this.preferredEncoding = preferredEncoding;
-
-			if (!string.IsNullOrWhiteSpace(FolderFileName))
-			{
-				path = Path.GetDirectoryName(path);
-
-				string filePath = Path.Combine(path, FolderFileName);
-
-				bool exists = File.Exists(filePath);
-
-				if (exists == false)
-				{
-					Log.Warn(FolderFileName +
-						" specified in Folders.dbx not present");
-				}
-				else
-				{
-					try
-					{
-						messageFile =
-							new DbxMessagesFile(filePath, preferredEncoding);
-					}
-					catch (DbxException)
-					{
-						Log.Warn("Could not create object: " + FolderFileName);
-						Log.Warn("Perhaps it is corrupted?");
-					}
-				}
-			}
 		}
 
 		/// <summary>
@@ -149,17 +121,25 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <param name="path">The path of the dbx set.</param>
 		/// <param name="preferredEncoding">The preferred encoding to use as
 		/// a fall back when the encoding can not be detected.</param>
+		/// <param name="loadMessagesFile">Indicates whether the messages file
+		/// should be loaded.</param>
 		public DbxFolder(
 			byte[] fileBytes,
 			uint address,
 			string path,
-			Encoding preferredEncoding)
+			Encoding preferredEncoding,
+			bool loadMessagesFile)
 			: this(fileBytes, path, preferredEncoding)
 		{
 			fileAddress = address;
 
 			DbxFolderIndexedItem index = new (fileBytes, address);
 			index.SetItemValues(this, address);
+
+			if (loadMessagesFile == true)
+			{
+				SetMessagesFile(ref messageFile);
+			}
 		}
 
 		/// <summary>
@@ -214,7 +194,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 							fileBytes,
 							folderIndex,
 							foldersPath,
-							preferredEncoding);
+							preferredEncoding,
+							false);
 
 						if (folder.FolderParentId == FolderId)
 						{
@@ -272,6 +253,37 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			}
 
 			return orderedIndexes;
+		}
+
+		private void SetMessagesFile(ref DbxMessagesFile messageFile)
+		{
+			if (!string.IsNullOrWhiteSpace(FolderFileName))
+			{
+				string path = Path.GetDirectoryName(foldersPath);
+
+				string filePath = Path.Combine(path, FolderFileName);
+
+				bool exists = File.Exists(filePath);
+
+				if (exists == false)
+				{
+					Log.Warn(FolderFileName +
+						" specified in Folders.dbx not present");
+				}
+				else
+				{
+					try
+					{
+						messageFile =
+							new DbxMessagesFile(filePath, preferredEncoding);
+					}
+					catch (DbxException)
+					{
+						Log.Warn("Could not create object: " + FolderFileName);
+						Log.Warn("Perhaps it is corrupted?");
+					}
+				}
+			}
 		}
 	}
 }

@@ -79,8 +79,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					address = folderIndexes[CurrentIndex];
 				}
 
-				folder =
-					new (fileBytes, address, FolderPath, PreferredEncoding);
+				folder = new (
+					fileBytes,
+					address,
+					FolderPath,
+					PreferredEncoding,
+					true);
 
 				if (!string.IsNullOrWhiteSpace(folder.FolderFileName))
 				{
@@ -119,8 +123,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 						continue;
 					}
 
-					DbxFolder folder =
-						new (fileBytes, index, FolderPath, PreferredEncoding);
+					DbxFolder folder = new (
+						fileBytes,
+						index,
+						FolderPath,
+						PreferredEncoding,
+						false);
 
 					string folderFileName = string.Empty;
 
@@ -195,8 +203,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxFolder folder =
-						new (fileBytes, index, FolderPath, PreferredEncoding);
+					DbxFolder folder = new (
+						fileBytes,
+						index,
+						FolderPath,
+						PreferredEncoding,
+						true);
 
 					string message = string.Format(
 						CultureInfo.InvariantCulture,
