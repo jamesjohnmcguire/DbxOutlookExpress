@@ -22,6 +22,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		private readonly IList<string> folderFiles;
+		private IList<uint> orderedIndexes = new List<uint>();
 
 		/// <summary>
 		/// Initializes a new instance of the
@@ -63,14 +64,27 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		{
 			DbxFolder folder = null;
 
-			if (CurrentIndex < Tree.FolderInformationIndexes.Count)
+			IList<uint> folderIndexes = GetActiveIndexes();
+
+			if (CurrentIndex < folderIndexes.Count)
 			{
 				byte[] fileBytes = GetFileBytes();
 
-				uint address = Tree.FolderInformationIndexes[CurrentIndex];
+				uint address = folderIndexes[CurrentIndex];
 
-				folder =
-					new (fileBytes, address, FolderPath, PreferredEncoding);
+				// Special case for root folder
+				if (address == 0 && CurrentIndex == 0)
+				{
+					CurrentIndex++;
+					address = folderIndexes[CurrentIndex];
+				}
+
+				folder = new (
+					fileBytes,
+					address,
+					FolderPath,
+					PreferredEncoding,
+					true);
 
 				if (!string.IsNullOrWhiteSpace(folder.FolderFileName))
 				{
@@ -99,10 +113,22 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			{
 				byte[] fileBytes = GetFileBytes();
 
-				foreach (uint index in Tree.FolderInformationIndexes)
+				IList<uint> folderIndexes = GetActiveIndexes();
+
+				foreach (uint index in folderIndexes)
 				{
-					DbxFolder folder =
-						new (fileBytes, index, FolderPath, PreferredEncoding);
+					if (index == 0)
+					{
+						Log.Warn("List: index is 0");
+						continue;
+					}
+
+					DbxFolder folder = new (
+						fileBytes,
+						index,
+						FolderPath,
+						PreferredEncoding,
+						false);
 
 					string folderFileName = string.Empty;
 
@@ -177,8 +203,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxFolder folder =
-						new (fileBytes, index, FolderPath, PreferredEncoding);
+					DbxFolder folder = new (
+						fileBytes,
+						index,
+						FolderPath,
+						PreferredEncoding,
+						true);
 
 					string message = string.Format(
 						CultureInfo.InvariantCulture,
@@ -189,6 +219,43 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					MigrateFolder(folder.FolderFileName);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Set tree in an ordered list.
+		/// </summary>
+		/// <returns>A list of child folders.</returns>
+		public IList<DbxFolder> SetTreeOrdered()
+		{
+			byte[] fileBytes = GetFileBytes();
+
+			// Set root folder
+			DbxFolder folder =
+				new (fileBytes, FolderPath, PreferredEncoding);
+
+			IList<DbxFolder> childrenFolders =
+				folder.GetChildren(Tree.FolderInformationIndexes);
+
+			orderedIndexes.Clear();
+			orderedIndexes = folder.SetOrderedIndexes(orderedIndexes);
+
+			return childrenFolders;
+		}
+
+		private IList<uint> GetActiveIndexes()
+		{
+			IList<uint> folderIndexes;
+
+			if (orderedIndexes.Count > 0)
+			{
+				folderIndexes = orderedIndexes;
+			}
+			else
+			{
+				folderIndexes = Tree.FolderInformationIndexes;
+			}
+
+			return folderIndexes;
 		}
 	}
 }
