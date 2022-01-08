@@ -240,8 +240,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					{
 						if (index >= folders.Count)
 						{
-							Log.Warn("Getting Children: Current index " +
-								"greater then count - index: " + index);
 							index = folders.Count - 1;
 						}
 
