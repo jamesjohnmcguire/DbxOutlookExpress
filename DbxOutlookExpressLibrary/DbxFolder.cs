@@ -225,6 +225,51 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		}
 
 		/// <summary>
+		/// Get the children list of this folder.
+		/// </summary>
+		/// <param name="folders">A list of un-ordered folders.</param>
+		/// <returns>A list of child folders.</returns>
+		public IList<DbxFolder> GetChildren(IList<DbxFolder> folders)
+		{
+			if (folders != null)
+			{
+				// Go backwards, since we removing items along the way.
+				for (int index = folders.Count - 1; index >= 0; index--)
+				{
+					try
+					{
+						if (index >= folders.Count)
+						{
+							Log.Warn("Getting Children: Current index " +
+								"greater then count - index: " + index);
+							index = folders.Count - 1;
+						}
+
+						DbxFolder folder = folders[index];
+
+						if (folder.FolderParentId == FolderId)
+						{
+							childrenFolders.Add(folder);
+
+							folders.Remove(folder);
+
+							IList<DbxFolder> children =
+								folder.GetChildren(folders);
+
+							index = index - children.Count;
+						}
+					}
+					catch (DbxException exception)
+					{
+						Log.Error(exception);
+					}
+				}
+			}
+
+			return childrenFolders;
+		}
+
+		/// <summary>
 		/// Gets the next message in enurmation.
 		/// </summary>
 		/// <returns>The next message.</returns>
