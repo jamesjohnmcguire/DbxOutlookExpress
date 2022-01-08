@@ -4,6 +4,7 @@ using System;
 using System.Text;
 using System.IO;
 using DigitalZenWorks.Common.Utilities;
+using System.Collections.Generic;
 
 [assembly: CLSCompliant(true)]
 
@@ -142,6 +143,25 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			ushort test = Bytes.ToShort(testBytes, 4);
 			Assert.AreEqual(test, 0x2986);
+		}
+
+		/// <summary>
+		/// Test for getting children folders.
+		/// </summary>
+		[Test]
+		public void TestGetChildrenFolders()
+		{
+			Encoding encoding = Encoding.UTF8;
+
+			string path = Path.Combine(testFolder.FullName, "Folders.dbx");
+			bool result = FileUtils.CreateFileFromEmbeddedResource(
+				"DbxOutlookExpressTests.Folders.dbx", path);
+
+			DbxFoldersFile foldersFile = new(path, encoding);
+
+			IList<DbxFolder> childrenFolders = foldersFile.SetTreeOrdered();
+
+			Assert.Greater(childrenFolders.Count, 0);
 		}
 
 		/// <summary>

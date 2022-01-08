@@ -150,6 +150,15 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			foldersFile.MigrateFolders();
 		}
 
+		/// <summary>
+		/// Set tree in an ordered list.
+		/// </summary>
+		/// <returns>A list of child folders.</returns>
+		public IList<DbxFolder> SetTreeOrdered()
+		{
+			return foldersFile.SetTreeOrdered();
+		}
+
 		private IList<string> AppendOrphanedFiles()
 		{
 			string[] ignoreFiles =
