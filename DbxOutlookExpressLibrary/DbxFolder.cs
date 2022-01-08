@@ -28,6 +28,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private readonly Encoding preferredEncoding;
 		private IList<DbxFolder> childrenFolders = new List<DbxFolder>();
 
+		public DbxFolder(uint id, uint parentId, string name, string fileName)
+		{
+			FolderId = id;
+			FolderParentId = parentId;
+			FolderName = name;
+			FolderFileName = fileName;
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the
 		/// <see cref="DbxFolder"/> class.
