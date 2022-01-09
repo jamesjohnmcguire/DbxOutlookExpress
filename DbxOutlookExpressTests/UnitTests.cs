@@ -269,5 +269,40 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		{
 			Assert.Pass();
 		}
+
+		/// <summary>
+		/// Test for ordered tree.
+		/// </summary>
+		[Test]
+		public void TestTree()
+		{
+			DbxFolder folder1 = new DbxFolder(1, 0, "A", null);
+			DbxFolder folder2 = new DbxFolder(2, 4, "B", null);
+			DbxFolder folder3 = new DbxFolder(3, 0, "C", null);
+			DbxFolder folder4 = new DbxFolder(4, 5, "D", null);
+			DbxFolder folder5 = new DbxFolder(5, 0, "E", null);
+
+			IList<DbxFolder> folders = new List<DbxFolder>();
+			folders.Add(folder1);
+			folders.Add(folder2);
+			folders.Add(folder3);
+			folders.Add(folder4);
+			folders.Add(folder5);
+
+			DbxFolder folder = new DbxFolder(0, 0, "root", null);
+
+			IList<DbxFolder> childrenFolders = folder.GetChildren(folders);
+
+			Assert.Greater(childrenFolders.Count, 0);
+
+			DbxFolder childFolder = childrenFolders[0];
+			Assert.AreEqual(childFolder.FolderName, "E");
+
+			childFolder = childrenFolders[1];
+			Assert.AreEqual(childFolder.FolderName, "C");
+
+			childFolder = childrenFolders[2];
+			Assert.AreEqual(childFolder.FolderName, "A");
+		}
 	}
 }
