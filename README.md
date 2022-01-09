@@ -23,7 +23,7 @@ DbxSet dbxSet = new (@"\path\to\your\dbx\files", Encoding.UTF8);
 DbxFolder dbxFolder = dbxSet.GetNextFolder();  
 DbxMessage dbxMessage = dbxFolder.GetNextMessage();  
 
-For a more in-depth example of a project using this library, please refer to the [DbxToPst Project](https://github.com/jamesjohnmcguire/DbxToPst)  
+For a more in-depth example of a project using this library, please refer to the [DigitalZenWorks.Email.ToolKit Project](https://github.com/jamesjohnmcguire/.Email.ToolKit)  
   
 By default, when using GetNextFolder(), folders come out in an un-ordered list, mirroring the way they are stored in Folders.dbx file.  This means that, occasionally, some child folders may come up before their parents.  If you need the folders to  be in an ordered list, use  
 dbxFoldersFile.SetTreeOrdered();  
