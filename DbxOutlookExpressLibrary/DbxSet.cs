@@ -137,7 +137,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		{
 			Log.Info("Id\tParentId\tName\t\tFile Name");
 
-			foldersFile.List();
+			if (foldersFile != null)
+			{
+				foldersFile.List();
+			}
 
 			AppendOrphanedFiles();
 		}
@@ -147,7 +150,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		public void Migrate()
 		{
-			foldersFile.MigrateFolders();
+			if (foldersFile != null)
+			{
+				foldersFile.MigrateFolders();
+			}
 		}
 
 		/// <summary>
@@ -156,7 +162,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <returns>A list of child folders.</returns>
 		public IList<DbxFolder> SetTreeOrdered()
 		{
-			return foldersFile.SetTreeOrdered();
+			IList<DbxFolder> orderedList = new List<DbxFolder> ();
+
+			if (foldersFile != null)
+			{
+				orderedList = foldersFile.SetTreeOrdered();
+			}
+
+			return orderedList;
 		}
 
 		private IList<string> AppendOrphanedFiles()
