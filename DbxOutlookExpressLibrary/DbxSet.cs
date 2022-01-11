@@ -162,7 +162,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <returns>A list of child folders.</returns>
 		public IList<DbxFolder> SetTreeOrdered()
 		{
-			IList<DbxFolder> orderedList = new List<DbxFolder> ();
+			IList<DbxFolder> orderedList = new List<DbxFolder>();
 
 			if (foldersFile != null)
 			{

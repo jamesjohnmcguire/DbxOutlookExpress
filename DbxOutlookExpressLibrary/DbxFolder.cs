@@ -26,8 +26,15 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private readonly string foldersPath;
 		private readonly DbxMessagesFile messageFile;
 		private readonly Encoding preferredEncoding;
-		private IList<DbxFolder> childrenFolders = new List<DbxFolder>();
+		private readonly IList<DbxFolder> childrenFolders = new List<DbxFolder>();
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DbxFolder"/> class.
+		/// </summary>
+		/// <param name="id">The id of folder.</param>
+		/// <param name="parentId">The parent id of the folder.</param>
+		/// <param name="name">The name of the folder.</param>
+		/// <param name="fileName">The file name of the folder.</param>
 		public DbxFolder(uint id, uint parentId, string name, string fileName)
 		{
 			FolderId = id;
@@ -37,8 +44,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the
-		/// <see cref="DbxFolder"/> class.
+		/// Initializes a new instance of the <see cref="DbxFolder"/> class.
 		/// </summary>
 		/// <param name="path">The path of the dbx set.</param>
 		/// <param name="folderFileName">The name of the messages
@@ -254,7 +260,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 							IList<DbxFolder> children =
 								folder.GetChildren(folders);
 
-							index = index - children.Count;
+							index -= children.Count;
 						}
 					}
 					catch (DbxException exception)
