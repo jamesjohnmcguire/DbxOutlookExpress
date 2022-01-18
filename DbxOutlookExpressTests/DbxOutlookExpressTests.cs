@@ -163,6 +163,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			bool result = FileUtils.CreateFileFromEmbeddedResource(
 				"DbxOutlookExpressTests.Folders.dbx", path);
 
+			Assert.True(result);
+
 			DbxFoldersFile foldersFile = new (path, encoding);
 
 			IList<DbxFolder> childrenFolders = foldersFile.SetTreeOrdered();
