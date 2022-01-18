@@ -54,7 +54,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// Gets the list of folder files.
 		/// </summary>
 		/// <value>The list of folder files.</value>
-		public IList<string> FoldersFile { get { return folderFiles; } }
+		public IList<string> FolderFiles { get { return folderFiles; } }
 
 		/// <summary>
 		/// Get the next folder in the tree list.

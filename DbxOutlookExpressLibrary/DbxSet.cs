@@ -196,7 +196,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 					if (foldersFile != null)
 					{
-						if (!foldersFile.FoldersFile.Contains(fileName) &&
+						if (!foldersFile.FolderFiles.Contains(fileName) &&
 							!ignoreFiles.Contains(fileName))
 						{
 							Log.Warn("Orphaned file found - " +
