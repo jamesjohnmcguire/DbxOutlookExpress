@@ -324,7 +324,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					Log.Warn("Perhaps it is corrupted?");
 				}
 			}
-
 		}
 
 		private void SetMessagesFile(ref DbxMessagesFile messageFile)

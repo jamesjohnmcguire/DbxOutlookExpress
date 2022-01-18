@@ -1,10 +1,16 @@
-using NUnit.Framework;
-using DigitalZenWorks.Email.DbxOutlookExpress;
-using System;
-using System.Text;
-using System.IO;
+﻿/////////////////////////////////////////////////////////////////////////////
+// <copyright file="DbxOutlookExpressTests.cs" company="James John McGuire">
+// Copyright © 2021 - 2022 James John McGuire. All Rights Reserved.
+// </copyright>
+/////////////////////////////////////////////////////////////////////////////
+
 using DigitalZenWorks.Common.Utilities;
+using DigitalZenWorks.Email.DbxOutlookExpress;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 [assembly: CLSCompliant(true)]
 
@@ -157,7 +163,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			bool result = FileUtils.CreateFileFromEmbeddedResource(
 				"DbxOutlookExpressTests.Folders.dbx", path);
 
-			DbxFoldersFile foldersFile = new(path, encoding);
+			DbxFoldersFile foldersFile = new (path, encoding);
 
 			IList<DbxFolder> childrenFolders = foldersFile.SetTreeOrdered();
 
@@ -209,7 +215,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			Encoding encoding = Encoding.UTF8;
 
-			DbxSet dbxSet = new(path, encoding);
+			DbxSet dbxSet = new (path, encoding);
 
 			DbxFolder folder = dbxSet.GetNextFolder();
 			Assert.Null(folder);
@@ -276,11 +282,11 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		[Test]
 		public void TestTree()
 		{
-			DbxFolder folder1 = new DbxFolder(1, 0, "A", null);
-			DbxFolder folder2 = new DbxFolder(2, 4, "B", null);
-			DbxFolder folder3 = new DbxFolder(3, 0, "C", null);
-			DbxFolder folder4 = new DbxFolder(4, 5, "D", null);
-			DbxFolder folder5 = new DbxFolder(5, 0, "E", null);
+			DbxFolder folder1 = new (1, 0, "A", null);
+			DbxFolder folder2 = new (2, 4, "B", null);
+			DbxFolder folder3 = new (3, 0, "C", null);
+			DbxFolder folder4 = new (4, 5, "D", null);
+			DbxFolder folder5 = new (5, 0, "E", null);
 
 			IList<DbxFolder> folders = new List<DbxFolder>();
 			folders.Add(folder1);
@@ -289,7 +295,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			folders.Add(folder4);
 			folders.Add(folder5);
 
-			DbxFolder folder = new DbxFolder(0, 0, "root", null);
+			DbxFolder folder = new (0, 0, "root", null);
 
 			IList<DbxFolder> childrenFolders = folder.GetChildren(folders);
 
