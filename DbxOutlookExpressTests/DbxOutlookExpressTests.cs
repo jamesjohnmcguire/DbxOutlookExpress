@@ -290,12 +290,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			DbxFolder folder4 = new (4, 5, "D", null);
 			DbxFolder folder5 = new (5, 0, "E", null);
 
-			IList<DbxFolder> folders = new List<DbxFolder>();
-			folders.Add(folder1);
-			folders.Add(folder2);
-			folders.Add(folder3);
-			folders.Add(folder4);
-			folders.Add(folder5);
+			IList<DbxFolder> folders = new List<DbxFolder>
+			{
+				folder1,
+				folder2,
+				folder3,
+				folder4,
+				folder5
+			};
 
 			DbxFolder folder = new (0, 0, "root", null);
 
