@@ -57,33 +57,24 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			FolderFileName = folderFileName;
 			this.preferredEncoding = preferredEncoding;
 
-			string extension = Path.GetExtension(path);
-
-			if (string.IsNullOrEmpty(extension))
+			if (string.IsNullOrEmpty(path))
 			{
-				foldersPath = path;
-
-				// Assuming just a directory given.  Try getting Folders file.
-				path = Path.Combine(path, folderFileName);
+				Log.Error("path is null or empty!");
 			}
-
-			bool exists = File.Exists(path);
-
-			if (exists == true)
+			else
 			{
-				FileInfo fileInfo = new (path);
-				FolderName =
-					Path.GetFileNameWithoutExtension(fileInfo.Name);
+				string extension = Path.GetExtension(path);
 
-				try
+				if (string.IsNullOrEmpty(extension))
 				{
-					messageFile = new DbxMessagesFile(path, preferredEncoding);
+					foldersPath = path;
+
+					// Assuming just a directory given.
+					// Try getting Folders file.
+					path = Path.Combine(path, folderFileName);
 				}
-				catch (DbxException)
-				{
-					Log.Warn("Could not create object: " + FolderFileName);
-					Log.Warn("Perhaps it is corrupted?");
-				}
+
+				GetMessagesFile(path, ref messageFile);
 			}
 		}
 
@@ -310,6 +301,30 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			}
 
 			return orderedIndexes;
+		}
+
+		private void GetMessagesFile(
+			string path, ref DbxMessagesFile messageFile)
+		{
+			bool exists = File.Exists(path);
+
+			if (exists == true)
+			{
+				FileInfo fileInfo = new (path);
+				FolderName =
+					Path.GetFileNameWithoutExtension(fileInfo.Name);
+
+				try
+				{
+					messageFile = new DbxMessagesFile(path, preferredEncoding);
+				}
+				catch (DbxException)
+				{
+					Log.Warn("Could not create object: " + FolderFileName);
+					Log.Warn("Perhaps it is corrupted?");
+				}
+			}
+
 		}
 
 		private void SetMessagesFile(ref DbxMessagesFile messageFile)
