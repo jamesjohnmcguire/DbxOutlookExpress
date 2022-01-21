@@ -24,19 +24,19 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		private DirectoryInfo testFolder;
 
 		/// <summary>
-		/// Set up method.
+		/// One time set up method.
 		/// </summary>
-		[SetUp]
-		public void Setup()
+		[OneTimeSetUp]
+		public void OneTimeSetUp()
 		{
 			testFolder = Directory.CreateDirectory("TestFolder");
 		}
 
 		/// <summary>
-		/// function that is called just after each test method is called.
+		/// One time tear down method.
 		/// </summary>
-		[TearDown]
-		public void Teardown()
+		[OneTimeTearDown]
+		public void OneTimeTearDown()
 		{
 			bool result = Directory.Exists(testFolder.FullName);
 
