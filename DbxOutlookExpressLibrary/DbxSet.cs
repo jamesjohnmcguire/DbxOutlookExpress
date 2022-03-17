@@ -95,10 +95,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			if (folder == null)
 			{
-				Log.Info("Folders.dbx exhausted");
-
 				if (orphanFileIndex == -1)
 				{
+					Log.Info("Folders.dbx exhausted");
+
 					Log.Info("Checking for orphans");
 					orphanFiles = AppendOrphanedFiles();
 					orphanFileIndex = 0;
