@@ -193,22 +193,25 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 							index = folderIndexes.Count - 1;
 						}
 
-						uint folderIndex = folderIndexes[index];
-
-						DbxFolder folder = new (
-							fileBytes,
-							folderIndex,
-							foldersPath,
-							preferredEncoding,
-							false);
-
-						if (folder.FolderParentId == FolderId)
+						if (index > -1)
 						{
-							childrenFolders.Add(folder);
+							uint folderIndex = folderIndexes[index];
 
-							folderIndexes.Remove(folderIndex);
+							DbxFolder folder = new (
+								fileBytes,
+								folderIndex,
+								foldersPath,
+								preferredEncoding,
+								false);
 
-							folder.GetChildren(folderIndexes);
+							if (folder.FolderParentId == FolderId)
+							{
+								childrenFolders.Add(folder);
+
+								folderIndexes.Remove(folderIndex);
+
+								folder.GetChildren(folderIndexes);
+							}
 						}
 					}
 					catch (DbxException exception)
