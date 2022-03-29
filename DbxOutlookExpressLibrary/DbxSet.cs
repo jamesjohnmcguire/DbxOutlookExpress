@@ -106,8 +106,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				if (orphanFiles.Count > orphanFileIndex)
 				{
-					Log.Info("Getting next orphan file");
 					string fileName = orphanFiles[orphanFileIndex];
+					Log.Info("Getting next orphan file:" + fileName);
 
 					// Best if each folder has it's own unique id, even if it
 					// is artifically constructed.
