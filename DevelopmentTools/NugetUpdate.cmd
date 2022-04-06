@@ -1,5 +1,5 @@
 REM %1 - API key
-REM %2 - Version (such as 1. 0.0.5)
+REM %2 - Version (such as 1.0.0.5)
 
 CD %~dp0
 CD ..\DbxOutlookExpressLibrary
