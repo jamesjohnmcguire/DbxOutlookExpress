@@ -5,6 +5,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 using Common.Logging;
+using DigitalZenWorks.Common.Utilities;
 using System;
 using System.Globalization;
 using System.IO;
@@ -153,14 +154,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				byte[] headerBytes = new byte[0x10];
 				Array.Copy(fileBytes, address, headerBytes, 0, 0x10);
 
-				uint objectMarker = Bytes.ToInteger(headerBytes, 0);
+				uint objectMarker = BitBytes.ToInteger(headerBytes, 0);
 
 				if (objectMarker != address)
 				{
 					throw new DbxException("Wrong object marker!");
 				}
 
-				uint length = Bytes.ToInteger(headerBytes, 8);
+				uint length = BitBytes.ToInteger(headerBytes, 8);
 
 				// skip over header
 				address += 0x10;
@@ -180,7 +181,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				builder.Append(section);
 
 				// prep next section
-				address = Bytes.ToInteger(headerBytes, 12);
+				address = BitBytes.ToInteger(headerBytes, 12);
 			}
 
 			body = builder.ToString();
@@ -206,14 +207,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				byte[] headerBytes = new byte[0x10];
 				Array.Copy(fileBytes, address, headerBytes, 0, 0x10);
 
-				uint objectMarker = Bytes.ToInteger(headerBytes, 0);
+				uint objectMarker = BitBytes.ToInteger(headerBytes, 0);
 
 				if (objectMarker != address)
 				{
 					throw new DbxException("Wrong object marker!");
 				}
 
-				uint length = Bytes.ToInteger(headerBytes, 8);
+				uint length = BitBytes.ToInteger(headerBytes, 8);
 
 				// skip over header
 				address += 0x10;
@@ -241,7 +242,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				message = newMessage;
 
 				// prep next section
-				address = Bytes.ToInteger(headerBytes, 12);
+				address = BitBytes.ToInteger(headerBytes, 12);
 			}
 
 			return message;
