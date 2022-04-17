@@ -5,6 +5,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 using Common.Logging;
+using DigitalZenWorks.Common.Utilities;
 using System;
 using System.Text;
 using UtfUnknown;
@@ -173,7 +174,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			Array.Copy(fileBytes, address, initialBytes, 0, 12);
 
 			// It will be easier to work with integers as opposed to bytes.
-			uint[] initialArray = Bytes.ToIntegerArray(initialBytes);
+			uint[] initialArray = BitBytes.ToIntegerArray(initialBytes);
 
 			if (initialArray[0] != address)
 			{
@@ -196,7 +197,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			for (uint index = 0; index < itemsCountBytes; index += 4)
 			{
 				byte rawValue = bodyBytes[index];
-				bool isDirect = Bytes.GetBit(rawValue, 7);
+				bool isDirect = BitBytes.GetBit(rawValue, 7);
 				byte indexOffset = (byte)(rawValue & 0x7F);
 
 				if (isDirect == true)
@@ -207,7 +208,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				}
 				else
 				{
-					uint value = Bytes.ToIntegerLimit(bodyBytes, index + 1, 2);
+					uint value = BitBytes.ToIntegerLimit(bodyBytes, index + 1, 2);
 					offset = itemsCountBytes;
 					value = offset + value;
 					SetIndex(indexOffset, value);
@@ -272,7 +273,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			if (subIndex > 0)
 			{
-				item = Bytes.ToIntegerLimit(bodyBytes, subIndex, amount);
+				item = BitBytes.ToIntegerLimit(bodyBytes, subIndex, amount);
 			}
 
 			return item;
@@ -290,7 +291,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			if (subIndex > 0)
 			{
-				item = Bytes.ToLong(bodyBytes, subIndex);
+				item = BitBytes.ToLong(bodyBytes, subIndex);
 			}
 
 			return item;

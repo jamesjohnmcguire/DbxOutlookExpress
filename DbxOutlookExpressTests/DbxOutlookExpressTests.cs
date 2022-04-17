@@ -54,15 +54,15 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		{
 			// 0 based
 			byte sevenOn = 64;
-			bool bit = Bytes.GetBit(sevenOn, 6);
+			bool bit = BitBytes.GetBit(sevenOn, 6);
 			Assert.True(bit);
 
 			byte sevenOff = 63;
-			bit = Bytes.GetBit(sevenOff, 6);
+			bit = BitBytes.GetBit(sevenOff, 6);
 			Assert.False(bit);
 
 			sevenOff = 128;
-			bit = Bytes.GetBit(sevenOff, 6);
+			bit = BitBytes.GetBit(sevenOff, 6);
 			Assert.False(bit);
 		}
 
@@ -77,7 +77,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x00, 0x04, 0x64, 0x69
 			};
 
-			uint test = Bytes.ToInteger(testBytes, 4);
+			uint test = BitBytes.ToInteger(testBytes, 4);
 			Assert.AreEqual(test, 0x4002986);
 		}
 
@@ -98,7 +98,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 				0x30, 0x30, 0x30, 0x31, 0x37, 0x00, 0x00, 0x00
 			};
 
-			uint[] integerArray = Bytes.ToIntegerArray(testBytes);
+			uint[] integerArray = BitBytes.ToIntegerArray(testBytes);
 			int size = integerArray.Length;
 
 			Assert.AreEqual(size, 0x11);
@@ -117,7 +117,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x01, 0x04, 0x64, 0x69
 			};
 
-			uint test = Bytes.ToIntegerLimit(testBytes, 4, 3);
+			uint test = BitBytes.ToIntegerLimit(testBytes, 4, 3);
 			Assert.AreEqual(test, 0x12986);
 		}
 
@@ -132,7 +132,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x00, 0x04, 0x64, 0x69
 			};
 
-			ulong test = Bytes.ToLong(testBytes, 2);
+			ulong test = BitBytes.ToLong(testBytes, 2);
 			Assert.AreEqual(test, 0x6964040029860000);
 		}
 
@@ -147,7 +147,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x00, 0x04, 0x64, 0x69
 			};
 
-			ushort test = Bytes.ToShort(testBytes, 4);
+			ushort test = BitBytes.ToShort(testBytes, 4);
 			Assert.AreEqual(test, 0x2986);
 		}
 

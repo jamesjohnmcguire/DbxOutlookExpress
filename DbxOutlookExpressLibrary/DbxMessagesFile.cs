@@ -5,6 +5,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 using Common.Logging;
+using DigitalZenWorks.Common.Utilities;
 using System;
 using System.Globalization;
 using System.IO;
@@ -184,7 +185,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				byte[] headerBytes = new byte[0x10];
 				Array.Copy(fileBytes, address, headerBytes, 0, 0x10);
 
-				uint length = Bytes.ToInteger(headerBytes, 8);
+				uint length = BitBytes.ToInteger(headerBytes, 8);
 
 				// skip over header
 				address += 0x10;
@@ -199,7 +200,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				Log.Info(logMessage);
 
 				// prep next section
-				address = Bytes.ToInteger(headerBytes, 12);
+				address = BitBytes.ToInteger(headerBytes, 12);
 			}
 		}
 
