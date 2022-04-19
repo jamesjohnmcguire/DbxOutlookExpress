@@ -115,6 +115,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					folder = new (
 						path, maximumFolderId, fileName, preferredEncoding);
 
+					folder.IsOrphan = true;
 					orphanFileIndex++;
 				}
 			}

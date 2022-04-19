@@ -28,6 +28,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private readonly Encoding preferredEncoding;
 		private readonly IList<DbxFolder> childrenFolders = new List<DbxFolder>();
 
+		private bool isOrphan;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DbxFolder"/> class.
 		/// </summary>
@@ -170,6 +172,17 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		/// <value>The folder parent id.</value>
 		public uint FolderParentId { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether whether the folder
+		/// is an orphan.
+		/// </summary>
+		/// <value>A value indicating whether the folder is an orphan.</value>
+		public bool IsOrphan
+		{
+			get { return isOrphan; }
+			set { isOrphan = value; }
+		}
 
 		/// <summary>
 		/// Get the children list of this folder.
