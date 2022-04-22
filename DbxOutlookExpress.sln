@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbxOutlookExpressLibrary", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbxOutlookExpressTests", "DbxOutlookExpressTests\DbxOutlookExpressTests.csproj", "{540E2EFD-5C6A-451B-BDCE-437271884ED8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UTF-unknown", "UTF-unknown\src\UTF-unknown.csproj", "{5AD35264-2FD6-41D5-8F72-77D47ED92A62}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{540E2EFD-5C6A-451B-BDCE-437271884ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{540E2EFD-5C6A-451B-BDCE-437271884ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{540E2EFD-5C6A-451B-BDCE-437271884ED8}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{5AD35264-2FD6-41D5-8F72-77D47ED92A62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5AD35264-2FD6-41D5-8F72-77D47ED92A62}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5AD35264-2FD6-41D5-8F72-77D47ED92A62}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5AD35264-2FD6-41D5-8F72-77D47ED92A62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
