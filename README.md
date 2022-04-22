@@ -4,13 +4,9 @@ This is a C# library for interacting with Outlook Express dbx files.  The dbx fi
 
 ## Getting Started
 
-### Prerequisites
-
-This project includes the [UTF-unknown project](https://github.com/CharsetDetector/UTF-unknown) as a submodule.  So, be sure to include submodules when retreiving the repository contents. 
-
 ### Installation
 #### Git
-git clone --recurse-submodules https://github.com/jamesjohnmcguire/DbxOutlookExpress
+git clone https://github.com/jamesjohnmcguire/DbxOutlookExpress
 
 #### Nuget
 PM> Install-Package DigitalZenWorks.Email.DbxOutlookExpress
