@@ -5,7 +5,6 @@
 /////////////////////////////////////////////////////////////////////////////
 
 using DigitalZenWorks.Common.Utilities;
-using DigitalZenWorks.Email.DbxOutlookExpress;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
