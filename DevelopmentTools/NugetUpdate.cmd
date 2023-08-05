@@ -6,8 +6,9 @@ CD ..\DbxOutlookExpressLibrary
 
 msbuild -property:Configuration=Release;OutputPath=Bin\Nuget -restore DbxOutlookExpressLibrary.csproj
 
-if "%~2"=="" GOTO error1
-if "%~3"=="" GOTO error2
+@ECHO OFF
+if "%~1"=="" GOTO error1
+if "%~2"=="" GOTO error2
 
 CD Bin\Nuget
 
