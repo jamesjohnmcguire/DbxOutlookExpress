@@ -9,7 +9,7 @@ msbuild -property:Configuration=Release;OutputPath=Bin\Release\Library -restore 
 if "%~1"=="" GOTO error1
 if "%~2"=="" GOTO error2
 
-CD Bin\Nuget
+CD Bin\Release\Library
 
 nuget push DigitalZenWorks.Email.DbxOutlookExpress.%1.nupkg %2 -Source https://api.nuget.org/v3/index.json
 
