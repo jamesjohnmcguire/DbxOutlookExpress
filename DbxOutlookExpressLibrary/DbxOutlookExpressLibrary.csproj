@@ -6,6 +6,7 @@
 		<AssemblyName>DigitalZenWorks.Email.DbxOutlookExpressLibrary</AssemblyName>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<Authors>James John McGuire</Authors>
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<CodeAnalysisRuleSet>../CodeAnalysis.ruleset</CodeAnalysisRuleSet>
 		<Company>Digital Zen Works</Company>
 		<Copyright>Copyright © 2021 - 2023</Copyright>
