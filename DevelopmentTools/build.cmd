@@ -4,15 +4,14 @@ REM %2 - API key
 CD %~dp0
 CD ..\DbxOutlookExpressLibrary
 
-msbuild -property:Configuration=Release;OutputPath=Bin\Nuget -restore DbxOutlookExpressLibrary.csproj
+msbuild -property:Configuration=Release;OutputPath=Bin\Release\Library -restore -target:rebuild;pack DbxOutlookExpressLibrary.csproj
 
-if "%~2"=="" GOTO error1
-if "%~3"=="" GOTO error2
+if "%~1"=="" GOTO error1
+if "%~2"=="" GOTO error2
 
 CD Bin\Nuget
 
-dotnet nuget push DigitalZenWorks.Email.DbxOutlookExpress.%1.nupkg --api-key %2 --source https://api.nuget.org/v3/index.json
-
+nuget push DigitalZenWorks.Email.DbxOutlookExpress.%1.nupkg %2 -Source https://api.nuget.org/v3/index.json
 
 :error1
 ECHO No version tag specified
