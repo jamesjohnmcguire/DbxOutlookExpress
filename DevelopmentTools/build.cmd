@@ -4,12 +4,12 @@ REM %2 - API key
 CD %~dp0
 CD ..\DbxOutlookExpressLibrary
 
-msbuild -property:Configuration=Release;OutputPath=Bin\Release\Library -restore -target:rebuild;pack DbxOutlookExpressLibrary.csproj
+msbuild -property:Configuration=Release -restore -target:rebuild;pack DbxOutlookExpressLibrary.csproj
 
 if "%~1"=="" GOTO error1
 if "%~2"=="" GOTO error2
 
-CD Bin\Release\Library
+CD bin\Release
 
 nuget push DigitalZenWorks.Email.DbxOutlookExpress.%1.nupkg %2 -Source https://api.nuget.org/v3/index.json
 
