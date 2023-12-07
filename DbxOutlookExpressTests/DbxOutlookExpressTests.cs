@@ -77,7 +77,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			};
 
 			uint test = BitBytes.ToInteger(testBytes, 4);
-			Assert.That(0x4002986, Is.EqualTo(test));
+			Assert.That(test, Is.EqualTo(0x4002986));
 		}
 
 		/// <summary>
@@ -100,9 +100,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			uint[] integerArray = BitBytes.ToIntegerArray(testBytes);
 			int size = integerArray.Length;
 
-			Assert.That(0x11, Is.EqualTo(size));
+			Assert.That(size, Is.EqualTo(0x11));
 
-			Assert.That(0x38, Is.EqualTo(integerArray[1]));
+			Assert.That(integerArray[1], Is.EqualTo(0x38));
 		}
 
 		/// <summary>
@@ -117,7 +117,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			};
 
 			uint test = BitBytes.ToIntegerLimit(testBytes, 4, 3);
-			Assert.That(0x12986, Is.EqualTo(test));
+			Assert.That(test, Is.EqualTo(0x12986));
 		}
 
 		/// <summary>
@@ -132,7 +132,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			};
 
 			ulong test = BitBytes.ToLong(testBytes, 2);
-			Assert.That(0x6964040029860000, Is.EqualTo(test));
+			Assert.That(test, Is.EqualTo(0x6964040029860000));
 		}
 
 		/// <summary>
@@ -147,7 +147,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			};
 
 			ushort test = BitBytes.ToShort(testBytes, 4);
-			Assert.That(0x2986, Is.EqualTo(test));
+			Assert.That(test, Is.EqualTo(0x2986));
 		}
 
 		/// <summary>
@@ -167,8 +167,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			DbxFoldersFile foldersFile = new (path, encoding);
 
 			IList<DbxFolder> childrenFolders = foldersFile.SetTreeOrdered();
+			int count = childrenFolders.Count;
 
-			Assert.That(childrenFolders.Count, Is.GreaterThan(0));
+			Assert.That(count, Is.GreaterThan(0));
 		}
 
 		/// <summary>
@@ -242,10 +243,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			DbxIndexedItem item = new (testBytes, 0);
 
 			uint value = item.GetValue(DbxFolderIndexedItem.Id);
-			Assert.That(0x11, Is.EqualTo(value));
+			Assert.That(value, Is.EqualTo(0x11));
 
 			value = item.GetValue(DbxFolderIndexedItem.ParentId);
-			Assert.That(0, Is.EqualTo(value));
+			Assert.That(value, Is.EqualTo(0));
 
 			string name = item.GetString(DbxFolderIndexedItem.Name);
 			string expected = "discussion.fastandfurius.com";
@@ -301,17 +302,18 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			DbxFolder folder = new (0, 0, "root", null);
 
 			IList<DbxFolder> childrenFolders = folder.GetChildren(folders);
+			int count = childrenFolders.Count;
 
-			Assert.That(childrenFolders.Count, Is.GreaterThan(0));
+			Assert.That(count, Is.GreaterThan(0));
 
 			DbxFolder childFolder = childrenFolders[0];
-			Assert.That("E", Is.EqualTo(childFolder.FolderName));
+			Assert.That(childFolder.FolderName, Is.EqualTo("E"));
 
 			childFolder = childrenFolders[1];
-			Assert.That("C", Is.EqualTo(childFolder.FolderName));
+			Assert.That(childFolder.FolderName, Is.EqualTo("C"));
 
 			childFolder = childrenFolders[2];
-			Assert.That("A", Is.EqualTo(childFolder.FolderName));
+			Assert.That(childFolder.FolderName, Is.EqualTo("A"));
 		}
 	}
 }
