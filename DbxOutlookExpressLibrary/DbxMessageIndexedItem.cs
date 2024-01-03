@@ -195,7 +195,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <returns>The entire message as bytes.</returns>
 		public byte[] GetMessageBytes()
 		{
-			byte[] message = Array.Empty<byte>();
+			byte[] message = [];
 
 			int size = GetSize(CorrespoindingMessage);
 			uint address = GetValue(CorrespoindingMessage, size);
