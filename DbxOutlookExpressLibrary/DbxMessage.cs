@@ -4,6 +4,7 @@
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
+using Common.Logging;
 using System;
 using System.IO;
 using System.Text;
@@ -15,6 +16,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 	/// </summary>
 	public class DbxMessage
 	{
+		private static readonly ILog Log = LogManager.GetLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		/// <summary>
 		/// Initializes a new instance of the
 		/// <see cref="DbxMessage"/> class.
@@ -193,5 +197,38 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		/// <value>The subject of the message.</value>
 		public string Subject { get; set; }
+
+		/// <summary>
+		/// Gets as file.
+		/// </summary>
+		/// <param name="filePath">The file path.</param>
+		/// <returns>A value indicating success or not.</returns>
+		public bool GetAsFile(string filePath)
+		{
+			bool result = false;
+
+			try
+			{
+				FileStream stream = File.OpenWrite(filePath);
+				using BinaryWriter writer = new BinaryWriter(stream);
+				writer.Write(Message);
+
+				result = true;
+			}
+			catch (Exception exception) when
+				(exception is ArgumentException ||
+				exception is ArgumentNullException ||
+				exception is DirectoryNotFoundException ||
+				exception is IOException ||
+				exception is NotSupportedException ||
+				exception is ObjectDisposedException ||
+				exception is PathTooLongException ||
+				exception is UnauthorizedAccessException)
+			{
+				Log.Error(exception.ToString());
+			}
+
+			return result;
+		}
 	}
 }
