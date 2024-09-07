@@ -138,10 +138,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		{
 			Log.Info("Id\tParentId\tName\t\tFile Name");
 
-			if (foldersFile != null)
-			{
-				foldersFile.List();
-			}
+			foldersFile?.List();
 
 			AppendOrphanedFiles();
 		}
@@ -151,10 +148,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		public void Migrate()
 		{
-			if (foldersFile != null)
-			{
-				foldersFile.MigrateFolders();
-			}
+			foldersFile?.MigrateFolders();
 		}
 
 		/// <summary>
@@ -163,7 +157,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <returns>A list of child folders.</returns>
 		public IList<DbxFolder> SetTreeOrdered()
 		{
-			IList<DbxFolder> orderedList = new List<DbxFolder>();
+			IList<DbxFolder> orderedList = [];
 
 			if (foldersFile != null)
 			{
@@ -173,15 +167,15 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			return orderedList;
 		}
 
-		private IList<string> AppendOrphanedFiles()
+		private List<string> AppendOrphanedFiles()
 		{
 			string[] ignoreFiles =
-			{
+			[
 			"CLEANUP.LOG", "FOLDERS.AVX", "FOLDERS.DBX", "OFFLINE.DBX",
 			"POP3UIDL.DBX", "SEARCH FOLDER.DBX"
-			};
+			];
 
-			IList<string> orphanFolderFiles = new List<string>();
+			List<string> orphanFolderFiles = [];
 
 			bool exists = Directory.Exists(path);
 

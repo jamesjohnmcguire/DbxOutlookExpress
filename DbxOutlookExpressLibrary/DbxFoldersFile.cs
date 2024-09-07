@@ -21,8 +21,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private readonly IList<string> folderFiles;
-		private IList<uint> orderedIndexes = new List<uint>();
+		private readonly List<string> folderFiles;
+		private IList<uint> orderedIndexes = [];
 
 		/// <summary>
 		/// Initializes a new instance of the
@@ -34,7 +34,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public DbxFoldersFile(string filePath, Encoding preferredEncoding)
 			: base(filePath)
 		{
-			folderFiles = new List<string>();
+			folderFiles = [];
 
 			PreferredEncoding = preferredEncoding;
 

@@ -26,7 +26,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private readonly string foldersPath;
 		private readonly DbxMessagesFile messageFile;
 		private readonly Encoding preferredEncoding;
-		private readonly IList<DbxFolder> childrenFolders = new List<DbxFolder>();
+		private readonly List<DbxFolder> childrenFolders = [];
 
 		private bool isOrphan;
 
