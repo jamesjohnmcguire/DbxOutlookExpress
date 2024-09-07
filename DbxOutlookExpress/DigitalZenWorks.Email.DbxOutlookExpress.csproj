@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
-		<AssemblyName>DigitalZenWorks.Email.DbxOutlookExpressLibrary</AssemblyName>
+		<AssemblyName>DigitalZenWorks.Email.DbxOutlookExpress</AssemblyName>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<Authors>James John McGuire</Authors>
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>

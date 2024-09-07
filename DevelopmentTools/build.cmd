@@ -2,7 +2,7 @@ REM %1 - Version (such as 1.5.1)
 REM %2 - API key
 
 CD %~dp0
-CD ..\DbxOutlookExpressLibrary
+CD ..\DbxOutlookExpress
 
 msbuild -property:Configuration=Release -restore -target:rebuild;pack DigitalZenWorks.Email.DbxOutlookExpress.csproj
 

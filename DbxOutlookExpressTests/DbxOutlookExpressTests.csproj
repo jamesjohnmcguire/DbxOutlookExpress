@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\DbxOutlookExpressLibrary\DigitalZenWorks.Email.DbxOutlookExpress.csproj" />
+		<ProjectReference Include="..\DbxOutlookExpress\DigitalZenWorks.Email.DbxOutlookExpress.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
