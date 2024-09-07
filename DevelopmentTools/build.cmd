@@ -4,7 +4,7 @@ REM %2 - API key
 CD %~dp0
 CD ..\DbxOutlookExpressLibrary
 
-msbuild -property:Configuration=Release -restore -target:rebuild;pack DbxOutlookExpressLibrary.csproj
+msbuild -property:Configuration=Release -restore -target:rebuild;pack DigitalZenWorks.Email.DbxOutlookExpress.csproj
 
 if "%~1"=="" GOTO error1
 if "%~2"=="" GOTO error2
