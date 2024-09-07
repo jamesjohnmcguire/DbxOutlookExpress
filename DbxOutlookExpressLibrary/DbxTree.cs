@@ -26,8 +26,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private readonly IList<uint> folderInformationIndexes =
-			new List<uint>();
+		private readonly List<uint> folderInformationIndexes = [];
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DbxTree"/> class.
