@@ -29,7 +29,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 		private uint maximumFolderId;
 		private int orphanFileIndex = -1;
-		private IList<string> orphanFiles;
+		private List<string> orphanFiles;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DbxSet"/> class.
