@@ -162,7 +162,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			string path = Path.Combine(testFolder.FullName, "Folders.dbx");
 			bool result = FileUtils.CreateFileFromEmbeddedResource(
-				"DbxOutlookExpressTests.Folders.dbx", path);
+				"DigitalZenWorks.Email.DbxOutlookExpress.Tests.Folders.dbx",
+				path);
 
 			Assert.That(result, Is.True);
 
@@ -184,22 +185,26 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			string path = Path.Combine(testFolder.FullName, "Folders.dbx");
 			bool result = FileUtils.CreateFileFromEmbeddedResource(
-				"DbxOutlookExpressTests.Folders.dbx", path);
+				"DigitalZenWorks.Email.DbxOutlookExpress.Tests.Folders.dbx",
+				path);
 			Assert.That(result, Is.True);
 
 			path = Path.Combine(testFolder.FullName, "Inbox.dbx");
 			result = FileUtils.CreateFileFromEmbeddedResource(
-				"DbxOutlookExpressTests.Inbox.dbx", path);
+				"DigitalZenWorks.Email.DbxOutlookExpress.Tests.Inbox.dbx",
+				path);
 			Assert.That(result, Is.True);
 
 			path = Path.Combine(testFolder.FullName, "Offline.dbx");
 			result = FileUtils.CreateFileFromEmbeddedResource(
-				"DbxOutlookExpressTests.Offline.dbx", path);
+				"DigitalZenWorks.Email.DbxOutlookExpress.Tests.Offline.dbx",
+				path);
 			Assert.That(result, Is.True);
 
 			path = Path.Combine(testFolder.FullName, "Outbox.dbx");
 			result = FileUtils.CreateFileFromEmbeddedResource(
-				"DbxOutlookExpressTests.Outbox.dbx", path);
+				"DigitalZenWorks.Email.DbxOutlookExpress.Tests.Outbox.dbx",
+				path);
 			Assert.That(result, Is.True);
 
 			DbxSet dbxSet = new (testFolder.FullName, encoding);
