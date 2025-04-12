@@ -1,14 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<CodeAnalysisRuleSet>../CodeAnalysis.ruleset</CodeAnalysisRuleSet>
+		<AnalysisMode>All</AnalysisMode>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<IsTestProject>true</IsTestProject>
-		<NoWarn>NU1701</NoWarn>
-		<OutputPath>$(SolutionDir)\Bin\$(Configuration)\$(Platform)</OutputPath>
 		<TargetFramework>net9.0</TargetFramework>
 	</PropertyGroup>
 
@@ -36,13 +32,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<AdditionalFiles Include="../stylecop.json" />
-		<CodeAnalysisDictionary Include="../CodeAnalysis.ruleset" />
 		<None Include="../.editorconfig" Link="../.editorconfig" />
 		<EmbeddedResource Include="Folders.dbx" />
 		<EmbeddedResource Include="Inbox.dbx" />
 		<EmbeddedResource Include="Offline.dbx" />
 		<EmbeddedResource Include="Outbox.dbx" />
+		<AdditionalFiles Include="../stylecop.json" />
 	</ItemGroup>
 
 </Project>
