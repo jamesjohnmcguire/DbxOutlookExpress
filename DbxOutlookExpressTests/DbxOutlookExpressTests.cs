@@ -18,7 +18,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 	/// <summary>
 	/// Test class.
 	/// </summary>
-	public class DbxOutlookExpressTests
+	internal sealed class DbxOutlookExpressTests
 	{
 		private DirectoryInfo testFolder;
 
@@ -72,9 +72,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		public void TestBytesToInteger()
 		{
 			byte[] testBytes =
-			{
+			[
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x00, 0x04, 0x64, 0x69
-			};
+			];
 
 			uint test = BitBytes.ToInteger(testBytes, 4);
 			Assert.That(test, Is.EqualTo(0x4002986));
@@ -87,7 +87,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		public void TestBytesToIntegerArray()
 		{
 			byte[] testBytes =
-			{
+			[
 				0x00, 0x00, 0x00, 0x00, 0x38, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x04, 0x01, 0x80, 0x11, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x00, 0x04, 0x64, 0x69,
@@ -95,14 +95,16 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 				0x61, 0x73, 0x74, 0x61, 0x6E, 0x64, 0x66, 0x75, 0x72, 0x69,
 				0x75, 0x73, 0x2e, 0x63, 0x6f, 0x6d, 0x00, 0x30, 0x30, 0x30,
 				0x30, 0x30, 0x30, 0x31, 0x37, 0x00, 0x00, 0x00
-			};
+			];
 
 			uint[] integerArray = BitBytes.ToIntegerArray(testBytes);
 			int size = integerArray.Length;
 
-			Assert.That(size, Is.EqualTo(0x11));
-
-			Assert.That(integerArray[1], Is.EqualTo(0x38));
+			using (Assert.EnterMultipleScope())
+			{
+				Assert.That(size, Is.EqualTo(0x11));
+				Assert.That(integerArray[1], Is.EqualTo(0x38));
+			}
 		}
 
 		/// <summary>
@@ -112,9 +114,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		public void TestBytesToIntegerLimit()
 		{
 			byte[] testBytes =
-			{
+			[
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x01, 0x04, 0x64, 0x69
-			};
+			];
 
 			uint test = BitBytes.ToIntegerLimit(testBytes, 4, 3);
 			Assert.That(test, Is.EqualTo(0x12986));
@@ -127,9 +129,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		public void TestBytesToLong()
 		{
 			byte[] testBytes =
-			{
+			[
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x00, 0x04, 0x64, 0x69
-			};
+			];
 
 			ulong test = BitBytes.ToLong(testBytes, 2);
 			Assert.That(test, Is.EqualTo(0x6964040029860000));
@@ -142,9 +144,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		public void TestBytesToShort()
 		{
 			byte[] testBytes =
-			{
+			[
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x00, 0x04, 0x64, 0x69
-			};
+			];
 
 			ushort test = BitBytes.ToShort(testBytes, 4);
 			Assert.That(test, Is.EqualTo(0x2986));
@@ -230,7 +232,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		public void TestIndexedInfo()
 		{
 			byte[] testBytes =
-			{
+			[
 				0x00, 0x00, 0x00, 0x00, 0x38, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x04, 0x01, 0x80, 0x11, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x00, 0x04, 0x64, 0x69,
@@ -238,7 +240,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 				0x61, 0x73, 0x74, 0x61, 0x6E, 0x64, 0x66, 0x75, 0x72, 0x69,
 				0x75, 0x73, 0x2e, 0x63, 0x6f, 0x6d, 0x00, 0x30, 0x30, 0x30,
 				0x30, 0x30, 0x30, 0x31, 0x37, 0x00, 0x00, 0x00
-			};
+			];
 
 			DbxIndexedItem item = new (testBytes, 0);
 
@@ -290,14 +292,14 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			DbxFolder folder4 = new (4, 5, "D", null);
 			DbxFolder folder5 = new (5, 0, "E", null);
 
-			IList<DbxFolder> folders = new List<DbxFolder>
-			{
+			IList<DbxFolder> folders =
+			[
 				folder1,
 				folder2,
 				folder3,
 				folder4,
 				folder5
-			};
+			];
 
 			DbxFolder folder = new (0, 0, "root", null);
 
