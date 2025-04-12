@@ -4,15 +4,14 @@
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using Common.Logging;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Text;
-
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
+	using System.Collections.Generic;
+	using System.Globalization;
+	using System.IO;
+	using System.Text;
+	using global::Common.Logging;
+
 	/// <summary>
 	/// Dbx folders files class.
 	/// </summary>
@@ -54,7 +53,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// Gets the list of folder files.
 		/// </summary>
 		/// <value>The list of folder files.</value>
-		public IList<string> FolderFiles { get { return folderFiles; } }
+		public IList<string> FolderFiles
+		{
+			get { return folderFiles; }
+		}
 
 		/// <summary>
 		/// Get the next folder in the tree list.

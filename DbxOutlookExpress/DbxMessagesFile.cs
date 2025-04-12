@@ -4,15 +4,15 @@
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using Common.Logging;
-using DigitalZenWorks.Common.Utilities;
-using System;
-using System.Globalization;
-using System.IO;
-using System.Text;
-
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
+	using System;
+	using System.Globalization;
+	using System.IO;
+	using System.Text;
+	using DigitalZenWorks.Common.Utilities;
+	using global::Common.Logging;
+
 	/// <summary>
 	/// Dbx emails file.
 	/// </summary>

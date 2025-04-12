@@ -4,13 +4,13 @@
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using Common.Logging;
-using System;
-using System.IO;
-using System.Text;
-
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
+	using System;
+	using System.IO;
+	using System.Text;
+	using global::Common.Logging;
+
 	/// <summary>
 	/// Dbx message indx class.
 	/// </summary>
@@ -210,7 +210,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			try
 			{
 				FileStream stream = File.OpenWrite(filePath);
-				using BinaryWriter writer = new BinaryWriter(stream);
+				using BinaryWriter writer = new (stream);
 				writer.Write(Message);
 
 				result = true;

@@ -4,16 +4,12 @@
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using Common.Logging;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
+	using System;
+	using System.Globalization;
+	using global::Common.Logging;
+
 	/// <summary>
 	/// Dbx header.
 	/// </summary>
@@ -79,28 +75,37 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// Gets file type.
 		/// </summary>
 		/// <value>The file type.</value>
-		public DbxFileType FileType { get { return fileType; } }
+		public DbxFileType FileType
+		{
+			get { return fileType; }
+		}
 
 		/// <summary>
 		/// Gets the folder count.
 		/// </summary>
 		/// <value>The folder count.</value>
-		public uint FolderCount { get { return folderCount; } }
+		public uint FolderCount
+		{
+			get { return folderCount; }
+		}
 
 		/// <summary>
 		/// Gets the main tree address.
 		/// </summary>
 		/// <value>The main tree address.</value>
-		public uint MainTreeAddress { get { return mainTreeAddress; } }
+		public uint MainTreeAddress
+		{
+			get { return mainTreeAddress; }
+		}
 
 		private static void CheckInitialBytes(byte[] headerBytes)
 		{
-			byte[] checkBytes = new byte[]
-			{
+			byte[] checkBytes =
+			[
 				0xCF, 0xAD, 0x12, 0xFE, 0xC5, 0xFD, 0x74, 0x6F, 0x66, 0xE3,
 				0xD1, 0x11, 0x9A, 0x4E, 0x00, 0xC0, 0x4F, 0xA3, 0x09, 0xD4,
 				0x05, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00
-			};
+			];
 
 			for (int index = 0; index < checkBytes.Length; index++)
 			{

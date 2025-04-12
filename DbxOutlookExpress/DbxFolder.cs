@@ -4,15 +4,13 @@
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using Common.Logging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Text;
+	using global::Common.Logging;
+
 	/// <summary>
 	/// Dbx folder index class.
 	/// </summary>

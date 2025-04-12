@@ -4,17 +4,16 @@
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using DigitalZenWorks.Common.Utilities;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-
-[assembly: CLSCompliant(true)]
+[assembly: System.CLSCompliant(true)]
 
 namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 {
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Text;
+	using DigitalZenWorks.Common.Utilities;
+	using NUnit.Framework;
+
 	/// <summary>
 	/// Test class.
 	/// </summary>
@@ -39,7 +38,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		{
 			bool result = Directory.Exists(testFolder.FullName);
 
-			if (true == result)
+			if (result == true)
 			{
 				Directory.Delete(testFolder.FullName, true);
 			}

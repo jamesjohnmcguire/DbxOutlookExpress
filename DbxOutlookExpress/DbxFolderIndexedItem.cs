@@ -4,14 +4,20 @@
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using System;
-
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
 	/// <summary>
 	/// Represents a dbx folder indexed item.
 	/// </summary>
-	public class DbxFolderIndexedItem : DbxIndexedItem
+	/// <remarks>
+	/// Initializes a new instance of the
+	/// <see cref="DbxFolderIndexedItem"/> class.
+	/// </remarks>
+	/// <param name="fileBytes">The bytes of the file.</param>
+	/// <param name="address">The address of the item with in
+	/// the file.</param>
+	public class DbxFolderIndexedItem(byte[] fileBytes, uint address)
+		: DbxIndexedItem(fileBytes, address)
 	{
 		/// <summary>
 		/// The file name index of the folder.
@@ -42,18 +48,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// The parent id index of the folder.
 		/// </summary>
 		public const int ParentId = 0x01;
-
-		/// <summary>
-		/// Initializes a new instance of the
-		/// <see cref="DbxFolderIndexedItem"/> class.
-		/// </summary>
-		/// <param name="fileBytes">The bytes of the file.</param>
-		/// <param name="address">The address of the item with in
-		/// the file.</param>
-		public DbxFolderIndexedItem(byte[] fileBytes, uint address)
-			: base(fileBytes, address)
-		{
-		}
 
 		/// <summary>
 		/// Sets the indexed items and saves the values.

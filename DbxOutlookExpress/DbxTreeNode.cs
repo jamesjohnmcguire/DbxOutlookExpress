@@ -4,21 +4,17 @@
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
+	using System.Collections.Generic;
+
 	/// <summary>
 	/// Dbx tree node class.
 	/// </summary>
 	public class DbxTreeNode
 	{
 		private readonly IList<DbxNodeItem> nodeItems =
-			new List<DbxNodeItem>();
+			[];
 
 		/// <summary>
 		/// Gets or sets the node file index.
@@ -60,6 +56,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// Gets the node items.
 		/// </summary>
 		/// <value>The node items.</value>
-		public IList<DbxNodeItem> NodeItems { get { return nodeItems; } }
+		public IList<DbxNodeItem> NodeItems
+		{
+			get { return nodeItems; }
+		}
 	}
 }
