@@ -252,7 +252,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			Assert.That(value, Is.EqualTo(0x11));
 
 			value = item.GetValue(DbxFolderIndexedItem.ParentId);
-			Assert.That(value, Is.EqualTo(0));
+			Assert.That(value, Is.Zero);
 
 			string name = item.GetString(DbxFolderIndexedItem.Name);
 			string expected = "discussion.fastandfurius.com";
