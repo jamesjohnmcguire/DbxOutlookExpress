@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<AnalysisMode>All</AnalysisMode>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IsTestProject>true</IsTestProject>
+		<TargetFramework>net9.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Coverlet.Collector" Version="6.0.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="DigitalZenWorks.Common.Utilities" Version="1.5.78" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
+		<PackageReference Include="NUnit" Version="4.4.0" />
+		<PackageReference Include="NUnit.Analyzers" Version="4.11.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="NUnit3TestAdapter" Version="5.2.0" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\DbxOutlookExpress\DigitalZenWorks.Email.DbxOutlookExpress.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="../.editorconfig" Link="../.editorconfig" />
+		<EmbeddedResource Include="Folders.dbx" />
+		<EmbeddedResource Include="Inbox.dbx" />
+		<EmbeddedResource Include="Offline.dbx" />
+		<EmbeddedResource Include="Outbox.dbx" />
+		<AdditionalFiles Include="../stylecop.json" />
+	</ItemGroup>
+
+</Project>

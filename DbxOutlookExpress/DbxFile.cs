@@ -1,19 +1,16 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="DbxFile.cs" company="James John McGuire">
-// Copyright © 2021 - 2023 James John McGuire. All Rights Reserved.
+// Copyright © 2021 - 2026 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using Common.Logging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
+	using System;
+	using System.IO;
+	using System.Text;
+	using global::Common.Logging;
+
 	/// <summary>
 	/// Dbx file class.
 	/// </summary>
@@ -81,7 +78,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// Gets the dbx folder file path.
 		/// </summary>
 		/// <value>The dbx folder file path.</value>
-		public string FolderPath { get { return folderPath; } }
+		public string FolderPath
+		{
+			get { return folderPath; }
+		}
 
 		/// <summary>
 		/// Gets or sets the preferred encoding.
@@ -93,7 +93,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// Gets the dbx tree.
 		/// </summary>
 		/// <value>The dbx tree.</value>
-		public DbxTree Tree { get { return tree; } }
+		public DbxTree Tree
+		{
+			get { return tree; }
+		}
 
 		/// <summary>
 		/// Gets the file bytes.

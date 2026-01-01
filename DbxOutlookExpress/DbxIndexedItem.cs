@@ -1,17 +1,17 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="DbxIndexedItem.cs" company="James John McGuire">
-// Copyright © 2021 - 2023 James John McGuire. All Rights Reserved.
+// Copyright © 2021 - 2026 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using Common.Logging;
-using DigitalZenWorks.Common.Utilities;
-using System;
-using System.Text;
-using UtfUnknown;
-
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
+	using System;
+	using System.Text;
+	using DigitalZenWorks.Common.Utilities;
+	using global::Common.Logging;
+	using UtfUnknown;
+
 	/// <summary>
 	/// Dbx indexed item class.
 	/// </summary>

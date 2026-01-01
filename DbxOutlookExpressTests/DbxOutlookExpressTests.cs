@@ -1,24 +1,23 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="DbxOutlookExpressTests.cs" company="James John McGuire">
-// Copyright © 2021 - 2023 James John McGuire. All Rights Reserved.
+// Copyright © 2021 - 2026 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using DigitalZenWorks.Common.Utilities;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-
-[assembly: CLSCompliant(true)]
+[assembly: System.CLSCompliant(true)]
 
 namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 {
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Text;
+	using DigitalZenWorks.Common.Utilities;
+	using NUnit.Framework;
+
 	/// <summary>
 	/// Test class.
 	/// </summary>
-	public class DbxOutlookExpressTests
+	internal sealed class DbxOutlookExpressTests
 	{
 		private DirectoryInfo testFolder;
 
@@ -39,7 +38,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		{
 			bool result = Directory.Exists(testFolder.FullName);
 
-			if (true == result)
+			if (result == true)
 			{
 				Directory.Delete(testFolder.FullName, true);
 			}
@@ -54,15 +53,15 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			// 0 based
 			byte sevenOn = 64;
 			bool bit = BitBytes.GetBit(sevenOn, 6);
-			Assert.True(bit);
+			Assert.That(bit, Is.True);
 
 			byte sevenOff = 63;
 			bit = BitBytes.GetBit(sevenOff, 6);
-			Assert.False(bit);
+			Assert.That(bit, Is.False);
 
 			sevenOff = 128;
 			bit = BitBytes.GetBit(sevenOff, 6);
-			Assert.False(bit);
+			Assert.That(bit, Is.False);
 		}
 
 		/// <summary>
@@ -72,12 +71,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		public void TestBytesToInteger()
 		{
 			byte[] testBytes =
-			{
+			[
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x00, 0x04, 0x64, 0x69
-			};
+			];
 
 			uint test = BitBytes.ToInteger(testBytes, 4);
-			Assert.AreEqual(test, 0x4002986);
+			Assert.That(test, Is.EqualTo(0x4002986));
 		}
 
 		/// <summary>
@@ -87,7 +86,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		public void TestBytesToIntegerArray()
 		{
 			byte[] testBytes =
-			{
+			[
 				0x00, 0x00, 0x00, 0x00, 0x38, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x04, 0x01, 0x80, 0x11, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x00, 0x04, 0x64, 0x69,
@@ -95,14 +94,16 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 				0x61, 0x73, 0x74, 0x61, 0x6E, 0x64, 0x66, 0x75, 0x72, 0x69,
 				0x75, 0x73, 0x2e, 0x63, 0x6f, 0x6d, 0x00, 0x30, 0x30, 0x30,
 				0x30, 0x30, 0x30, 0x31, 0x37, 0x00, 0x00, 0x00
-			};
+			];
 
 			uint[] integerArray = BitBytes.ToIntegerArray(testBytes);
 			int size = integerArray.Length;
 
-			Assert.AreEqual(size, 0x11);
-
-			Assert.AreEqual(integerArray[1], 0x38);
+			using (Assert.EnterMultipleScope())
+			{
+				Assert.That(size, Is.EqualTo(0x11));
+				Assert.That(integerArray[1], Is.EqualTo(0x38));
+			}
 		}
 
 		/// <summary>
@@ -112,12 +113,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		public void TestBytesToIntegerLimit()
 		{
 			byte[] testBytes =
-			{
+			[
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x01, 0x04, 0x64, 0x69
-			};
+			];
 
 			uint test = BitBytes.ToIntegerLimit(testBytes, 4, 3);
-			Assert.AreEqual(test, 0x12986);
+			Assert.That(test, Is.EqualTo(0x12986));
 		}
 
 		/// <summary>
@@ -127,12 +128,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		public void TestBytesToLong()
 		{
 			byte[] testBytes =
-			{
+			[
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x00, 0x04, 0x64, 0x69
-			};
+			];
 
 			ulong test = BitBytes.ToLong(testBytes, 2);
-			Assert.AreEqual(test, 0x6964040029860000);
+			Assert.That(test, Is.EqualTo(0x6964040029860000));
 		}
 
 		/// <summary>
@@ -142,12 +143,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		public void TestBytesToShort()
 		{
 			byte[] testBytes =
-			{
+			[
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x00, 0x04, 0x64, 0x69
-			};
+			];
 
 			ushort test = BitBytes.ToShort(testBytes, 4);
-			Assert.AreEqual(test, 0x2986);
+			Assert.That(test, Is.EqualTo(0x2986));
 		}
 
 		/// <summary>
@@ -160,15 +161,17 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			string path = Path.Combine(testFolder.FullName, "Folders.dbx");
 			bool result = FileUtils.CreateFileFromEmbeddedResource(
-				"DbxOutlookExpressTests.Folders.dbx", path);
+				"DigitalZenWorks.Email.DbxOutlookExpress.Tests.Folders.dbx",
+				path);
 
-			Assert.True(result);
+			Assert.That(result, Is.True);
 
 			DbxFoldersFile foldersFile = new (path, encoding);
 
 			IList<DbxFolder> childrenFolders = foldersFile.SetTreeOrdered();
+			int count = childrenFolders.Count;
 
-			Assert.Greater(childrenFolders.Count, 0);
+			Assert.That(count, Is.GreaterThan(0));
 		}
 
 		/// <summary>
@@ -181,28 +184,32 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			string path = Path.Combine(testFolder.FullName, "Folders.dbx");
 			bool result = FileUtils.CreateFileFromEmbeddedResource(
-				"DbxOutlookExpressTests.Folders.dbx", path);
-			Assert.True(result);
+				"DigitalZenWorks.Email.DbxOutlookExpress.Tests.Folders.dbx",
+				path);
+			Assert.That(result, Is.True);
 
 			path = Path.Combine(testFolder.FullName, "Inbox.dbx");
 			result = FileUtils.CreateFileFromEmbeddedResource(
-				"DbxOutlookExpressTests.Inbox.dbx", path);
-			Assert.True(result);
+				"DigitalZenWorks.Email.DbxOutlookExpress.Tests.Inbox.dbx",
+				path);
+			Assert.That(result, Is.True);
 
 			path = Path.Combine(testFolder.FullName, "Offline.dbx");
 			result = FileUtils.CreateFileFromEmbeddedResource(
-				"DbxOutlookExpressTests.Offline.dbx", path);
-			Assert.True(result);
+				"DigitalZenWorks.Email.DbxOutlookExpress.Tests.Offline.dbx",
+				path);
+			Assert.That(result, Is.True);
 
 			path = Path.Combine(testFolder.FullName, "Outbox.dbx");
 			result = FileUtils.CreateFileFromEmbeddedResource(
-				"DbxOutlookExpressTests.Outbox.dbx", path);
-			Assert.True(result);
+				"DigitalZenWorks.Email.DbxOutlookExpress.Tests.Outbox.dbx",
+				path);
+			Assert.That(result, Is.True);
 
 			DbxSet dbxSet = new (testFolder.FullName, encoding);
 
 			DbxFolder folder = dbxSet.GetNextFolder();
-			Assert.NotNull(folder);
+			Assert.That(folder, Is.Not.Null);
 		}
 
 		/// <summary>
@@ -219,7 +226,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			DbxSet dbxSet = new (path, encoding);
 
 			DbxFolder folder = dbxSet.GetNextFolder();
-			Assert.Null(folder);
+			Assert.That(folder, Is.Null);
 		}
 
 		/// <summary>
@@ -229,7 +236,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		public void TestIndexedInfo()
 		{
 			byte[] testBytes =
-			{
+			[
 				0x00, 0x00, 0x00, 0x00, 0x38, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x04, 0x01, 0x80, 0x11, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
 				0x05, 0x1d, 0x00, 0x00, 0x86, 0x29, 0x00, 0x04, 0x64, 0x69,
@@ -237,19 +244,19 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 				0x61, 0x73, 0x74, 0x61, 0x6E, 0x64, 0x66, 0x75, 0x72, 0x69,
 				0x75, 0x73, 0x2e, 0x63, 0x6f, 0x6d, 0x00, 0x30, 0x30, 0x30,
 				0x30, 0x30, 0x30, 0x31, 0x37, 0x00, 0x00, 0x00
-			};
+			];
 
 			DbxIndexedItem item = new (testBytes, 0);
 
 			uint value = item.GetValue(DbxFolderIndexedItem.Id);
-			Assert.AreEqual(value, 0x11);
+			Assert.That(value, Is.EqualTo(0x11));
 
 			value = item.GetValue(DbxFolderIndexedItem.ParentId);
-			Assert.AreEqual(value, 0);
+			Assert.That(value, Is.Zero);
 
 			string name = item.GetString(DbxFolderIndexedItem.Name);
 			string expected = "discussion.fastandfurius.com";
-			Assert.AreEqual(name, expected);
+			Assert.That(expected, Is.EqualTo(name));
 		}
 
 		/// <summary>
@@ -289,29 +296,30 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			DbxFolder folder4 = new (4, 5, "D", null);
 			DbxFolder folder5 = new (5, 0, "E", null);
 
-			IList<DbxFolder> folders = new List<DbxFolder>
-			{
+			IList<DbxFolder> folders =
+			[
 				folder1,
 				folder2,
 				folder3,
 				folder4,
 				folder5
-			};
+			];
 
 			DbxFolder folder = new (0, 0, "root", null);
 
 			IList<DbxFolder> childrenFolders = folder.GetChildren(folders);
+			int count = childrenFolders.Count;
 
-			Assert.Greater(childrenFolders.Count, 0);
+			Assert.That(count, Is.GreaterThan(0));
 
 			DbxFolder childFolder = childrenFolders[0];
-			Assert.AreEqual(childFolder.FolderName, "E");
+			Assert.That(childFolder.FolderName, Is.EqualTo("E"));
 
 			childFolder = childrenFolders[1];
-			Assert.AreEqual(childFolder.FolderName, "C");
+			Assert.That(childFolder.FolderName, Is.EqualTo("C"));
 
 			childFolder = childrenFolders[2];
-			Assert.AreEqual(childFolder.FolderName, "A");
+			Assert.That(childFolder.FolderName, Is.EqualTo("A"));
 		}
 	}
 }

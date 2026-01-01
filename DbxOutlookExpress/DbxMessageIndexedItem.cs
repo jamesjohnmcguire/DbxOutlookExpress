@@ -1,22 +1,28 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="DbxMessageIndexedItem.cs" company="James John McGuire">
-// Copyright © 2021 - 2023 James John McGuire. All Rights Reserved.
+// Copyright © 2021 - 2026 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using Common.Logging;
-using DigitalZenWorks.Common.Utilities;
-using System;
-using System.Globalization;
-using System.IO;
-using System.Text;
-
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
+	using System;
+	using System.Text;
+	using DigitalZenWorks.Common.Utilities;
+	using global::Common.Logging;
+
 	/// <summary>
 	/// Dbx message indexed item.
 	/// </summary>
-	public class DbxMessageIndexedItem : DbxIndexedItem
+	/// <remarks>
+	/// Initializes a new instance of the
+	/// <see cref="DbxMessageIndexedItem"/> class.
+	/// </remarks>
+	/// <param name="fileBytes">The bytes of the file.</param>
+	/// <param name="address">The address of the item with in
+	/// the file.</param>
+	public class DbxMessageIndexedItem(byte[] fileBytes, uint address)
+		: DbxIndexedItem(fileBytes, address)
 	{
 		/// <summary>
 		/// The OE mail or news account name.
@@ -124,18 +130,6 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		/// <summary>
-		/// Initializes a new instance of the
-		/// <see cref="DbxMessageIndexedItem"/> class.
-		/// </summary>
-		/// <param name="fileBytes">The bytes of the file.</param>
-		/// <param name="address">The address of the item with in
-		/// the file.</param>
-		public DbxMessageIndexedItem(byte[] fileBytes, uint address)
-			: base(fileBytes, address)
-		{
-		}
-
-		/// <summary>
 		/// Gets the message body.
 		/// </summary>
 		/// <returns>The message body.</returns>
@@ -195,7 +189,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <returns>The entire message as bytes.</returns>
 		public byte[] GetMessageBytes()
 		{
-			byte[] message = Array.Empty<byte>();
+			byte[] message = [];
 
 			int size = GetSize(CorrespoindingMessage);
 			uint address = GetValue(CorrespoindingMessage, size);

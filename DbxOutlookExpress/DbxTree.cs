@@ -1,18 +1,15 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="DbxTree.cs" company="James John McGuire">
-// Copyright © 2021 - 2023 James John McGuire. All Rights Reserved.
+// Copyright © 2021 - 2026 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using Common.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
+	using System;
+	using System.Collections.Generic;
+	using global::Common.Logging;
+
 	/// <summary>
 	/// Dbx tree class.
 	/// </summary>
@@ -26,8 +23,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private readonly IList<uint> folderInformationIndexes =
-			new List<uint>();
+		private readonly List<uint> folderInformationIndexes = [];
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DbxTree"/> class.
@@ -44,7 +40,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// </summary>
 		/// <value>The folder information indexes list.</value>
 		public IList<uint> FolderInformationIndexes
-			{ get { return folderInformationIndexes; } }
+		{
+			get { return folderInformationIndexes; }
+		}
 
 		/// <summary>
 		/// Reads the given bytes into a tree structure.

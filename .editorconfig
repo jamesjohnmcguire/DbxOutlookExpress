@@ -2,3 +2,9 @@
 
 # IDE0017: Simplify object initialization
 dotnet_style_object_initializer = false:suggestion
+
+# SA1101: Prefix Local Calls With This
+dotnet_diagnostic.SA1101.severity = none
+
+# SA1413: Use Trailing Commas In MultiLine Initializers
+dotnet_diagnostic.SA1413.severity = none

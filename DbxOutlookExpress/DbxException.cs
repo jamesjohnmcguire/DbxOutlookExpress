@@ -1,14 +1,14 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="DbxException.cs" company="James John McGuire">
-// Copyright © 2021 - 2023 James John McGuire. All Rights Reserved.
+// Copyright © 2021 - 2026 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Runtime.Serialization;
-
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
+	using System;
+	using System.Runtime.Serialization;
+
 	/// <summary>
 	/// The dbx exception class.
 	/// </summary>
@@ -19,7 +19,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// Initializes a new instance of the <see cref="DbxException"/> class.
 		/// </summary>
 		public DbxException()
-		{ }
+		{
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DbxException"/> class.
@@ -27,7 +28,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <param name="message">The message to include.</param>
 		public DbxException(string message)
 			: base(message)
-		{ }
+		{
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DbxException"/> class.
@@ -36,7 +38,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// <param name="innerException">The inner exception.</param>
 		public DbxException(string message, Exception innerException)
 			: base(message, innerException)
-		{ }
+		{
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DbxException"/> class.

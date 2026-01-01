@@ -1,14 +1,8 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="DbxFileType.cs" company="James John McGuire">
-// Copyright © 2021 - 2023 James John McGuire. All Rights Reserved.
+// Copyright © 2021 - 2026 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {

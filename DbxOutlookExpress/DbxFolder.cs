@@ -1,18 +1,16 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="DbxFolder.cs" company="James John McGuire">
-// Copyright © 2021 - 2023 James John McGuire. All Rights Reserved.
+// Copyright © 2021 - 2026 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using Common.Logging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Text;
+	using global::Common.Logging;
+
 	/// <summary>
 	/// Dbx folder index class.
 	/// </summary>
@@ -26,7 +24,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private readonly string foldersPath;
 		private readonly DbxMessagesFile messageFile;
 		private readonly Encoding preferredEncoding;
-		private readonly IList<DbxFolder> childrenFolders = new List<DbxFolder>();
+		private readonly List<DbxFolder> childrenFolders = [];
 
 		private bool isOrphan;
 

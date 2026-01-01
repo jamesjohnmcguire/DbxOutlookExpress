@@ -1,18 +1,17 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 // <copyright file="DbxFoldersFile.cs" company="James John McGuire">
-// Copyright © 2021 - 2023 James John McGuire. All Rights Reserved.
+// Copyright © 2021 - 2026 James John McGuire. All Rights Reserved.
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-using Common.Logging;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Text;
-
 namespace DigitalZenWorks.Email.DbxOutlookExpress
 {
+	using System.Collections.Generic;
+	using System.Globalization;
+	using System.IO;
+	using System.Text;
+	using global::Common.Logging;
+
 	/// <summary>
 	/// Dbx folders files class.
 	/// </summary>
@@ -21,8 +20,8 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		private static readonly ILog Log = LogManager.GetLogger(
 			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private readonly IList<string> folderFiles;
-		private IList<uint> orderedIndexes = new List<uint>();
+		private readonly List<string> folderFiles;
+		private IList<uint> orderedIndexes = [];
 
 		/// <summary>
 		/// Initializes a new instance of the
@@ -34,7 +33,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public DbxFoldersFile(string filePath, Encoding preferredEncoding)
 			: base(filePath)
 		{
-			folderFiles = new List<string>();
+			folderFiles = [];
 
 			PreferredEncoding = preferredEncoding;
 
@@ -54,7 +53,10 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		/// Gets the list of folder files.
 		/// </summary>
 		/// <value>The list of folder files.</value>
-		public IList<string> FolderFiles { get { return folderFiles; } }
+		public IList<string> FolderFiles
+		{
+			get { return folderFiles; }
+		}
 
 		/// <summary>
 		/// Get the next folder in the tree list.
