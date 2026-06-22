@@ -159,13 +159,9 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		{
 			Encoding encoding = Encoding.UTF8;
 
+			GetDbxTestFolder("Folders.dbx");
+
 			string path = Path.Combine(testFolder.FullName, "Folders.dbx");
-			bool result = FileUtils.CreateFileFromEmbeddedResource(
-				"DigitalZenWorks.Email.DbxOutlookExpress.Tests.Folders.dbx",
-				path);
-
-			Assert.That(result, Is.True);
-
 			DbxFoldersFile foldersFile = new (path, encoding);
 
 			IList<DbxFolder> childrenFolders = foldersFile.SetTreeOrdered();
@@ -182,29 +178,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		{
 			Encoding encoding = Encoding.UTF8;
 
-			string path = Path.Combine(testFolder.FullName, "Folders.dbx");
-			bool result = FileUtils.CreateFileFromEmbeddedResource(
-				"DigitalZenWorks.Email.DbxOutlookExpress.Tests.Folders.dbx",
-				path);
-			Assert.That(result, Is.True);
-
-			path = Path.Combine(testFolder.FullName, "Inbox.dbx");
-			result = FileUtils.CreateFileFromEmbeddedResource(
-				"DigitalZenWorks.Email.DbxOutlookExpress.Tests.Inbox.dbx",
-				path);
-			Assert.That(result, Is.True);
-
-			path = Path.Combine(testFolder.FullName, "Offline.dbx");
-			result = FileUtils.CreateFileFromEmbeddedResource(
-				"DigitalZenWorks.Email.DbxOutlookExpress.Tests.Offline.dbx",
-				path);
-			Assert.That(result, Is.True);
-
-			path = Path.Combine(testFolder.FullName, "Outbox.dbx");
-			result = FileUtils.CreateFileFromEmbeddedResource(
-				"DigitalZenWorks.Email.DbxOutlookExpress.Tests.Outbox.dbx",
-				path);
-			Assert.That(result, Is.True);
+			GetDbxTestFolders();
 
 			DbxSet dbxSet = new (testFolder.FullName, encoding);
 
@@ -320,6 +294,24 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			childFolder = childrenFolders[2];
 			Assert.That(childFolder.FolderName, Is.EqualTo("A"));
+		}
+
+		private void GetDbxTestFolder(string fileName)
+		{
+			string namespacePath =
+				"DigitalZenWorks.Email.DbxOutlookExpress.Tests." + fileName;
+			string path = Path.Combine(testFolder.FullName, fileName);
+			bool result = FileUtils.CreateFileFromEmbeddedResource(
+				namespacePath, path);
+			Assert.That(result, Is.True);
+		}
+
+		private void GetDbxTestFolders()
+		{
+			GetDbxTestFolder("Folders.dbx");
+			GetDbxTestFolder("Inbox.dbx");
+			GetDbxTestFolder("Offline.dbx");
+			GetDbxTestFolder("Outbox.dbx");
 		}
 	}
 }
