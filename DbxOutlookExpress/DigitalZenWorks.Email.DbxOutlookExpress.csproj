@@ -38,7 +38,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="UTF.Unknown" Version="2.6.0" />
+		<PackageReference Include="UTF.Unknown" Version="2.8.0" />
 	</ItemGroup>
 
 	<ItemGroup>
