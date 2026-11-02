@@ -42,7 +42,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					byte[] headerBytes = new byte[0x24bc];
 					Array.Copy(fileBytes, headerBytes, 0x24bc);
 
-					Header = new (headerBytes);
+					Header = new(headerBytes);
 				}
 				else
 				{
@@ -54,7 +54,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			}
 			else
 			{
-				FileInfo fileInfo = new (filePath);
+				FileInfo fileInfo = new(filePath);
 				string name = fileInfo.Name;
 				Log.Error("File does not exist!: " + name);
 
@@ -114,7 +114,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		{
 			byte[] fileBytes = GetFileBytes();
 
-			tree = new (fileBytes, Header.MainTreeAddress);
+			tree = new(fileBytes, Header.MainTreeAddress);
 		}
 	}
 }

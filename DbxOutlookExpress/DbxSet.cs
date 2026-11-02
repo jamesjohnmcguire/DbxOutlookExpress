@@ -60,12 +60,12 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			{
 				try
 				{
-					FileInfo fileInfo = new (path);
+					FileInfo fileInfo = new(path);
 
 					if (fileInfo.Name.Equals(
 						"Folders.dbx", StringComparison.Ordinal))
 					{
-						foldersFile = new (path, preferredEncoding);
+						foldersFile = new(path, preferredEncoding);
 					}
 					else
 					{
@@ -112,7 +112,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					// Best if each folder has it's own unique id, even if it
 					// is artificially constructed.
 					maximumFolderId++;
-					folder = new (
+					folder = new(
 						path, maximumFolderId, fileName, preferredEncoding);
 
 					folder.IsOrphan = true;
@@ -185,7 +185,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (string file in files)
 				{
-					FileInfo fileInfo = new (file);
+					FileInfo fileInfo = new(file);
 
 					string fileName = fileInfo.Name.ToUpperInvariant();
 

@@ -69,7 +69,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					throw new DbxException("Wrong object marker!");
 				}
 
-				DbxTreeNode root = new ();
+				DbxTreeNode root = new();
 				root.NodeFileIndex = treeArray[NodeBaseAddressIndex];
 				root.ChildrenNodesIndex = treeArray[2];
 
@@ -104,7 +104,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			int offset = index * 3;
 			offset += ItemsBase;
 
-			DbxNodeItem item = new ();
+			DbxNodeItem item = new();
 
 			if (treeArray == null)
 			{

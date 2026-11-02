@@ -46,7 +46,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				}
 				else
 				{
-					FileInfo fileInfo = new (filePath);
+					FileInfo fileInfo = new(filePath);
 
 					string folderName =
 						Path.GetFileNameWithoutExtension(fileInfo.Name);
@@ -71,7 +71,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				byte[] fileBytes = GetFileBytes();
 				uint address = Tree.FolderInformationIndexes[index];
 
-				message = new (fileBytes, address, PreferredEncoding);
+				message = new(fileBytes, address, PreferredEncoding);
 
 				string logMessage = string.Format(
 					CultureInfo.InvariantCulture,
@@ -133,7 +133,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
 					DbxMessage message =
-						new (fileBytes, index, PreferredEncoding);
+						new(fileBytes, index, PreferredEncoding);
 
 					string logMessage = string.Format(
 						CultureInfo.InvariantCulture,
@@ -210,7 +210,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			uint address = Tree.FolderInformationIndexes[CurrentIndex];
 
-			DbxMessage message = new (fileBytes, address, PreferredEncoding);
+			DbxMessage message = new(fileBytes, address, PreferredEncoding);
 
 			string logMessage = string.Format(
 				CultureInfo.InvariantCulture,

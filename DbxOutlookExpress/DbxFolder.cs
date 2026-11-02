@@ -138,7 +138,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		{
 			fileAddress = address;
 
-			DbxFolderIndexedItem index = new (fileBytes, address);
+			DbxFolderIndexedItem index = new(fileBytes, address);
 			index.SetItemValues(this, address);
 
 			if (loadMessagesFile == true)
@@ -208,7 +208,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 						{
 							uint folderIndex = folderIndexes[index];
 
-							DbxFolder folder = new (
+							DbxFolder folder = new(
 								fileBytes,
 								folderIndex,
 								foldersPath,
@@ -324,7 +324,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			if (exists == true)
 			{
-				FileInfo fileInfo = new (path);
+				FileInfo fileInfo = new(path);
 				FolderName =
 					Path.GetFileNameWithoutExtension(fileInfo.Name);
 

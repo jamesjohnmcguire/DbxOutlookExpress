@@ -162,7 +162,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 			GetDbxTestFolder("Folders.dbx");
 
 			string path = Path.Combine(testFolder.FullName, "Folders.dbx");
-			DbxFoldersFile foldersFile = new (path, encoding);
+			DbxFoldersFile foldersFile = new(path, encoding);
 
 			IList<DbxFolder> childrenFolders = foldersFile.SetTreeOrdered();
 			int count = childrenFolders.Count;
@@ -180,7 +180,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			GetDbxTestFolders();
 
-			DbxSet dbxSet = new (testFolder.FullName, encoding);
+			DbxSet dbxSet = new(testFolder.FullName, encoding);
 
 			DbxFolder folder = dbxSet.GetNextFolder();
 			Assert.That(folder, Is.Not.Null);
@@ -197,7 +197,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 
 			Encoding encoding = Encoding.UTF8;
 
-			DbxSet dbxSet = new (path, encoding);
+			DbxSet dbxSet = new(path, encoding);
 
 			DbxFolder folder = dbxSet.GetNextFolder();
 			Assert.That(folder, Is.Null);
@@ -220,7 +220,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 				0x30, 0x30, 0x30, 0x31, 0x37, 0x00, 0x00, 0x00
 			];
 
-			DbxIndexedItem item = new (testBytes, 0);
+			DbxIndexedItem item = new(testBytes, 0);
 
 			uint value = item.GetValue(DbxFolderIndexedItem.Id);
 			Assert.That(value, Is.EqualTo(0x11));
@@ -264,11 +264,11 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 		[Test]
 		public void TestTree()
 		{
-			DbxFolder folder1 = new (1, 0, "A", null);
-			DbxFolder folder2 = new (2, 4, "B", null);
-			DbxFolder folder3 = new (3, 0, "C", null);
-			DbxFolder folder4 = new (4, 5, "D", null);
-			DbxFolder folder5 = new (5, 0, "E", null);
+			DbxFolder folder1 = new(1, 0, "A", null);
+			DbxFolder folder2 = new(2, 4, "B", null);
+			DbxFolder folder3 = new(3, 0, "C", null);
+			DbxFolder folder4 = new(4, 5, "D", null);
+			DbxFolder folder5 = new(5, 0, "E", null);
 
 			IList<DbxFolder> folders =
 			[
@@ -279,7 +279,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress.Tests
 				folder5
 			];
 
-			DbxFolder folder = new (0, 0, "root", null);
+			DbxFolder folder = new(0, 0, "root", null);
 
 			IList<DbxFolder> childrenFolders = folder.GetChildren(folders);
 			int count = childrenFolders.Count;

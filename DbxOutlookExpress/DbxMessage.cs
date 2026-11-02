@@ -39,7 +39,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		public DbxMessage(
 			byte[] fileBytes, uint address, Encoding preferredEncoding)
 		{
-			DbxMessageIndexedItem index = new (fileBytes, address);
+			DbxMessageIndexedItem index = new(fileBytes, address);
 			index.PreferredEncoding = preferredEncoding;
 			index.SetItemValues(this);
 		}
@@ -120,7 +120,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 		{
 			get
 			{
-				MemoryStream stream = new (Message);
+				MemoryStream stream = new(Message);
 				return stream;
 			}
 		}
@@ -210,7 +210,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			try
 			{
 				FileStream stream = File.OpenWrite(filePath);
-				using BinaryWriter writer = new (stream);
+				using BinaryWriter writer = new(stream);
 				writer.Write(Message);
 
 				result = true;

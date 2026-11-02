@@ -81,7 +81,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					address = folderIndexes[CurrentIndex];
 				}
 
-				folder = new (
+				folder = new(
 					fileBytes,
 					address,
 					FolderPath,
@@ -125,7 +125,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 						continue;
 					}
 
-					DbxFolder folder = new (
+					DbxFolder folder = new(
 						fileBytes,
 						index,
 						FolderPath,
@@ -180,7 +180,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 					try
 					{
 						DbxMessagesFile messagesFile =
-							new (filePath, PreferredEncoding);
+							new(filePath, PreferredEncoding);
 
 						// messagesFile.MigrateMessages();
 						messagesFile.List();
@@ -205,7 +205,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 				foreach (uint index in Tree.FolderInformationIndexes)
 				{
-					DbxFolder folder = new (
+					DbxFolder folder = new(
 						fileBytes,
 						index,
 						FolderPath,
@@ -233,7 +233,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 
 			// Set root folder
 			DbxFolder folder =
-				new (fileBytes, FolderPath, PreferredEncoding);
+				new(fileBytes, FolderPath, PreferredEncoding);
 
 			IList<DbxFolder> childrenFolders =
 				folder.GetChildren(Tree.FolderInformationIndexes);

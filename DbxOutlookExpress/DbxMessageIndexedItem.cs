@@ -140,7 +140,7 @@ namespace DigitalZenWorks.Email.DbxOutlookExpress
 			int size = GetSize(CorrespoindingMessage);
 			uint address = GetValue(CorrespoindingMessage, size);
 
-			StringBuilder builder = new ();
+			StringBuilder builder = new();
 			byte[] fileBytes = GetFileBytes();
 
 			while (address != 0)
