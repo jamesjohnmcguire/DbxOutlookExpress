@@ -1,10 +1,13 @@
-[*.{cs,vb}]
+[*]
+charset = utf-8
+guidelines = 80
+guidelines_style = 2px solid lime
+indent_size = 4
+indent_style = tab
+insert_final_newline = true
+max_line_length = 80
+trim_trailing_whitespace = true
 
-# IDE0017: Simplify object initialization
-dotnet_style_object_initializer = false:suggestion
+[*.{cs, csproj}]
+end_of_line = lf
 
-# SA1101: Prefix Local Calls With This
-dotnet_diagnostic.SA1101.severity = none
-
-# SA1413: Use Trailing Commas In MultiLine Initializers
-dotnet_diagnostic.SA1413.severity = none
