@@ -4,29 +4,28 @@
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-namespace DigitalZenWorks.Email.DbxOutlookExpress
+namespace DigitalZenWorks.Email.DbxOutlookExpress;
+
+/// <summary>
+/// Dbx node item class.
+/// </summary>
+public class DbxNodeItem
 {
 	/// <summary>
-	/// Dbx node item class.
+	/// Gets or sets the node children index.
 	/// </summary>
-	public class DbxNodeItem
-	{
-		/// <summary>
-		/// Gets or sets the node children index.
-		/// </summary>
-		/// <value>The node children index.</value>
-		public uint NodeChildrenIndex { get; set; }
+	/// <value>The node children index.</value>
+	public uint NodeChildrenIndex { get; set; }
 
-		/// <summary>
-		/// Gets or sets the node children count.
-		/// </summary>
-		/// <value>The node children count.</value>
-		public uint NodeChildrenCount { get; set; }
+	/// <summary>
+	/// Gets or sets the node children count.
+	/// </summary>
+	/// <value>The node children count.</value>
+	public uint NodeChildrenCount { get; set; }
 
-		/// <summary>
-		/// Gets or sets the node value.
-		/// </summary>
-		/// <value>The node value.</value>
-		public uint NodeValue { get; set; }
-	}
+	/// <summary>
+	/// Gets or sets the node value.
+	/// </summary>
+	/// <value>The node value.</value>
+	public uint NodeValue { get; set; }
 }

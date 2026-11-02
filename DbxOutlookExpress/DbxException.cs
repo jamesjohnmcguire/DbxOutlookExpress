@@ -4,53 +4,52 @@
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-namespace DigitalZenWorks.Email.DbxOutlookExpress
+namespace DigitalZenWorks.Email.DbxOutlookExpress;
+
+using System;
+using System.Runtime.Serialization;
+
+/// <summary>
+/// The dbx exception class.
+/// </summary>
+[Serializable]
+public class DbxException : Exception
 {
-	using System;
-	using System.Runtime.Serialization;
+	/// <summary>
+	/// Initializes a new instance of the <see cref="DbxException"/> class.
+	/// </summary>
+	public DbxException()
+	{
+	}
 
 	/// <summary>
-	/// The dbx exception class.
+	/// Initializes a new instance of the <see cref="DbxException"/> class.
 	/// </summary>
-	[Serializable]
-	public class DbxException : Exception
+	/// <param name="message">The message to include.</param>
+	public DbxException(string message)
+		: base(message)
 	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DbxException"/> class.
-		/// </summary>
-		public DbxException()
-		{
-		}
+	}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DbxException"/> class.
-		/// </summary>
-		/// <param name="message">The message to include.</param>
-		public DbxException(string message)
-			: base(message)
-		{
-		}
+	/// <summary>
+	/// Initializes a new instance of the <see cref="DbxException"/> class.
+	/// </summary>
+	/// <param name="message">The message to include.</param>
+	/// <param name="innerException">The inner exception.</param>
+	public DbxException(string message, Exception innerException)
+		: base(message, innerException)
+	{
+	}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DbxException"/> class.
-		/// </summary>
-		/// <param name="message">The message to include.</param>
-		/// <param name="innerException">The inner exception.</param>
-		public DbxException(string message, Exception innerException)
-			: base(message, innerException)
-		{
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DbxException"/> class.
-		/// </summary>
-		/// <param name="serializationInfo">The serialization info.</param>
-		/// <param name="streamingContext">The streaming context.</param>
-		protected DbxException(
-			SerializationInfo serializationInfo,
-			StreamingContext streamingContext)
-		{
-			throw new NotImplementedException();
-		}
+	/// <summary>
+	/// Initializes a new instance of the <see cref="DbxException"/> class.
+	/// </summary>
+	/// <param name="serializationInfo">The serialization info.</param>
+	/// <param name="streamingContext">The streaming context.</param>
+	protected DbxException(
+		SerializationInfo serializationInfo,
+		StreamingContext streamingContext)
+	{
+		throw new NotImplementedException();
 	}
 }

@@ -6,209 +6,208 @@
 
 [assembly: System.CLSCompliant(false)]
 
-namespace DigitalZenWorks.Email.DbxOutlookExpress
+namespace DigitalZenWorks.Email.DbxOutlookExpress;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using global::Common.Logging;
+
+/// <summary>
+/// Dbx set class.
+/// </summary>
+public class DbxSet
 {
-	using System;
-	using System.Collections.Generic;
-	using System.IO;
-	using System.Linq;
-	using System.Text;
-	using global::Common.Logging;
+	private static readonly ILog Log = LogManager.GetLogger(
+		System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+	private readonly DbxFoldersFile foldersFile;
+	private readonly string path;
+	private readonly Encoding preferredEncoding;
+
+	private uint maximumFolderId;
+	private int orphanFileIndex = -1;
+	private List<string> orphanFiles;
 
 	/// <summary>
-	/// Dbx set class.
+	/// Initializes a new instance of the <see cref="DbxSet"/> class.
 	/// </summary>
-	public class DbxSet
+	/// <param name="path">The path of the dbx set.</param>
+	/// <param name="preferredEncoding">The preferred encoding to use as
+	/// a fall back when the encoding can not be detected.</param>
+	public DbxSet(string path, Encoding preferredEncoding)
 	{
-		private static readonly ILog Log = LogManager.GetLogger(
-			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+		this.path = path;
+		this.preferredEncoding = preferredEncoding;
 
-		private readonly DbxFoldersFile foldersFile;
-		private readonly string path;
-		private readonly Encoding preferredEncoding;
+		string extension = Path.GetExtension(path);
 
-		private uint maximumFolderId;
-		private int orphanFileIndex = -1;
-		private List<string> orphanFiles;
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DbxSet"/> class.
-		/// </summary>
-		/// <param name="path">The path of the dbx set.</param>
-		/// <param name="preferredEncoding">The preferred encoding to use as
-		/// a fall back when the encoding can not be detected.</param>
-		public DbxSet(string path, Encoding preferredEncoding)
+		if (string.IsNullOrEmpty(extension))
 		{
-			this.path = path;
-			this.preferredEncoding = preferredEncoding;
+			// Assuming just a directory given.  Try getting Folders file.
+			path = Path.Combine(path, "Folders.dbx");
+		}
 
-			string extension = Path.GetExtension(path);
+		bool exists = File.Exists(path);
 
-			if (string.IsNullOrEmpty(extension))
+		if (exists == false)
+		{
+			Log.Warn(path + " not present");
+		}
+		else
+		{
+			try
 			{
-				// Assuming just a directory given.  Try getting Folders file.
-				path = Path.Combine(path, "Folders.dbx");
-			}
+				FileInfo fileInfo = new(path);
 
-			bool exists = File.Exists(path);
-
-			if (exists == false)
-			{
-				Log.Warn(path + " not present");
-			}
-			else
-			{
-				try
+				if (fileInfo.Name.Equals(
+					"Folders.dbx", StringComparison.Ordinal))
 				{
-					FileInfo fileInfo = new(path);
+					foldersFile = new(path, preferredEncoding);
+				}
+				else
+				{
+					Log.Warn("DbxSet File is not Folders.dbx");
+				}
+			}
+			catch (DbxException)
+			{
+				Log.Warn("Could not create Folders.dbx object.");
+				Log.Warn("Perhaps it is corrupted?");
+			}
+		}
+	}
 
-					if (fileInfo.Name.Equals(
-						"Folders.dbx", StringComparison.Ordinal))
+	/// <summary>
+	/// Get the next folder in the tree list.
+	/// </summary>
+	/// <returns>The next folder in the tree list.</returns>
+	public DbxFolder GetNextFolder()
+	{
+		DbxFolder folder = null;
+
+		if (foldersFile != null)
+		{
+			folder = foldersFile.GetNextFolder();
+		}
+
+		if (folder == null)
+		{
+			if (orphanFileIndex == -1)
+			{
+				Log.Info("Folders.dbx exhausted");
+
+				Log.Info("Checking for orphans");
+				orphanFiles = AppendOrphanedFiles();
+				orphanFileIndex = 0;
+			}
+
+			if (orphanFiles.Count > orphanFileIndex)
+			{
+				string fileName = orphanFiles[orphanFileIndex];
+				Log.Info("Getting next orphan file:" + fileName);
+
+				// Best if each folder has it's own unique id, even if it
+				// is artificially constructed.
+				maximumFolderId++;
+				folder = new(
+					path, maximumFolderId, fileName, preferredEncoding);
+
+				folder.IsOrphan = true;
+				orphanFileIndex++;
+			}
+		}
+
+		if (folder != null)
+		{
+			if (folder.FolderId > maximumFolderId)
+			{
+				maximumFolderId = folder.FolderId;
+			}
+		}
+
+		return folder;
+	}
+
+	/// <summary>
+	/// List method.
+	/// </summary>
+	public void List()
+	{
+		Log.Info("Id\tParentId\tName\t\tFile Name");
+
+		foldersFile?.List();
+
+		AppendOrphanedFiles();
+	}
+
+	/// <summary>
+	/// Migrate method.
+	/// </summary>
+	public void Migrate()
+	{
+		foldersFile?.MigrateFolders();
+	}
+
+	/// <summary>
+	/// Set tree in an ordered list.
+	/// </summary>
+	/// <returns>A list of child folders.</returns>
+	public IList<DbxFolder> SetTreeOrdered()
+	{
+		IList<DbxFolder> orderedList = [];
+
+		if (foldersFile != null)
+		{
+			orderedList = foldersFile.SetTreeOrdered();
+		}
+
+		return orderedList;
+	}
+
+	private List<string> AppendOrphanedFiles()
+	{
+		string[] ignoreFiles =
+		[
+		"CLEANUP.LOG", "FOLDERS.AVX", "FOLDERS.DBX", "OFFLINE.DBX",
+		"POP3UIDL.DBX", "SEARCH FOLDER.DBX"
+		];
+
+		List<string> orphanFolderFiles = [];
+
+		bool exists = Directory.Exists(path);
+
+		if (exists == true)
+		{
+			string[] files = Directory.GetFiles(path, "*.dbx");
+
+			foreach (string file in files)
+			{
+				FileInfo fileInfo = new(file);
+
+				string fileName = fileInfo.Name.ToUpperInvariant();
+
+				if (foldersFile != null)
+				{
+					if (!foldersFile.FolderFiles.Contains(fileName) &&
+						!ignoreFiles.Contains(fileName))
 					{
-						foldersFile = new(path, preferredEncoding);
-					}
-					else
-					{
-						Log.Warn("DbxSet File is not Folders.dbx");
-					}
-				}
-				catch (DbxException)
-				{
-					Log.Warn("Could not create Folders.dbx object.");
-					Log.Warn("Perhaps it is corrupted?");
-				}
-			}
-		}
+						Log.Warn("Orphaned file found - " +
+							"Not in Folders.dbx: " + fileInfo.Name);
 
-		/// <summary>
-		/// Get the next folder in the tree list.
-		/// </summary>
-		/// <returns>The next folder in the tree list.</returns>
-		public DbxFolder GetNextFolder()
-		{
-			DbxFolder folder = null;
-
-			if (foldersFile != null)
-			{
-				folder = foldersFile.GetNextFolder();
-			}
-
-			if (folder == null)
-			{
-				if (orphanFileIndex == -1)
-				{
-					Log.Info("Folders.dbx exhausted");
-
-					Log.Info("Checking for orphans");
-					orphanFiles = AppendOrphanedFiles();
-					orphanFileIndex = 0;
-				}
-
-				if (orphanFiles.Count > orphanFileIndex)
-				{
-					string fileName = orphanFiles[orphanFileIndex];
-					Log.Info("Getting next orphan file:" + fileName);
-
-					// Best if each folder has it's own unique id, even if it
-					// is artificially constructed.
-					maximumFolderId++;
-					folder = new(
-						path, maximumFolderId, fileName, preferredEncoding);
-
-					folder.IsOrphan = true;
-					orphanFileIndex++;
-				}
-			}
-
-			if (folder != null)
-			{
-				if (folder.FolderId > maximumFolderId)
-				{
-					maximumFolderId = folder.FolderId;
-				}
-			}
-
-			return folder;
-		}
-
-		/// <summary>
-		/// List method.
-		/// </summary>
-		public void List()
-		{
-			Log.Info("Id\tParentId\tName\t\tFile Name");
-
-			foldersFile?.List();
-
-			AppendOrphanedFiles();
-		}
-
-		/// <summary>
-		/// Migrate method.
-		/// </summary>
-		public void Migrate()
-		{
-			foldersFile?.MigrateFolders();
-		}
-
-		/// <summary>
-		/// Set tree in an ordered list.
-		/// </summary>
-		/// <returns>A list of child folders.</returns>
-		public IList<DbxFolder> SetTreeOrdered()
-		{
-			IList<DbxFolder> orderedList = [];
-
-			if (foldersFile != null)
-			{
-				orderedList = foldersFile.SetTreeOrdered();
-			}
-
-			return orderedList;
-		}
-
-		private List<string> AppendOrphanedFiles()
-		{
-			string[] ignoreFiles =
-			[
-			"CLEANUP.LOG", "FOLDERS.AVX", "FOLDERS.DBX", "OFFLINE.DBX",
-			"POP3UIDL.DBX", "SEARCH FOLDER.DBX"
-			];
-
-			List<string> orphanFolderFiles = [];
-
-			bool exists = Directory.Exists(path);
-
-			if (exists == true)
-			{
-				string[] files = Directory.GetFiles(path, "*.dbx");
-
-				foreach (string file in files)
-				{
-					FileInfo fileInfo = new(file);
-
-					string fileName = fileInfo.Name.ToUpperInvariant();
-
-					if (foldersFile != null)
-					{
-						if (!foldersFile.FolderFiles.Contains(fileName) &&
-							!ignoreFiles.Contains(fileName))
-						{
-							Log.Warn("Orphaned file found - " +
-								"Not in Folders.dbx: " + fileInfo.Name);
-
-							orphanFolderFiles.Add(fileInfo.Name);
-						}
-					}
-					else
-					{
-						// If no Folders.dbx, then all the files are orhans.
 						orphanFolderFiles.Add(fileInfo.Name);
 					}
 				}
+				else
+				{
+					// If no Folders.dbx, then all the files are orhans.
+					orphanFolderFiles.Add(fileInfo.Name);
+				}
 			}
-
-			return orphanFolderFiles;
 		}
+
+		return orphanFolderFiles;
 	}
 }

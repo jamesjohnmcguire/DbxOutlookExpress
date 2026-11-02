@@ -4,36 +4,35 @@
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-namespace DigitalZenWorks.Email.DbxOutlookExpress
+namespace DigitalZenWorks.Email.DbxOutlookExpress;
+
+/// <summary>
+/// Dbx file type.
+/// </summary>
+public enum DbxFileType
 {
 	/// <summary>
-	/// Dbx file type.
+	/// Unknown file type.
 	/// </summary>
-	public enum DbxFileType
-	{
-		/// <summary>
-		/// Unknown file type.
-		/// </summary>
-		Unknown,
+	Unknown,
 
-		/// <summary>
-		/// Message file.
-		/// </summary>
-		MessageFile,
+	/// <summary>
+	/// Message file.
+	/// </summary>
+	MessageFile,
 
-		/// <summary>
-		/// Folder file.
-		/// </summary>
-		FolderFile,
+	/// <summary>
+	/// Folder file.
+	/// </summary>
+	FolderFile,
 
-		/// <summary>
-		/// Off line file.
-		/// </summary>
-		OffLine,
+	/// <summary>
+	/// Off line file.
+	/// </summary>
+	OffLine,
 
-		/// <summary>
-		/// Pop3 file.
-		/// </summary>
-		Pop3uidl
-	}
+	/// <summary>
+	/// Pop3 file.
+	/// </summary>
+	Pop3uidl
 }
