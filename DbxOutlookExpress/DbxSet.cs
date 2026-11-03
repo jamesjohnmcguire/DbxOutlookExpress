@@ -4,8 +4,6 @@
 // </copyright>
 /////////////////////////////////////////////////////////////////////////////
 
-[assembly: System.CLSCompliant(false)]
-
 namespace DigitalZenWorks.Email.DbxOutlookExpress;
 
 using System;
