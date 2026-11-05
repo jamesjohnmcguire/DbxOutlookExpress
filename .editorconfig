@@ -8,6 +8,20 @@ insert_final_newline = true
 max_line_length = 80
 trim_trailing_whitespace = true
 
-[*.{cs, csproj}]
+[*.{cs,csproj,props,md,resx,slnx,yaml,yml}]
 end_of_line = lf
 
+[*.{cmd,bat}]
+end_of_line = crlf
+
+# Development commands stay on one line, regardless of length.
+[*.{cmd,bat,sh,ps1,yml,yaml}]
+max_line_length = off
+
+[*.cs]
+# Keep the existing C# style preferences in standalone builds.
+# Explicit this qualification is not required.
+dotnet_diagnostic.SA1101.severity = none
+
+# Trailing commas in multiline lists are optional.
+dotnet_diagnostic.SA1413.severity = none

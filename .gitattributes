@@ -1,0 +1,11 @@
+* text=auto
+
+*.cs text eol=lf
+*.csproj text eol=lf
+*.slnx text eol=lf
+*.md text eol=lf
+.github/workflows/*.yml text eol=lf
+.gitignore text eol=lf
+.editorconfig text eol=lf
+*.cmd text eol=crlf
+*.bat text eol=crlf
