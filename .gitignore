@@ -24,3 +24,7 @@ x86/
 TestResult.xml
 
 *.nupkg
+
+# Local release and test artifacts
+artifacts/
+TestResults/
