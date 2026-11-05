@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="DbxOutlookExpress/DigitalZenWorks.Email.DbxOutlookExpress.csproj" />
+  <Project Path="DbxOutlookExpressTests/DigitalZenWorks.Email.DbxOutlookExpress.Tests.csproj" />
+</Solution>
