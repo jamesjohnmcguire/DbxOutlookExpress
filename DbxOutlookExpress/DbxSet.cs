@@ -110,8 +110,8 @@ public class DbxSet
 				// Best if each folder has it's own unique id, even if it
 				// is artificially constructed.
 				maximumFolderId++;
-				folder = new(
-					path, maximumFolderId, fileName, preferredEncoding);
+				folder =
+					new(path, maximumFolderId, fileName, preferredEncoding);
 
 				folder.IsOrphan = true;
 				orphanFileIndex++;

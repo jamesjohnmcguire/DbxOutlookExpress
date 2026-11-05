@@ -55,14 +55,12 @@ public class DbxTree
 		{
 			byte[] treeBytes = new byte[TreeNodeSize];
 
-			Array.Copy(
-				fileBytes, rootNodeAddress, treeBytes, 0, TreeNodeSize);
+			Array.Copy(fileBytes, rootNodeAddress, treeBytes, 0, TreeNodeSize);
 
 			// It will be easier to work with integers as opposed to bytes.
 			int size = treeBytes.Length / sizeof(uint);
 			uint[] treeArray = new uint[size];
-			Buffer.BlockCopy(
-				treeBytes, 0, treeArray, 0, treeBytes.Length);
+			Buffer.BlockCopy(treeBytes, 0, treeArray, 0, treeBytes.Length);
 
 			if (treeArray[0] != rootNodeAddress)
 			{

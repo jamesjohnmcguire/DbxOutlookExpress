@@ -262,8 +262,7 @@ public class DbxFolder
 
 						folders.Remove(folder);
 
-						IList<DbxFolder> children =
-							folder.GetChildren(folders);
+						IList<DbxFolder> children = folder.GetChildren(folders);
 
 						index -= children.Count;
 					}
@@ -309,24 +308,21 @@ public class DbxFolder
 
 			foreach (DbxFolder childFolder in childrenFolders)
 			{
-				orderedIndexes =
-					childFolder.SetOrderedIndexes(orderedIndexes);
+				orderedIndexes = childFolder.SetOrderedIndexes(orderedIndexes);
 			}
 		}
 
 		return orderedIndexes;
 	}
 
-	private void GetMessagesFile(
-		string path, ref DbxMessagesFile messageFile)
+	private void GetMessagesFile(string path, ref DbxMessagesFile messageFile)
 	{
 		bool exists = File.Exists(path);
 
 		if (exists == true)
 		{
 			FileInfo fileInfo = new(path);
-			FolderName =
-				Path.GetFileNameWithoutExtension(fileInfo.Name);
+			FolderName = Path.GetFileNameWithoutExtension(fileInfo.Name);
 
 			try
 			{
@@ -352,8 +348,8 @@ public class DbxFolder
 
 			if (exists == false)
 			{
-				Log.Warn(FolderFileName +
-					" specified in Folders.dbx not present");
+				Log.Warn(
+					FolderFileName + " specified in Folders.dbx not present");
 			}
 			else
 			{

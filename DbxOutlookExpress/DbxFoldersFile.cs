@@ -232,8 +232,7 @@ public class DbxFoldersFile : DbxFile
 		byte[] fileBytes = GetFileBytes();
 
 		// Set root folder
-		DbxFolder folder =
-			new(fileBytes, FolderPath, PreferredEncoding);
+		DbxFolder folder = new(fileBytes, FolderPath, PreferredEncoding);
 
 		IList<DbxFolder> childrenFolders =
 			folder.GetChildren(Tree.FolderInformationIndexes);

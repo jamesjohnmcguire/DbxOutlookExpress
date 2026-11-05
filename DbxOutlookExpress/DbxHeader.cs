@@ -156,8 +156,7 @@ public class DbxHeader
 				fileType = DbxFileType.Pop3uidl;
 				break;
 			case 0x30:
-				if (bytes[5] == 0x9D && bytes[6] == 0xFE &&
-					bytes[7] == 0x26)
+				if (bytes[5] == 0x9D && bytes[6] == 0xFE && bytes[7] == 0x26)
 				{
 					fileType = DbxFileType.OffLine;
 				}
