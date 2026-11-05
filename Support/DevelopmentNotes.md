@@ -32,27 +32,28 @@ example:
 
 ```xml
 <AssemblyVersion>1.0.0.0</AssemblyVersion>
-<FileVersion>1.3.25.0</FileVersion>
-<Version>1.3.25</Version>
+<FileVersion>1.3.26.0</FileVersion>
+<Version>1.3.26</Version>
 ```
 
-This release continues the third-segment build sequence: `1.3.24` becomes
-`1.3.25`. Keep `AssemblyVersion` stable for compatible 1.x releases. Update
-`Version` and `FileVersion` for each release. Plan an assembly version change
-for a breaking major release.
+Continue the third-segment build sequence, for example `1.3.25` to `1.3.26`.
+Keep `AssemblyVersion` stable for compatible 1.x releases. Update `Version` and
+`FileVersion` for each release. Plan an assembly version change for a breaking
+major release.
 
-## Publishing by version tag
+## Version tags
 
-The workflow tests pushes to `main` and pull requests targeting `main`. Pushing
-a version tag also builds and publishes the Release package after tests pass.
-The tag must match the project's `Version`; an optional `v` prefix is accepted.
+Pushes to `main`, pull requests targeting `main`, and version tags trigger
+builds and tests only. Creating or pushing a tag never publishes a package.
+Use a matching version tag to mark the release source, then publish explicitly
+when that version is ready for production.
 
-After committing the release changes on `main`:
+For example, after committing the release changes on `main`:
 
 ```shell
 git push origin main
-git tag -a 1.3.25 -m "Release 1.3.25"
-git push origin 1.3.25
+git tag -a 1.3.26 -m "Release 1.3.26"
+git push origin 1.3.26
 ```
 
 ## Publishing from the command script
@@ -85,8 +86,9 @@ required on the development PC.
 
 ## Manual workflow runs
 
-To publish a version whose tag was already pushed, run the `.NET` workflow on
-`main` with **Publish the package from main after tests pass** checked.
+To explicitly publish the version currently committed on `main`, run the
+`.NET` workflow on `main` with **Publish the package from main after tests
+pass** checked. Publishing is disabled by default.
 Optionally enter the expected package version to guard against publishing a
 different version. A manual run without the publishing option only tests.
 
